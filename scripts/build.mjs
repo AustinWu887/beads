@@ -40,11 +40,13 @@ if (!fs.existsSync('dist')) {
 
 // 複製並修改 index.html
 const htmlContent = fs.readFileSync('index.html', 'utf8');
+const basePath = isProduction ? '/beads' : '';
 const modifiedHtml = htmlContent
   .replace(
     '<script type="module" src="/src/main.tsx"></script>',
-    '<link rel="stylesheet" href="/main.css">\n    <script type="module" src="/main.js"></script>'
-  );
+    `<link rel="stylesheet" href="${basePath}/main.css">\n    <script type="module" src="${basePath}/main.js"></script>`
+  )
+  .replace(/href="\/vite\.svg"/g, `href="${basePath}/vite.svg"`);
 fs.writeFileSync('dist/index.html', modifiedHtml);
 
 // 建置配置
