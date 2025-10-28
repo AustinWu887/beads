@@ -32,6 +32,8 @@ const BeadGrid: React.FC<BeadGridProps> = ({
 }) => {
   const isDrawing = useRef(false);
   const [scale, setScale] = useState(1);
+  const lastTouchDistance = useRef<number | null>(null);
+  const isPinching = useRef(false);
 
   // 放大
   const handleZoomIn = () => {
@@ -41,6 +43,16 @@ const BeadGrid: React.FC<BeadGridProps> = ({
   // 縮小
   const handleZoomOut = () => {
     setScale(prev => Math.max(prev - 0.2, 0.4));
+  };
+
+  // 計算兩個觸控點之間的距離
+  const getTouchDistance = (touches: React.TouchList) => {
+    if (touches.length < 2) return null;
+    const touch1 = touches[0];
+    const touch2 = touches[1];
+    const dx = touch1.clientX - touch2.clientX;
+    const dy = touch1.clientY - touch2.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
   };
 
   const handleCellClick = (row: number, col: number) => {
@@ -65,15 +77,40 @@ const BeadGrid: React.FC<BeadGridProps> = ({
 
   // 觸摸事件處理
   const handleTouchStart = (e: React.TouchEvent, row: number, col: number) => {
-    // 不使用 preventDefault()，避免 passive event listener 警告
-    isDrawing.current = true;
-    onBeadClick(row, col);
+    // 檢測是否為雙指縮放手勢
+    if (e.touches.length === 2) {
+      isPinching.current = true;
+      const distance = getTouchDistance(e.touches);
+      lastTouchDistance.current = distance;
+      return;
+    }
+    
+    // 單指觸控才觸發繪製
+    if (e.touches.length === 1 && !isPinching.current) {
+      isDrawing.current = true;
+      onBeadClick(row, col);
+    }
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDrawing.current) return;
+    // 處理雙指縮放
+    if (e.touches.length === 2) {
+      isPinching.current = true;
+      isDrawing.current = false;
+      
+      const distance = getTouchDistance(e.touches);
+      if (distance && lastTouchDistance.current) {
+        const delta = distance - lastTouchDistance.current;
+        const scaleDelta = delta * 0.01;
+        setScale(prev => Math.max(0.4, Math.min(2, prev + scaleDelta)));
+        lastTouchDistance.current = distance;
+      }
+      return;
+    }
     
-    // 不使用 preventDefault()，避免 passive event listener 警告
+    // 單指繪製
+    if (!isDrawing.current || isPinching.current) return;
+    
     const touch = e.touches[0];
     const element = document.elementFromPoint(touch.clientX, touch.clientY);
     
@@ -86,6 +123,8 @@ const BeadGrid: React.FC<BeadGridProps> = ({
 
   const handleTouchEnd = () => {
     isDrawing.current = false;
+    isPinching.current = false;
+    lastTouchDistance.current = null;
   };
 
   // 根據模板類型獲取配置
@@ -93,21 +132,21 @@ const BeadGrid: React.FC<BeadGridProps> = ({
     switch (templateType) {
       case 'square-large':
         return {
-          size: '145mm',
+          size: 'min(145mm, 85vw)',
           gridSize: 29,
           label: '網格尺寸: 145mm × 145mm | 豆子數量: 29 × 29 = 841顆',
           isCircle: false,
         };
       case 'square-small':
         return {
-          size: '80mm',
+          size: 'min(80mm, 85vw)',
           gridSize: 14,
           label: '網格尺寸: 80mm × 80mm | 豆子數量: 14 × 14 = 196顆',
           isCircle: false,
         };
       case 'circle-large':
         return {
-          size: '155mm',
+          size: 'min(155mm, 85vw)',
           gridSize: 29,
           label: '網格尺寸: 155mm × 155mm | 豆子數量: 直徑29顆',
           isCircle: true,
@@ -178,9 +217,9 @@ const BeadGrid: React.FC<BeadGridProps> = ({
         </div>
       </div>
 
-      {/* 可滾動的網格容器 */}
-      <div className="overflow-auto max-h-[80vh] max-w-[90vw] p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
-        <div className="flex items-center justify-center" style={{ minWidth: 'fit-content', minHeight: 'fit-content' }}>
+      {/* 網格容器 */}
+      <div className="flex items-center justify-center p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+        <div className="flex items-center justify-center">
           <div
             className={`grid border-2 border-gray-300 bg-white shadow-lg touch-none ${
               config.isCircle ? 'rounded-full' : ''
@@ -198,6 +237,7 @@ const BeadGrid: React.FC<BeadGridProps> = ({
             }}
         onMouseLeave={handleMouseUp}
         onMouseUp={handleMouseUp}
+        onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
         onTouchCancel={handleTouchEnd}
       >

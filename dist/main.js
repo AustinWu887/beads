@@ -27229,11 +27229,21 @@ var BeadGrid = ({
 }) => {
   const isDrawing = (0, import_react3.useRef)(false);
   const [scale, setScale] = (0, import_react3.useState)(1);
+  const lastTouchDistance = (0, import_react3.useRef)(null);
+  const isPinching = (0, import_react3.useRef)(false);
   const handleZoomIn = () => {
     setScale((prev) => Math.min(prev + 0.2, 2));
   };
   const handleZoomOut = () => {
     setScale((prev) => Math.max(prev - 0.2, 0.4));
+  };
+  const getTouchDistance = (touches) => {
+    if (touches.length < 2) return null;
+    const touch1 = touches[0];
+    const touch2 = touches[1];
+    const dx = touch1.clientX - touch2.clientX;
+    const dy = touch1.clientY - touch2.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
   };
   const handleCellClick = (row, col) => {
     onBeadClick(row, col);
@@ -27251,11 +27261,31 @@ var BeadGrid = ({
     isDrawing.current = false;
   };
   const handleTouchStart = (e, row, col) => {
-    isDrawing.current = true;
-    onBeadClick(row, col);
+    if (e.touches.length === 2) {
+      isPinching.current = true;
+      const distance = getTouchDistance(e.touches);
+      lastTouchDistance.current = distance;
+      return;
+    }
+    if (e.touches.length === 1 && !isPinching.current) {
+      isDrawing.current = true;
+      onBeadClick(row, col);
+    }
   };
   const handleTouchMove = (e) => {
-    if (!isDrawing.current) return;
+    if (e.touches.length === 2) {
+      isPinching.current = true;
+      isDrawing.current = false;
+      const distance = getTouchDistance(e.touches);
+      if (distance && lastTouchDistance.current) {
+        const delta = distance - lastTouchDistance.current;
+        const scaleDelta = delta * 0.01;
+        setScale((prev) => Math.max(0.4, Math.min(2, prev + scaleDelta)));
+        lastTouchDistance.current = distance;
+      }
+      return;
+    }
+    if (!isDrawing.current || isPinching.current) return;
     const touch = e.touches[0];
     const element = document.elementFromPoint(touch.clientX, touch.clientY);
     if (element && element.hasAttribute("data-row") && element.hasAttribute("data-col")) {
@@ -27266,26 +27296,28 @@ var BeadGrid = ({
   };
   const handleTouchEnd = () => {
     isDrawing.current = false;
+    isPinching.current = false;
+    lastTouchDistance.current = null;
   };
   const getTemplateConfig = () => {
     switch (templateType) {
       case "square-large":
         return {
-          size: "145mm",
+          size: "min(145mm, 85vw)",
           gridSize: 29,
           label: "\u7DB2\u683C\u5C3A\u5BF8: 145mm \xD7 145mm | \u8C46\u5B50\u6578\u91CF: 29 \xD7 29 = 841\u9846",
           isCircle: false
         };
       case "square-small":
         return {
-          size: "80mm",
+          size: "min(80mm, 85vw)",
           gridSize: 14,
           label: "\u7DB2\u683C\u5C3A\u5BF8: 80mm \xD7 80mm | \u8C46\u5B50\u6578\u91CF: 14 \xD7 14 = 196\u9846",
           isCircle: false
         };
       case "circle-large":
         return {
-          size: "155mm",
+          size: "min(155mm, 85vw)",
           gridSize: 29,
           label: "\u7DB2\u683C\u5C3A\u5BF8: 155mm \xD7 155mm | \u8C46\u5B50\u6578\u91CF: \u76F4\u5F9129\u9846",
           isCircle: true
@@ -27355,7 +27387,7 @@ var BeadGrid = ({
         )
       ] })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "overflow-auto max-h-[80vh] max-w-[90vw] p-4 bg-gray-50 rounded-lg border-2 border-gray-200", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "flex items-center justify-center", style: { minWidth: "fit-content", minHeight: "fit-content" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "flex items-center justify-center p-4 bg-gray-50 rounded-lg border-2 border-gray-200", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "flex items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
       "div",
       {
         className: `grid border-2 border-gray-300 bg-white shadow-lg touch-none ${config.isCircle ? "rounded-full" : ""}`,
@@ -27372,6 +27404,7 @@ var BeadGrid = ({
         },
         onMouseLeave: handleMouseUp,
         onMouseUp: handleMouseUp,
+        onTouchMove: handleTouchMove,
         onTouchEnd: handleTouchEnd,
         onTouchCancel: handleTouchEnd,
         children: grid.map(
