@@ -528,6 +528,9 @@ body {
 .-top-2 {
   top: -0.5rem;
 }
+.right-20 {
+  right: 5rem;
+}
 .z-10 {
   z-index: 10;
 }
@@ -572,6 +575,10 @@ body {
 .my-1 {
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
+}
+.mx-1 {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
 }
 .-ml-4 {
   margin-left: -1rem;
@@ -755,6 +762,9 @@ body {
 .max-h-\[80vh\] {
   max-height: 80vh;
 }
+.max-h-\[90vh\] {
+  max-height: 90vh;
+}
 .min-h-0 {
   min-height: 0px;
 }
@@ -847,6 +857,9 @@ body {
 .w-32 {
   width: 8rem;
 }
+.w-12 {
+  width: 3rem;
+}
 .min-w-0 {
   min-width: 0px;
 }
@@ -880,6 +893,9 @@ body {
 .min-w-\[300px\] {
   min-width: 300px;
 }
+.min-w-\[320px\] {
+  min-width: 320px;
+}
 .max-w-\[--skeleton-width\] {
   max-width: var(--skeleton-width);
 }
@@ -901,6 +917,9 @@ body {
 }
 .flex-1 {
   flex: 1 1 0%;
+}
+.flex-shrink-0 {
+  flex-shrink: 0;
 }
 .shrink-0 {
   flex-shrink: 0;
@@ -990,6 +1009,9 @@ body {
 .cursor-pointer {
   cursor: pointer;
 }
+.cursor-crosshair {
+  cursor: crosshair;
+}
 .touch-none {
   touch-action: none;
 }
@@ -1000,6 +1022,11 @@ body {
 }
 .list-none {
   list-style-type: none;
+}
+.appearance-none {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 .grid-cols-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1244,6 +1271,10 @@ body {
   --tw-border-opacity: 1;
   border-color: rgb(254 240 138 / var(--tw-border-opacity, 1));
 }
+.border-white {
+  --tw-border-opacity: 1;
+  border-color: rgb(255 255 255 / var(--tw-border-opacity, 1));
+}
 .border-l-transparent {
   border-left-color: transparent;
 }
@@ -1366,6 +1397,9 @@ body {
 .bg-gray-300 {
   --tw-bg-opacity: 1;
   background-color: rgb(209 213 219 / var(--tw-bg-opacity, 1));
+}
+.bg-black\/30 {
+  background-color: rgb(0 0 0 / 0.3);
 }
 .bg-opacity-0 {
   --tw-bg-opacity: 0;
@@ -2235,6 +2269,10 @@ html > body * {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1));
 }
+.hover\:bg-red-600:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 38 38 / var(--tw-bg-opacity, 1));
+}
 .hover\:from-purple-600:hover {
   --tw-gradient-from: #9333ea var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(147 51 234 / 0) var(--tw-gradient-to-position);
@@ -2262,6 +2300,10 @@ html > body * {
 .hover\:text-red-500:hover {
   --tw-text-opacity: 1;
   color: rgb(239 68 68 / var(--tw-text-opacity, 1));
+}
+.hover\:text-blue-600:hover {
+  --tw-text-opacity: 1;
+  color: rgb(37 99 235 / var(--tw-text-opacity, 1));
 }
 .hover\:underline:hover {
   text-decoration-line: underline;

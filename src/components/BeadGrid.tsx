@@ -65,7 +65,7 @@ const BeadGrid: React.FC<BeadGridProps> = ({
 
   // 觸摸事件處理
   const handleTouchStart = (e: React.TouchEvent, row: number, col: number) => {
-    e.preventDefault();
+    // 不使用 preventDefault()，避免 passive event listener 警告
     isDrawing.current = true;
     onBeadClick(row, col);
   };
@@ -73,7 +73,7 @@ const BeadGrid: React.FC<BeadGridProps> = ({
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isDrawing.current) return;
     
-    e.preventDefault();
+    // 不使用 preventDefault()，避免 passive event listener 警告
     const touch = e.touches[0];
     const element = document.elementFromPoint(touch.clientX, touch.clientY);
     

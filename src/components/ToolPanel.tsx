@@ -35,7 +35,7 @@ const ToolPanel: React.FC<ToolPanelProps> = ({
   canRedo
 }) => {
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
+    <div className="bg-white rounded-lg shadow-md p-4">
       <h3 className="text-lg font-semibold text-gray-700 mb-4">檔案</h3>
 
       {/* 文件操作 */}
@@ -87,15 +87,6 @@ const ToolPanel: React.FC<ToolPanelProps> = ({
         </label>
       </div>
 
-      {/* 工具說明 */}
-      <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
-        <h4 className="text-sm font-medium text-blue-700 mb-1">工具說明</h4>
-        <p className="text-xs text-blue-600">
-          {currentTool === 'brush' && '畫筆: 點擊放置豆子，拖動連續繪製'}
-          {currentTool === 'eraser' && '橡皮: 點擊清除豆子，拖動連續清除'}
-          {currentTool === 'fill' && '填充: 點擊豆子替換所有相鄰同色豆子'}
-        </p>
-      </div>
     </div>
   );
 };

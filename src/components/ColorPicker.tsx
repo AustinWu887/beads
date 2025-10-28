@@ -2,8 +2,8 @@
  * 顏色選擇器元件 - 提供簡單的顏色選擇和自定義顏色管理
  * 支援直接顏色選擇、自定義顏色添加和刪除功能、顏色群組管理
  */
-import React, { useState, useEffect } from 'react';
-import { Plus, Trash2, Palette, FolderPlus, Edit2, Check, X } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Plus, Trash2, Palette, FolderPlus, Edit2, Check, X, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface ColorGroup {
   id: string;
@@ -33,12 +33,124 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   const [editingGroupId, setEditingGroupId] = useState<string | null>(null);
   const [editingGroupName, setEditingGroupName] = useState('');
   const [showNewGroupInput, setShowNewGroupInput] = useState(false);
+  const [isColorPickerExpanded, setIsColorPickerExpanded] = useState(false);
+  
+  // HSV 色彩選擇器狀態
+  const [hue, setHue] = useState(0);
+  const [saturation, setSaturation] = useState(100);
+  const [value, setValue] = useState(100);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   // 基礎顏色選項
   const baseColors = [
     '#FF6B6B', '#4FC3F7', '#66BB6A', '#FFD54F', '#BA68C8',
     '#FFB74D', '#FFFFFF', '#9E9E9E', '#424242', '#000000'
   ];
+
+  // HSV 轉 RGB
+  const hsvToRgb = (h: number, s: number, v: number): { r: number; g: number; b: number } => {
+    h = h / 360;
+    s = s / 100;
+    v = v / 100;
+    
+    let r = 0, g = 0, b = 0;
+    const i = Math.floor(h * 6);
+    const f = h * 6 - i;
+    const p = v * (1 - s);
+    const q = v * (1 - f * s);
+    const t = v * (1 - (1 - f) * s);
+    
+    switch (i % 6) {
+      case 0: r = v; g = t; b = p; break;
+      case 1: r = q; g = v; b = p; break;
+      case 2: r = p; g = v; b = t; break;
+      case 3: r = p; g = q; b = v; break;
+      case 4: r = t; g = p; b = v; break;
+      case 5: r = v; g = p; b = q; break;
+    }
+    
+    return {
+      r: Math.round(r * 255),
+      g: Math.round(g * 255),
+      b: Math.round(b * 255)
+    };
+  };
+
+  // RGB 轉 HEX
+  const rgbToHex = (r: number, g: number, b: number): string => {
+    return '#' + [r, g, b].map(x => {
+      const hex = x.toString(16);
+      return hex.length === 1 ? '0' + hex : hex;
+    }).join('').toUpperCase();
+  };
+
+  // 獲取當前 HSV 對應的顏色
+  const getCurrentColor = (): string => {
+    const rgb = hsvToRgb(hue, saturation, value);
+    return rgbToHex(rgb.r, rgb.g, rgb.b);
+  };
+
+  // 更新選擇的顏色
+  useEffect(() => {
+    const color = getCurrentColor();
+    onColorSelect(color);
+  }, [hue, saturation, value]);
+
+  // 繪製色彩漸層畫布
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    const width = canvas.width;
+    const height = canvas.height;
+    
+    // 繪製飽和度和明度的漸層
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        const s = (x / width) * 100;
+        const v = ((height - y) / height) * 100;
+        const rgb = hsvToRgb(hue, s, v);
+        ctx.fillStyle = rgbToHex(rgb.r, rgb.g, rgb.b);
+        ctx.fillRect(x, y, 1, 1);
+      }
+    }
+  }, [hue]);
+
+  // 處理色板點擊
+  const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const s = (x / rect.width) * 100;
+    const v = ((rect.height - y) / rect.height) * 100;
+    
+    setSaturation(Math.max(0, Math.min(100, s)));
+    setValue(Math.max(0, Math.min(100, v)));
+  };
+
+  // 處理色板拖動
+  const handleCanvasMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    setIsDragging(true);
+    handleCanvasClick(e);
+  };
+
+  const handleCanvasMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (isDragging) {
+      handleCanvasClick(e);
+    }
+  };
+
+  const handleCanvasMouseUp = () => {
+    setIsDragging(false);
+  };
 
   // 從 localStorage 載入顏色群組
   useEffect(() => {
@@ -51,9 +163,9 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
         console.error('Failed to load color groups:', error);
       }
     } else {
-      // 初始化預設群組
+      // 初始化預設群組，包含基礎顏色
       const defaultGroups: ColorGroup[] = [
-        { id: 'default', name: '預設群組', colors: [] },
+        { id: 'default', name: '預設群組', colors: baseColors },
       ];
       setColorGroups(defaultGroups);
     }
@@ -69,19 +181,17 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   // 獲取當前群組
   const currentGroup = colorGroups.find(g => g.id === currentGroupId) || colorGroups[0];
 
-  // 創建新群組
+  // 創建新群組 - 直接進入編輯模式
   const handleCreateGroup = () => {
-    if (newGroupName.trim()) {
-      const newGroup: ColorGroup = {
-        id: Date.now().toString(),
-        name: newGroupName.trim(),
-        colors: [],
-      };
-      setColorGroups([...colorGroups, newGroup]);
-      setCurrentGroupId(newGroup.id);
-      setNewGroupName('');
-      setShowNewGroupInput(false);
-    }
+    const newGroup: ColorGroup = {
+      id: 'temp-' + Date.now().toString(),
+      name: '',
+      colors: [],
+    };
+    setColorGroups([...colorGroups, newGroup]);
+    setCurrentGroupId(newGroup.id);
+    setEditingGroupId(newGroup.id);
+    setEditingGroupName('');
   };
 
   // 刪除群組
@@ -99,29 +209,59 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
     }
   };
 
-  // 重命名群組
+  // 重命名或確認新增群組
   const handleRenameGroup = (groupId: string) => {
     if (editingGroupName.trim()) {
+      // 如果是臨時群組，更新為正式ID
+      const isTemp = groupId.startsWith('temp-');
+      const finalId = isTemp ? Date.now().toString() : groupId;
+      
       setColorGroups(colorGroups.map(g => 
-        g.id === groupId ? { ...g, name: editingGroupName.trim() } : g
+        g.id === groupId ? { ...g, id: finalId, name: editingGroupName.trim() } : g
       ));
+      
+      if (isTemp) {
+        setCurrentGroupId(finalId);
+      }
+      
       setEditingGroupId(null);
       setEditingGroupName('');
+    } else if (groupId.startsWith('temp-')) {
+      // 如果是空名稱的臨時群組，刪除它
+      handleCancelEdit(groupId);
     }
+  };
+  
+  // 取消編輯
+  const handleCancelEdit = (groupId: string) => {
+    if (groupId.startsWith('temp-')) {
+      // 刪除臨時群組
+      const newGroups = colorGroups.filter(g => g.id !== groupId);
+      setColorGroups(newGroups);
+      if (newGroups.length > 0) {
+        setCurrentGroupId(newGroups[0].id);
+      }
+    }
+    setEditingGroupId(null);
+    setEditingGroupName('');
   };
 
   // 添加顏色到當前群組
-  const handleAddColorToGroup = () => {
-    if (customColorInput && /^#[0-9A-F]{6}$/i.test(customColorInput)) {
-      const color = customColorInput.toUpperCase();
-      if (currentGroup && !currentGroup.colors.includes(color)) {
+  const handleAddColorToGroup = (color?: string) => {
+    const colorToAdd = color || customColorInput;
+    if (colorToAdd && /^#[0-9A-F]{6}$/i.test(colorToAdd)) {
+      const upperColor = colorToAdd.toUpperCase();
+      if (currentGroup && !currentGroup.colors.includes(upperColor)) {
         setColorGroups(colorGroups.map(g => 
-          g.id === currentGroupId 
-            ? { ...g, colors: [...g.colors, color] }
-            : g
+          g.id === currentGroupId ? { ...g, colors: [...g.colors, upperColor] } : g
         ));
+        onAddCustomColor(upperColor);
+        if (!color) {
+          setCustomColorInput('');
+        }
+      } else if (currentGroup && currentGroup.colors.includes(upperColor)) {
+        alert('此顏色已存在於當前群組中');
       }
-      setCustomColorInput('');
     }
   };
 
@@ -142,51 +282,14 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
 
   return (
     <div className="bg-white rounded-lg shadow-md p-4">
-      <h3 className="text-lg font-semibold mb-4 text-gray-700 flex items-center gap-2">
-        <Palette size={20} />
-        顏色選擇器
-      </h3>
-
-      {/* 當前選擇的顏色 */}
-      <div className="mb-4 p-3 bg-gray-50 rounded-lg">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-medium text-gray-600">當前顏色</span>
-          <div className="text-xs text-gray-500">
-            {selectedColor}
-          </div>
-        </div>
-        <div 
-          className="w-full h-12 rounded-lg border-2 border-gray-300 shadow-sm"
-          style={{ backgroundColor: selectedColor }}
-        />
-      </div>
-
-      {/* 基礎顏色 */}
-      <div className="mb-4">
-        <h4 className="text-sm font-medium text-gray-700 mb-3">基礎顏色</h4>
-        <div className="grid grid-cols-5 gap-2">
-          {baseColors.map((color) => (
-            <button
-              key={color}
-              className={`w-8 h-8 rounded border-2 transition-all hover:scale-110 ${
-                selectedColor === color 
-                  ? 'border-blue-500 shadow-md' 
-                  : 'border-gray-300'
-              }`}
-              style={{ backgroundColor: color }}
-              onClick={() => onColorSelect(color)}
-              title={`選擇 ${color}`}
-            />
-          ))}
-        </div>
-      </div>
-
+      <h3 className="text-lg font-semibold mb-4 text-gray-700">顏色選擇</h3>
+      
       {/* 顏色群組管理 */}
       <div className="mb-4">
         <div className="flex items-center justify-between mb-3">
           <h4 className="text-sm font-medium text-gray-700">顏色群組</h4>
           <button
-            onClick={() => setShowNewGroupInput(!showNewGroupInput)}
+            onClick={handleCreateGroup}
             className="text-xs px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition-colors flex items-center gap-1"
             title="新增群組"
           >
@@ -195,148 +298,100 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
           </button>
         </div>
 
-        {/* 新增群組輸入 */}
-        {showNewGroupInput && (
-          <div className="flex gap-2 mb-3">
-            <input
-              type="text"
-              value={newGroupName}
-              onChange={(e) => setNewGroupName(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleCreateGroup()}
-              placeholder="群組名稱"
-              className="flex-1 px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-            <button
-              onClick={handleCreateGroup}
-              className="px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600 text-xs"
-            >
-              <Check size={14} />
-            </button>
-            <button
-              onClick={() => {
-                setShowNewGroupInput(false);
-                setNewGroupName('');
-              }}
-              className="px-2 py-1 bg-gray-400 text-white rounded hover:bg-gray-500 text-xs"
-            >
-              <X size={14} />
-            </button>
-          </div>
-        )}
-
-        {/* 群組標籤 */}
-        <div className="flex flex-wrap gap-2 mb-3">
-          {colorGroups.map((group) => (
-            <div key={group.id} className="flex items-center gap-1">
-              {editingGroupId === group.id ? (
-                <div className="flex items-center gap-1">
-                  <input
-                    type="text"
-                    value={editingGroupName}
-                    onChange={(e) => setEditingGroupName(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleRenameGroup(group.id)}
-                    className="px-2 py-1 border border-gray-300 rounded text-xs w-24 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    autoFocus
-                  />
-                  <button
-                    onClick={() => handleRenameGroup(group.id)}
-                    className="p-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-                  >
-                    <Check size={12} />
-                  </button>
-                  <button
-                    onClick={() => {
-                      setEditingGroupId(null);
-                      setEditingGroupName('');
-                    }}
-                    className="p-1 bg-gray-400 text-white rounded hover:bg-gray-500"
-                  >
-                    <X size={12} />
-                  </button>
-                </div>
-              ) : (
-                <>
-                  <button
-                    onClick={() => setCurrentGroupId(group.id)}
-                    className={`px-3 py-1 rounded text-xs transition-colors ${
-                      currentGroupId === group.id
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                    }`}
-                  >
+        {/* 群組下拉選單 */}
+        <div className="mb-3">
+          {editingGroupId ? (
+            <div className="flex items-center gap-2">
+              <input
+                type="text"
+                value={editingGroupName}
+                onChange={(e) => setEditingGroupName(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleRenameGroup(editingGroupId)}
+                placeholder="群組名稱"
+                className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                autoFocus
+              />
+              <button
+                onClick={() => handleRenameGroup(editingGroupId)}
+                className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                title="確認"
+              >
+                <Check size={16} />
+              </button>
+              <button
+                onClick={() => handleCancelEdit(editingGroupId)}
+                className="p-2 bg-gray-400 text-white rounded hover:bg-gray-500"
+                title="取消"
+              >
+                <X size={16} />
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <select
+                value={currentGroupId}
+                onChange={(e) => setCurrentGroupId(e.target.value)}
+                className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+              >
+                {colorGroups.map((group) => (
+                  <option key={group.id} value={group.id}>
                     {group.name} ({group.colors.length})
-                  </button>
-                  <button
-                    onClick={() => {
-                      setEditingGroupId(group.id);
-                      setEditingGroupName(group.name);
-                    }}
-                    className="p-1 text-gray-500 hover:text-blue-500"
-                    title="重命名"
-                  >
-                    <Edit2 size={12} />
-                  </button>
-                  {colorGroups.length > 1 && (
-                    <button
-                      onClick={() => handleDeleteGroup(group.id)}
-                      className="p-1 text-gray-500 hover:text-red-500"
-                      title="刪除群組"
-                    >
-                      <Trash2 size={12} />
-                    </button>
-                  )}
-                </>
+                  </option>
+                ))}
+              </select>
+              <button
+                onClick={() => {
+                  setEditingGroupId(currentGroupId);
+                  setEditingGroupName(currentGroup?.name || '');
+                }}
+                className="p-2 text-gray-500 hover:text-blue-500 border border-gray-300 rounded hover:bg-gray-50"
+                title="重命名群組"
+              >
+                <Edit2 size={16} />
+              </button>
+              {colorGroups.length > 1 && (
+                <button
+                  onClick={() => handleDeleteGroup(currentGroupId)}
+                  className="p-2 text-gray-500 hover:text-red-500 border border-gray-300 rounded hover:bg-gray-50"
+                  title="刪除群組"
+                >
+                  <Trash2 size={16} />
+                </button>
               )}
             </div>
-          ))}
+          )}
         </div>
 
         {/* 當前群組的顏色 */}
         {currentGroup && (
           <>
-            <div className="flex gap-2 mb-3">
-              <input
-                type="text"
-                value={customColorInput}
-                onChange={(e) => setCustomColorInput(e.target.value)}
-                onKeyPress={handleColorInputKeyPress}
-                placeholder="#FF5733"
-                className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <button
-                onClick={handleAddColorToGroup}
-                className="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors flex items-center gap-1 text-sm"
-              >
-                <Plus size={16} />
-                添加
-              </button>
-            </div>
-
             {currentGroup.colors.length > 0 ? (
               <div className="grid grid-cols-5 gap-2">
                 {currentGroup.colors.map((color) => (
-                  <button
-                    key={color}
-                    className={`w-8 h-8 rounded border-2 transition-all hover:scale-110 relative group ${
-                      selectedColor === color 
-                        ? 'border-blue-500 shadow-md' 
-                        : 'border-gray-300'
-                    }`}
-                    style={{ backgroundColor: color }}
-                    onClick={() => onColorSelect(color)}
-                    title={`選擇 ${color}`}
-                  >
-                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-opacity rounded" />
+                  <div key={color} className="relative group">
+                    <button
+                      className={`w-full aspect-square rounded border-2 transition-all hover:scale-105 ${
+                        selectedColor === color 
+                          ? 'border-blue-500 shadow-md' 
+                          : 'border-gray-300'
+                      }`}
+                      style={{ backgroundColor: color }}
+                      onClick={() => onColorSelect(color)}
+                      title={`選擇 ${color}`}
+                    />
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleRemoveColorFromGroup(color);
+                        if (confirm(`確定要刪除顏色 ${color} 嗎？`)) {
+                          handleRemoveColorFromGroup(color);
+                        }
                       }}
-                      className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                      className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center hover:bg-red-600 shadow-md z-10"
+                      title="刪除此顏色"
                     >
-                      <X size={10} />
+                      <X size={12} />
                     </button>
-                  </button>
+                  </div>
                 ))}
               </div>
             ) : (
@@ -348,12 +403,83 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
         )}
       </div>
 
-      {/* 操作提示 */}
-      <div className="text-xs text-gray-500 bg-blue-50 p-2 rounded border border-blue-200">
-        <p>💡 提示：</p>
-        <p>• 點擊群組標籤切換不同的顏色群組</p>
-        <p>• 點擊顏色方塊選擇顏色</p>
-        <p>• 輸入十六進制顏色代碼添加到當前群組</p>
+      {/* HSV 色彩選擇器 */}
+      <div className="mb-4">
+        <button
+          onClick={() => setIsColorPickerExpanded(!isColorPickerExpanded)}
+          className="w-full flex items-center justify-between text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors mb-3 p-2 rounded hover:bg-gray-50"
+        >
+          <div className="flex items-center gap-2">
+            {isColorPickerExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+            <Palette size={18} />
+            色彩選擇器
+          </div>
+        </button>
+
+        {isColorPickerExpanded && (
+        <>
+        {/* 色彩漸層畫布 */}
+        <div className="relative mb-3">
+          <canvas
+            ref={canvasRef}
+            width={280}
+            height={200}
+            className="w-full rounded-lg cursor-crosshair border-2 border-gray-300"
+            onClick={handleCanvasClick}
+            onMouseDown={handleCanvasMouseDown}
+            onMouseMove={handleCanvasMouseMove}
+            onMouseUp={handleCanvasMouseUp}
+            onMouseLeave={handleCanvasMouseUp}
+          />
+          {/* 選擇器指示器 */}
+          <div
+            className="absolute w-4 h-4 border-2 border-white rounded-full pointer-events-none shadow-lg"
+            style={{
+              left: `${(saturation / 100) * 100}%`,
+              top: `${((100 - value) / 100) * 100}%`,
+              transform: 'translate(-50%, -50%)'
+            }}
+          />
+        </div>
+
+        {/* 色相滑桿 */}
+        <div className="mb-3">
+          <div className="text-xs text-gray-600 mb-1">色相</div>
+          <input
+            type="range"
+            min="0"
+            max="360"
+            value={hue}
+            onChange={(e) => setHue(Number(e.target.value))}
+            className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+            style={{
+              background: 'linear-gradient(to right, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%)'
+            }}
+          />
+        </div>
+
+        {/* 當前顏色顯示 */}
+        <div className="p-3 bg-gray-50 rounded-lg">
+          <div className="flex items-center gap-3 mb-2">
+            <div 
+              className="w-12 h-12 rounded-lg border-2 border-gray-300 shadow-sm flex-shrink-0"
+              style={{ backgroundColor: selectedColor }}
+            />
+            <div className="flex-1">
+              <div className="text-xs text-gray-600">當前顏色</div>
+              <div className="text-sm font-mono font-semibold">{selectedColor}</div>
+            </div>
+          </div>
+          <button
+            onClick={() => handleAddColorToGroup(selectedColor)}
+            className="w-full px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center gap-2 text-sm"
+          >
+            <Plus size={16} />
+            添加到 {currentGroup?.name || '預設群組'}
+          </button>
+        </div>
+        </>
+        )}
       </div>
     </div>
   );

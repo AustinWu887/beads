@@ -18,7 +18,7 @@ const TransformPanel: React.FC<TransformPanelProps> = ({
   onRotate,
 }) => {
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
+    <div className="bg-white rounded-lg shadow-md p-4">
       <h3 className="text-lg font-semibold text-gray-700 mb-4">圖案變換</h3>
       
       {/* 移動控制 */}
@@ -100,11 +100,6 @@ const TransformPanel: React.FC<TransformPanelProps> = ({
             旋轉 90°
           </button>
         </div>
-      </div>
-
-      <div className="mt-3 text-xs text-gray-500">
-        <p>• 移動會保持圖案完整性</p>
-        <p>• 超出邊界的部分會被裁切</p>
       </div>
     </div>
   );

@@ -91,12 +91,6 @@ const TemplateSelection: React.FC = () => {
           })}
         </div>
 
-        {/* 底部說明 */}
-        <div className="mt-12 text-center">
-          <p className="text-gray-500 text-sm">
-            💡 提示: 選擇模板後即可開始創作,您可以隨時在編輯器中切換模板
-          </p>
-        </div>
       </div>
     </div>
   );

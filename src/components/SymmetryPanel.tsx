@@ -62,7 +62,7 @@ const SymmetryPanel: React.FC<SymmetryPanelProps> = ({
 
   return (
     <div className="bg-white rounded-lg shadow-md p-4">
-      <h3 className="text-lg font-semibold mb-3 text-gray-700">對稱模式</h3>
+      <h3 className="text-lg font-semibold mb-4 text-gray-700">對稱模式</h3>
       
       <div className="space-y-2">
         {symmetryOptions.map((option) => {
@@ -109,16 +109,6 @@ const SymmetryPanel: React.FC<SymmetryPanelProps> = ({
         })}
       </div>
 
-      {/* 對稱模式說明 */}
-      <div className="mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
-        <h4 className="text-sm font-medium text-yellow-700 mb-1">對稱模式說明</h4>
-        <ul className="text-xs text-yellow-600 space-y-1">
-          <li>• 水平對稱: 左右鏡像，適合蝴蝶、臉譜等</li>
-          <li>• 垂直對稱: 上下鏡像，適合雪花、建築等</li>
-          <li>• 四象限對稱: 水平和垂直對稱組合</li>
-          <li>• 徑向對稱: 八個方向對稱，適合曼陀羅</li>
-        </ul>
-      </div>
     </div>
   );
 };
