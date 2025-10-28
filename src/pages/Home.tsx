@@ -3,74 +3,51 @@
  * 管理主要應用狀態並協調各元件之間的互動
  */
 import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import BeadGrid, { TemplateType } from '../components/BeadGrid';
 import ColorPicker from '../components/ColorPicker';
 import ToolPanel from '../components/ToolPanel';
-import PresetPanel from '../components/PresetPanel';
 import SymmetryPanel from '../components/SymmetryPanel';
-import TemplatePanel from '../components/TemplatePanel';
 import ImageUploadPanel from '../components/ImageUploadPanel';
 import TransformPanel from '../components/TransformPanel';
-
-// 預設圖案數據
-const PRESET_PATTERNS = {
-  heart: Array(29).fill(null).map((_, row) => 
-    Array(29).fill(null).map((_, col) => {
-      // 簡單的心形圖案
-      const x = col - 14.5;
-      const y = row - 14.5;
-      const distance = Math.sqrt(x*x + y*y);
-      const angle = Math.atan2(y, x);
-      const heartEquation = distance < 10 - 5 * Math.sin(angle) * Math.sin(angle);
-      return heartEquation ? '#FF6B6B' : '';
-    })
-  ),
-  star: Array(29).fill(null).map((_, row) => 
-    Array(29).fill(null).map((_, col) => {
-      // 星星圖案
-      const x = col - 14.5;
-      const y = row - 14.5;
-      const distance = Math.sqrt(x*x + y*y);
-      const angle = Math.atan2(y, x);
-      const starEquation = distance < 8 + 2 * Math.sin(5 * angle);
-      return starEquation ? '#FFEAA7' : '';
-    })
-  ),
-  smile: Array(29).fill(null).map((_, row) => 
-    Array(29).fill(null).map((_, col) => {
-      // 笑臉圖案
-      const x = col - 14.5;
-      const y = row - 14.5;
-      const distance = Math.sqrt(x*x + y*y);
-      
-      // 臉部
-      if (distance < 10) return '#FFEAA7';
-      
-      // 眼睛
-      if ((col === 10 && (row === 8 || row === 9)) || 
-          (col === 19 && (row === 8 || row === 9))) return '#000000';
-      
-      // 嘴巴
-      if (row === 18 && col >= 11 && col <= 18 && 
-          Math.abs((col - 14.5) / 3.5) < 1) return '#000000';
-      
-      return '';
-    })
-  ),
-  clear: Array(29).fill(null).map(() => Array(29).fill(''))
-};
+import { 
+  Palette, 
+  Settings, 
+  Move, 
+  ChevronDown,
+  X,
+  Home as HomeIcon,
+  Brush,
+  Eraser,
+  PaintBucket,
+  Undo2,
+  Redo2,
+  RotateCcw,
+  FlipHorizontal
+} from 'lucide-react';
 
 // 對稱類型
 type SymmetryType = 'none' | 'horizontal' | 'vertical' | 'both' | 'radial';
 
 const HomePage: React.FC = () => {
-  const [templateType, setTemplateType] = useState<TemplateType>('square-large');
+  const navigate = useNavigate();
+  
+  // 從 sessionStorage 讀取初始模板
+  const getInitialTemplate = (): TemplateType => {
+    const saved = sessionStorage.getItem('selectedTemplate');
+    return (saved as TemplateType) || 'square-large';
+  };
+  
+  const [templateType, setTemplateType] = useState<TemplateType>(getInitialTemplate());
   const [grid, setGrid] = useState<string[][]>(
     Array(29).fill(null).map(() => Array(29).fill(''))
   );
   const [selectedColor, setSelectedColor] = useState<string>('#FF6B6B');
   const [currentTool, setCurrentTool] = useState<string>('brush');
   const [symmetryType, setSymmetryType] = useState<SymmetryType>('none');
+  
+  // 面板展開狀態
+  const [openPanel, setOpenPanel] = useState<string | null>(null);
   
   // 自定義顏色狀態
   const [customColors, setCustomColors] = useState<string[]>([]);
@@ -402,15 +379,6 @@ const HomePage: React.FC = () => {
     event.target.value = '';
   };
 
-  // 加載預設圖案
-  const handleLoadPreset = (patternKey: string) => {
-    const presetGrid = PRESET_PATTERNS[patternKey as keyof typeof PRESET_PATTERNS];
-    if (presetGrid) {
-      setGrid(presetGrid);
-      updateHistory(presetGrid);
-    }
-  };
-
   // 模板切換處理
   const handleTemplateChange = (newTemplate: TemplateType) => {
     setTemplateType(newTemplate);
@@ -432,6 +400,113 @@ const HomePage: React.FC = () => {
     setGrid(imageData);
     updateHistory(imageData);
     alert(`圖片已成功轉換為拼豆圖案！共使用了 ${imageData.flat().filter(color => color !== '').length} 顆豆子。`);
+  };
+
+  // 處理圖片文件上傳
+  const handleLoadImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const gridSize = grid.length;
+        canvas.width = gridSize;
+        canvas.height = gridSize;
+        const ctx = canvas.getContext('2d');
+        
+        if (!ctx) return;
+
+        ctx.drawImage(img, 0, 0, gridSize, gridSize);
+        const imageData = ctx.getImageData(0, 0, gridSize, gridSize);
+        const pixels = imageData.data;
+        
+        // 檢測背景色
+        const corners = [
+          { row: 0, col: 0 },
+          { row: 0, col: gridSize - 1 },
+          { row: gridSize - 1, col: 0 },
+          { row: gridSize - 1, col: gridSize - 1 }
+        ];
+        
+        let bgR = 0, bgG = 0, bgB = 0;
+        corners.forEach(({ row, col }) => {
+          const index = (row * gridSize + col) * 4;
+          bgR += pixels[index];
+          bgG += pixels[index + 1];
+          bgB += pixels[index + 2];
+        });
+        bgR = Math.round(bgR / 4);
+        bgG = Math.round(bgG / 4);
+        bgB = Math.round(bgB / 4);
+        
+        // 轉換為拼豆網格
+        const beadGrid: string[][] = [];
+        
+        for (let row = 0; row < gridSize; row++) {
+          const rowData: string[] = [];
+          for (let col = 0; col < gridSize; col++) {
+            const index = (row * gridSize + col) * 4;
+            const r = pixels[index];
+            const g = pixels[index + 1];
+            const b = pixels[index + 2];
+            const a = pixels[index + 3];
+            
+            // 判斷是否為背景色
+            const isBackground = a < 128 || 
+              Math.sqrt(Math.pow(r - bgR, 2) + Math.pow(g - bgG, 2) + Math.pow(b - bgB, 2)) < 60;
+            
+            if (isBackground) {
+              rowData.push('');
+            } else {
+              const hexColor = '#' + [r, g, b].map(x => {
+                const hex = x.toString(16);
+                return hex.length === 1 ? '0' + hex : hex;
+              }).join('');
+              
+              // 找最接近的顏色
+              let closestColor = availableColors[0];
+              let minDistance = Infinity;
+              
+              for (const beadColor of availableColors) {
+                const hex1 = hexColor.replace('#', '');
+                const hex2 = beadColor.replace('#', '');
+                
+                const r1 = parseInt(hex1.substr(0, 2), 16);
+                const g1 = parseInt(hex1.substr(2, 2), 16);
+                const b1 = parseInt(hex1.substr(4, 2), 16);
+                
+                const r2 = parseInt(hex2.substr(0, 2), 16);
+                const g2 = parseInt(hex2.substr(2, 2), 16);
+                const b2 = parseInt(hex2.substr(4, 2), 16);
+                
+                const distance = Math.sqrt(
+                  Math.pow(r1 - r2, 2) +
+                  Math.pow(g1 - g2, 2) +
+                  Math.pow(b1 - b2, 2)
+                );
+                
+                if (distance < minDistance) {
+                  minDistance = distance;
+                  closestColor = beadColor;
+                }
+              }
+              
+              rowData.push(closestColor);
+            }
+          }
+          beadGrid.push(rowData);
+        }
+        
+        handleImageLoad(beadGrid);
+      };
+      img.src = e.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+    
+    event.target.value = '';
   };
 
   // 整群移動
@@ -500,60 +575,28 @@ const HomePage: React.FC = () => {
     updateHistory(newGrid);
   };
 
+  const togglePanel = (panelName: string) => {
+    setOpenPanel(openPanel === panelName ? null : panelName);
+  };
+
+  const handleBackToHome = () => {
+    if (confirm('返回首頁將清除當前作品,確定要繼續嗎?')) {
+      sessionStorage.removeItem('selectedTemplate');
+      navigate('/');
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8">
-      <div className="container mx-auto px-4">
-        <header className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">創意拼豆藝術</h1>
-          <p className="text-lg text-gray-600">選擇您的模板並創作拼豆作品</p>
-        </header>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 relative">
+      {/* 頂部標題 */}
+      <header className="text-center py-6 bg-white/80 backdrop-blur-sm shadow-sm">
+        <h1 className="text-3xl font-bold text-gray-800">創意拼豆藝術</h1>
+      </header>
 
-        <div className="flex flex-col lg:flex-row gap-8 items-start justify-center">
-          {/* 左側面板 - 模板、工具和顏色選擇器 */}
-          <div className="flex flex-col gap-6">
-            <TemplatePanel
-              selectedTemplate={templateType}
-              onTemplateChange={handleTemplateChange}
-            />
-            <ImageUploadPanel
-              onImageLoad={handleImageLoad}
-              gridSize={grid.length}
-              availableColors={availableColors}
-            />
-            <ColorPicker 
-              selectedColor={selectedColor}
-              onColorSelect={setSelectedColor}
-              customColors={customColors}
-              onAddCustomColor={handleAddCustomColor}
-              onRemoveCustomColor={handleRemoveCustomColor}
-            />
-            <ToolPanel
-              onClear={handleClear}
-              onReset={handleReset}
-              onSaveJSON={handleSaveJSON}
-              onSaveImage={handleSaveImage}
-              onLoadJSON={handleLoadJSON}
-              onUndo={handleUndo}
-              onRedo={handleRedo}
-              currentTool={currentTool}
-              onToolChange={setCurrentTool}
-              canUndo={historyIndex > 0}
-              canRedo={historyIndex < history.length - 1}
-            />
-            <SymmetryPanel
-              symmetryType={symmetryType}
-              onSymmetryChange={setSymmetryType}
-            />
-            <TransformPanel
-              onMove={handleMove}
-              onFlipHorizontal={handleFlipHorizontal}
-              onFlipVertical={handleFlipVertical}
-              onRotate={handleRotate}
-            />
-            <PresetPanel onLoadPreset={handleLoadPreset} />
-          </div>
-
-          {/* 主要網格 */}
+      {/* 主要內容區 - 板子置中 */}
+      <div className="flex items-center justify-center py-8">
+        <div>
+          {/* 畫板 */}
           <div ref={gridRef}>
             <BeadGrid
               grid={grid}
@@ -561,58 +604,185 @@ const HomePage: React.FC = () => {
               selectedColor={selectedColor}
               currentTool={currentTool}
               templateType={templateType}
+              onUndo={handleUndo}
+              onRedo={handleRedo}
+              canUndo={historyIndex > 0}
+              canRedo={historyIndex < history.length - 1}
             />
           </div>
 
-          {/* 右側面板 - 統計資訊 */}
-          <div className="bg-white rounded-lg shadow-md p-6 min-w-[200px]">
-            <h3 className="text-lg font-semibold text-gray-700 mb-4">統計資訊</h3>
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <span className="text-gray-600">已使用豆子:</span>
-                <span className="font-semibold">
-                  {grid.flat().filter(color => color !== '').length} / {grid.length * grid[0].length}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">當前工具:</span>
-                <span className="font-semibold capitalize">
-                  {currentTool === 'brush' ? '畫筆' : 
-                   currentTool === 'eraser' ? '橡皮' : 
-                   currentTool === 'fill' ? '填充' : currentTool}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">對稱模式:</span>
-                <span className="font-semibold capitalize">
-                  {symmetryType === 'none' ? '無' :
-                   symmetryType === 'horizontal' ? '水平' :
-                   symmetryType === 'vertical' ? '垂直' :
-                   symmetryType === 'both' ? '四象限' : '徑向'}
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-600">當前顏色:</span>
-                <div 
-                  className="w-4 h-4 rounded border border-gray-300"
-                  style={{ backgroundColor: selectedColor }}
-                />
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">操作歷史:</span>
-                <span className="font-semibold">{historyIndex + 1} / {history.length}</span>
-              </div>
-            </div>
+          {/* 工具按鈕 - 下方 */}
+          <div className="flex justify-center gap-3 mt-4">
+            <button
+              onClick={() => setCurrentTool('brush')}
+              className={`p-3 rounded-lg shadow-lg transition-all ${
+                currentTool === 'brush'
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-white text-gray-700 hover:bg-gray-50'
+              }`}
+              title="畫筆"
+            >
+              <Brush size={24} />
+            </button>
+            <button
+              onClick={() => setCurrentTool('eraser')}
+              className={`p-3 rounded-lg shadow-lg transition-all ${
+                currentTool === 'eraser'
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-white text-gray-700 hover:bg-gray-50'
+              }`}
+              title="橡皮擦"
+            >
+              <Eraser size={24} />
+            </button>
+            <button
+              onClick={() => setCurrentTool('fill')}
+              className={`p-3 rounded-lg shadow-lg transition-all ${
+                currentTool === 'fill'
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-white text-gray-700 hover:bg-gray-50'
+              }`}
+              title="填充"
+            >
+              <PaintBucket size={24} />
+            </button>
+            <button
+              onClick={handleReset}
+              className="p-3 rounded-lg shadow-lg transition-all bg-white text-gray-700 hover:bg-gray-50"
+              title="重置"
+            >
+              <RotateCcw size={24} />
+            </button>
           </div>
         </div>
+      </div>
 
-        <footer className="text-center mt-8 text-gray-500 text-sm">
-          <p>提示: 點擊放置豆子，按住鼠標拖動可以連續放置</p>
-          <p>在移動設備上，觸摸並拖動也可以繪製</p>
-          <p className="mt-2 text-blue-600">
-            新功能: 三種模板、圖片轉換、整群移動、翻轉旋轉、對稱模式、自定義顏色
-          </p>
-        </footer>
+      {/* 浮動工具列 - 左側 */}
+      <div className="fixed left-4 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-50">
+        {/* 返回首頁 */}
+        <button
+          onClick={handleBackToHome}
+          className="p-3 rounded-lg shadow-lg transition-all bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-300"
+          title="返回首頁"
+        >
+          <HomeIcon size={24} />
+        </button>
+        
+        <div className="h-px bg-gray-300 my-1"></div>
+
+        {/* 顏色選擇 */}
+        <button
+          onClick={() => togglePanel('color')}
+          className={`p-3 rounded-lg shadow-lg transition-all ${
+            openPanel === 'color' 
+              ? 'bg-blue-500 text-white' 
+              : 'bg-white text-gray-700 hover:bg-gray-50'
+          }`}
+          title="顏色選擇"
+        >
+          <Palette size={24} />
+        </button>
+
+        {/* 對稱模式 */}
+        <button
+          onClick={() => togglePanel('symmetry')}
+          className={`p-3 rounded-lg shadow-lg transition-all ${
+            openPanel === 'symmetry' 
+              ? 'bg-blue-500 text-white' 
+              : 'bg-white text-gray-700 hover:bg-gray-50'
+          }`}
+          title="對稱模式"
+        >
+          <FlipHorizontal size={24} />
+        </button>
+
+        {/* 變換工具 */}
+        <button
+          onClick={() => togglePanel('transform')}
+          className={`p-3 rounded-lg shadow-lg transition-all ${
+            openPanel === 'transform' 
+              ? 'bg-blue-500 text-white' 
+              : 'bg-white text-gray-700 hover:bg-gray-50'
+          }`}
+          title="移動與變換"
+        >
+          <Move size={24} />
+        </button>
+
+        {/* 設定 */}
+        <button
+          onClick={() => togglePanel('settings')}
+          className={`p-3 rounded-lg shadow-lg transition-all ${
+            openPanel === 'settings' 
+              ? 'bg-blue-500 text-white' 
+              : 'bg-white text-gray-700 hover:bg-gray-50'
+          }`}
+          title="工具與設定"
+        >
+          <Settings size={24} />
+        </button>
+      </div>
+
+      {/* 展開的面板 */}
+      {openPanel && (
+        <div className="fixed left-20 top-1/2 -translate-y-1/2 z-40 max-h-[80vh] overflow-y-auto">
+          <div className="bg-white rounded-lg shadow-2xl p-4 min-w-[300px] max-w-[400px] relative">
+            <button
+              onClick={() => setOpenPanel(null)}
+              className="absolute top-2 right-2 p-1 hover:bg-gray-100 rounded"
+            >
+              <X size={20} />
+            </button>
+
+            {openPanel === 'color' && (
+              <ColorPicker 
+                selectedColor={selectedColor}
+                onColorSelect={setSelectedColor}
+                customColors={customColors}
+                onAddCustomColor={handleAddCustomColor}
+                onRemoveCustomColor={handleRemoveCustomColor}
+              />
+            )}
+
+            {openPanel === 'symmetry' && (
+              <SymmetryPanel
+                symmetryType={symmetryType}
+                onSymmetryChange={setSymmetryType}
+              />
+            )}
+
+            {openPanel === 'transform' && (
+              <TransformPanel
+                onMove={handleMove}
+                onFlipHorizontal={handleFlipHorizontal}
+                onFlipVertical={handleFlipVertical}
+                onRotate={handleRotate}
+              />
+            )}
+
+            {openPanel === 'settings' && (
+              <ToolPanel
+                onClear={handleClear}
+                onReset={handleReset}
+                onSaveJSON={handleSaveJSON}
+                onSaveImage={handleSaveImage}
+                onLoadJSON={handleLoadJSON}
+                onLoadImage={handleLoadImage}
+                onUndo={handleUndo}
+                onRedo={handleRedo}
+                currentTool={currentTool}
+                onToolChange={setCurrentTool}
+                canUndo={historyIndex > 0}
+                canRedo={historyIndex < history.length - 1}
+              />
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* 底部提示 */}
+      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 text-center text-xs text-gray-500 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm">
+        點擊左側圖示開啟功能面板
       </div>
     </div>
   );

@@ -2,7 +2,8 @@
  * 互動式拼豆網格元件 - 用於拼豆藝術創作
  * 支援顏色放置、擦除和網格互動，優化移動端觸摸交互
  */
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
+import { ZoomIn, ZoomOut, Undo2, Redo2 } from 'lucide-react';
 
 export type TemplateType = 'square-large' | 'square-small' | 'circle-large';
 
@@ -12,6 +13,10 @@ interface BeadGridProps {
   selectedColor: string;
   currentTool: string;
   templateType: TemplateType;
+  onUndo: () => void;
+  onRedo: () => void;
+  canUndo: boolean;
+  canRedo: boolean;
 }
 
 const BeadGrid: React.FC<BeadGridProps> = ({ 
@@ -19,9 +24,24 @@ const BeadGrid: React.FC<BeadGridProps> = ({
   onBeadClick, 
   selectedColor, 
   currentTool,
-  templateType
+  templateType,
+  onUndo,
+  onRedo,
+  canUndo,
+  canRedo
 }) => {
   const isDrawing = useRef(false);
+  const [scale, setScale] = useState(1);
+
+  // 放大
+  const handleZoomIn = () => {
+    setScale(prev => Math.min(prev + 0.2, 2));
+  };
+
+  // 縮小
+  const handleZoomOut = () => {
+    setScale(prev => Math.max(prev - 0.2, 0.4));
+  };
 
   const handleCellClick = (row: number, col: number) => {
     onBeadClick(row, col);
@@ -114,16 +134,68 @@ const BeadGrid: React.FC<BeadGridProps> = ({
 
   return (
     <div className="flex flex-col items-center">
-      <div
-        className={`grid border-2 border-gray-400 bg-white shadow-lg touch-none ${
-          config.isCircle ? 'rounded-full' : ''
-        }`}
-        style={{
-          width: config.size,
-          height: config.size,
-          gridTemplateColumns: `repeat(${config.gridSize}, 1fr)`,
-          gridTemplateRows: `repeat(${config.gridSize}, 1fr)`,
-        }}
+      {/* 頂部按鈕列 - 縮放靠左，撤銷/重作靠右 */}
+      <div className="flex justify-between items-center w-full mb-3">
+        {/* 縮放控制按鈕 - 左側 */}
+        <div className="flex gap-2">
+          <button
+            onClick={handleZoomOut}
+            className="p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all"
+            title="縮小"
+          >
+            <ZoomOut className="w-5 h-5" />
+          </button>
+          <div className="flex items-center px-3 py-2 bg-white rounded-lg shadow-lg">
+            <span className="text-sm font-semibold">{Math.round(scale * 100)}%</span>
+          </div>
+          <button
+            onClick={handleZoomIn}
+            className="p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all"
+            title="放大"
+          >
+            <ZoomIn className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* 撤銷/重作按鈕 - 右側 */}
+        <div className="flex gap-2">
+          <button
+            onClick={onUndo}
+            disabled={!canUndo}
+            className="p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            title="撤銷"
+          >
+            <Undo2 className="w-5 h-5" />
+          </button>
+          <button
+            onClick={onRedo}
+            disabled={!canRedo}
+            className="p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            title="重作"
+          >
+            <Redo2 className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+
+      {/* 可滾動的網格容器 */}
+      <div className="overflow-auto max-h-[80vh] max-w-[90vw] p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+        <div className="flex items-center justify-center" style={{ minWidth: 'fit-content', minHeight: 'fit-content' }}>
+          <div
+            className={`grid border-2 border-gray-300 bg-white shadow-lg touch-none ${
+              config.isCircle ? 'rounded-full' : ''
+            }`}
+            style={{
+              width: config.size,
+              height: config.size,
+              gridTemplateColumns: `repeat(${config.gridSize}, 1fr)`,
+              gridTemplateRows: `repeat(${config.gridSize}, 1fr)`,
+              gap: '4px',
+              padding: '12px',
+              transform: `scale(${scale})`,
+              transformOrigin: 'center',
+              transition: 'transform 0.2s ease-out',
+            }}
         onMouseLeave={handleMouseUp}
         onMouseUp={handleMouseUp}
         onTouchEnd={handleTouchEnd}
@@ -135,15 +207,16 @@ const BeadGrid: React.FC<BeadGridProps> = ({
             return (
               <button
                 key={`${rowIndex}-${colIndex}`}
-                className={`border border-gray-300 rounded-full transition-all duration-150 hover:scale-110 ${
+                className={`rounded-full transition-all duration-150 hover:scale-110 ${
                   color ? 'shadow-md' : ''
                 } ${
                   !inCircle ? 'invisible' : ''
                 }`}
                 style={{ 
-                  backgroundColor: color || 'transparent',
-                  borderColor: color ? color : '#d1d5db',
+                  backgroundColor: color || '#e5e7eb',
                   visibility: inCircle ? 'visible' : 'hidden',
+                  aspectRatio: '1',
+                  transform: color ? 'scale(1)' : 'scale(0.5)',
                 }}
                 data-row={rowIndex}
                 data-col={colIndex}
@@ -158,6 +231,8 @@ const BeadGrid: React.FC<BeadGridProps> = ({
             );
           })
         )}
+          </div>
+        </div>
       </div>
       <div className="mt-4 text-sm text-gray-600">
         {config.label}

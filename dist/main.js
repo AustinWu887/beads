@@ -1083,7 +1083,7 @@ var require_react_development = __commonJS({
           }
           return dispatcher.useContext(Context);
         }
-        function useState7(initialState) {
+        function useState8(initialState) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useState(initialState);
         }
@@ -1091,11 +1091,11 @@ var require_react_development = __commonJS({
           var dispatcher = resolveDispatcher();
           return dispatcher.useReducer(reducer, initialArg, init);
         }
-        function useRef8(initialValue) {
+        function useRef7(initialValue) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useRef(initialValue);
         }
-        function useEffect7(create, deps) {
+        function useEffect8(create, deps) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useEffect(create, deps);
         }
@@ -1878,15 +1878,15 @@ var require_react_development = __commonJS({
         exports.useContext = useContext6;
         exports.useDebugValue = useDebugValue;
         exports.useDeferredValue = useDeferredValue;
-        exports.useEffect = useEffect7;
+        exports.useEffect = useEffect8;
         exports.useId = useId2;
         exports.useImperativeHandle = useImperativeHandle;
         exports.useInsertionEffect = useInsertionEffect;
         exports.useLayoutEffect = useLayoutEffect4;
         exports.useMemo = useMemo5;
         exports.useReducer = useReducer;
-        exports.useRef = useRef8;
-        exports.useState = useState7;
+        exports.useRef = useRef7;
+        exports.useState = useState8;
         exports.useSyncExternalStore = useSyncExternalStore;
         exports.useTransition = useTransition2;
         exports.version = ReactVersion;
@@ -2382,9 +2382,9 @@ var require_react_dom_development = __commonJS({
         if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
           __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
         }
-        var React16 = require_react();
+        var React15 = require_react();
         var Scheduler = require_scheduler();
-        var ReactSharedInternals = React16.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        var ReactSharedInternals = React15.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         var suppressWarning = false;
         function setSuppressWarning(newSuppressWarning) {
           {
@@ -2433,7 +2433,7 @@ var require_react_dom_development = __commonJS({
         var HostPortal = 4;
         var HostComponent = 5;
         var HostText = 6;
-        var Fragment7 = 7;
+        var Fragment8 = 7;
         var Mode = 8;
         var ContextConsumer = 9;
         var ContextProvider = 10;
@@ -3590,7 +3590,7 @@ var require_react_dom_development = __commonJS({
               return "DehydratedFragment";
             case ForwardRef:
               return getWrappedName$1(type, type.render, "ForwardRef");
-            case Fragment7:
+            case Fragment8:
               return "Fragment";
             case HostComponent:
               return type;
@@ -3991,7 +3991,7 @@ var require_react_dom_development = __commonJS({
           {
             if (props.value == null) {
               if (typeof props.children === "object" && props.children !== null) {
-                React16.Children.forEach(props.children, function(child) {
+                React15.Children.forEach(props.children, function(child) {
                   if (child == null) {
                     return;
                   }
@@ -12019,7 +12019,7 @@ var require_react_dom_development = __commonJS({
             }
           }
           function updateFragment2(returnFiber, current2, fragment, lanes, key) {
-            if (current2 === null || current2.tag !== Fragment7) {
+            if (current2 === null || current2.tag !== Fragment8) {
               var created = createFiberFromFragment(fragment, returnFiber.mode, lanes, key);
               created.return = returnFiber;
               return created;
@@ -12422,7 +12422,7 @@ var require_react_dom_development = __commonJS({
               if (child.key === key) {
                 var elementType = element.type;
                 if (elementType === REACT_FRAGMENT_TYPE) {
-                  if (child.tag === Fragment7) {
+                  if (child.tag === Fragment8) {
                     deleteRemainingChildren(returnFiber, child.sibling);
                     var existing = useFiber(child, element.props.children);
                     existing.return = returnFiber;
@@ -17898,7 +17898,7 @@ var require_react_dom_development = __commonJS({
               var _resolvedProps2 = workInProgress2.elementType === type ? _unresolvedProps2 : resolveDefaultProps(type, _unresolvedProps2);
               return updateForwardRef(current2, workInProgress2, type, _resolvedProps2, renderLanes2);
             }
-            case Fragment7:
+            case Fragment8:
               return updateFragment(current2, workInProgress2, renderLanes2);
             case Mode:
               return updateMode(current2, workInProgress2, renderLanes2);
@@ -18170,7 +18170,7 @@ var require_react_dom_development = __commonJS({
             case SimpleMemoComponent:
             case FunctionComponent:
             case ForwardRef:
-            case Fragment7:
+            case Fragment8:
             case Mode:
             case Profiler:
             case ContextConsumer:
@@ -22431,7 +22431,7 @@ var require_react_dom_development = __commonJS({
           return fiber;
         }
         function createFiberFromFragment(elements, mode, lanes, key) {
-          var fiber = createFiber(Fragment7, elements, key, mode);
+          var fiber = createFiber(Fragment8, elements, key, mode);
           fiber.lanes = lanes;
           return fiber;
         }
@@ -23587,7 +23587,7 @@ var require_react_jsx_runtime_development = __commonJS({
     if (true) {
       (function() {
         "use strict";
-        var React16 = require_react();
+        var React15 = require_react();
         var REACT_ELEMENT_TYPE = Symbol.for("react.element");
         var REACT_PORTAL_TYPE = Symbol.for("react.portal");
         var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
@@ -23613,7 +23613,7 @@ var require_react_jsx_runtime_development = __commonJS({
           }
           return null;
         }
-        var ReactSharedInternals = React16.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        var ReactSharedInternals = React15.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         function error(format) {
           {
             {
@@ -24463,11 +24463,11 @@ var require_react_jsx_runtime_development = __commonJS({
             return jsxWithValidation(type, props, key, false);
           }
         }
-        var jsx12 = jsxWithValidationDynamic;
-        var jsxs10 = jsxWithValidationStatic;
+        var jsx10 = jsxWithValidationDynamic;
+        var jsxs9 = jsxWithValidationStatic;
         exports.Fragment = REACT_FRAGMENT_TYPE;
-        exports.jsx = jsx12;
-        exports.jsxs = jsxs10;
+        exports.jsx = jsx10;
+        exports.jsxs = jsxs9;
       })();
     }
   }
@@ -26853,19 +26853,380 @@ function useViewTransitionState(to, { relative } = {}) {
 }
 
 // src/pages/Home.tsx
-var import_react6 = __toESM(require_react());
+var import_react5 = __toESM(require_react());
 
 // src/components/BeadGrid.tsx
+var import_react3 = __toESM(require_react());
+
+// node_modules/lucide-react/dist/esm/createLucideIcon.js
+var import_react2 = __toESM(require_react());
+
+// node_modules/lucide-react/dist/esm/shared/src/utils.js
+var toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
+var toCamelCase = (string) => string.replace(
+  /^([A-Z])|[\s-_]+(\w)/g,
+  (match, p1, p2) => p2 ? p2.toUpperCase() : p1.toLowerCase()
+);
+var toPascalCase = (string) => {
+  const camelCase = toCamelCase(string);
+  return camelCase.charAt(0).toUpperCase() + camelCase.slice(1);
+};
+var mergeClasses = (...classes) => classes.filter((className, index, array) => {
+  return Boolean(className) && className.trim() !== "" && array.indexOf(className) === index;
+}).join(" ").trim();
+var hasA11yProp = (props) => {
+  for (const prop in props) {
+    if (prop.startsWith("aria-") || prop === "role" || prop === "title") {
+      return true;
+    }
+  }
+};
+
+// node_modules/lucide-react/dist/esm/Icon.js
 var import_react = __toESM(require_react());
+
+// node_modules/lucide-react/dist/esm/defaultAttributes.js
+var defaultAttributes = {
+  xmlns: "http://www.w3.org/2000/svg",
+  width: 24,
+  height: 24,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 2,
+  strokeLinecap: "round",
+  strokeLinejoin: "round"
+};
+
+// node_modules/lucide-react/dist/esm/Icon.js
+var Icon = (0, import_react.forwardRef)(
+  ({
+    color = "currentColor",
+    size = 24,
+    strokeWidth = 2,
+    absoluteStrokeWidth,
+    className = "",
+    children,
+    iconNode,
+    ...rest
+  }, ref) => {
+    return (0, import_react.createElement)(
+      "svg",
+      {
+        ref,
+        ...defaultAttributes,
+        width: size,
+        height: size,
+        stroke: color,
+        strokeWidth: absoluteStrokeWidth ? Number(strokeWidth) * 24 / Number(size) : strokeWidth,
+        className: mergeClasses("lucide", className),
+        ...!children && !hasA11yProp(rest) && { "aria-hidden": "true" },
+        ...rest
+      },
+      [
+        ...iconNode.map(([tag, attrs]) => (0, import_react.createElement)(tag, attrs)),
+        ...Array.isArray(children) ? children : [children]
+      ]
+    );
+  }
+);
+
+// node_modules/lucide-react/dist/esm/createLucideIcon.js
+var createLucideIcon = (iconName, iconNode) => {
+  const Component4 = (0, import_react2.forwardRef)(
+    ({ className, ...props }, ref) => (0, import_react2.createElement)(Icon, {
+      ref,
+      iconNode,
+      className: mergeClasses(
+        `lucide-${toKebabCase(toPascalCase(iconName))}`,
+        `lucide-${iconName}`,
+        className
+      ),
+      ...props
+    })
+  );
+  Component4.displayName = toPascalCase(iconName);
+  return Component4;
+};
+
+// node_modules/lucide-react/dist/esm/icons/brush.js
+var __iconNode = [
+  ["path", { d: "m9.06 11.9 8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08", key: "1styjt" }],
+  [
+    "path",
+    {
+      d: "M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1.08 1.1 2.49 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.02z",
+      key: "z0l1mu"
+    }
+  ]
+];
+var Brush = createLucideIcon("brush", __iconNode);
+
+// node_modules/lucide-react/dist/esm/icons/check.js
+var __iconNode2 = [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]];
+var Check = createLucideIcon("check", __iconNode2);
+
+// node_modules/lucide-react/dist/esm/icons/circle.js
+var __iconNode3 = [["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }]];
+var Circle = createLucideIcon("circle", __iconNode3);
+
+// node_modules/lucide-react/dist/esm/icons/crosshair.js
+var __iconNode4 = [
+  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+  ["line", { x1: "22", x2: "18", y1: "12", y2: "12", key: "l9bcsi" }],
+  ["line", { x1: "6", x2: "2", y1: "12", y2: "12", key: "13hhkx" }],
+  ["line", { x1: "12", x2: "12", y1: "6", y2: "2", key: "10w3f3" }],
+  ["line", { x1: "12", x2: "12", y1: "22", y2: "18", key: "15g9kq" }]
+];
+var Crosshair = createLucideIcon("crosshair", __iconNode4);
+
+// node_modules/lucide-react/dist/esm/icons/download.js
+var __iconNode5 = [
+  ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }],
+  ["polyline", { points: "7 10 12 15 17 10", key: "2ggqvy" }],
+  ["line", { x1: "12", x2: "12", y1: "15", y2: "3", key: "1vk2je" }]
+];
+var Download = createLucideIcon("download", __iconNode5);
+
+// node_modules/lucide-react/dist/esm/icons/eraser.js
+var __iconNode6 = [
+  [
+    "path",
+    {
+      d: "m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21",
+      key: "182aya"
+    }
+  ],
+  ["path", { d: "M22 21H7", key: "t4ddhn" }],
+  ["path", { d: "m5 11 9 9", key: "1mo9qw" }]
+];
+var Eraser = createLucideIcon("eraser", __iconNode6);
+
+// node_modules/lucide-react/dist/esm/icons/flip-horizontal.js
+var __iconNode7 = [
+  ["path", { d: "M8 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h3", key: "1i73f7" }],
+  ["path", { d: "M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3", key: "saxlbk" }],
+  ["path", { d: "M12 20v2", key: "1lh1kg" }],
+  ["path", { d: "M12 14v2", key: "8jcxud" }],
+  ["path", { d: "M12 8v2", key: "1woqiv" }],
+  ["path", { d: "M12 2v2", key: "tus03m" }]
+];
+var FlipHorizontal = createLucideIcon("flip-horizontal", __iconNode7);
+
+// node_modules/lucide-react/dist/esm/icons/flip-vertical.js
+var __iconNode8 = [
+  ["path", { d: "M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3", key: "14bfxa" }],
+  ["path", { d: "M21 16v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3", key: "14rx03" }],
+  ["path", { d: "M4 12H2", key: "rhcxmi" }],
+  ["path", { d: "M10 12H8", key: "s88cx1" }],
+  ["path", { d: "M16 12h-2", key: "10asgb" }],
+  ["path", { d: "M22 12h-2", key: "14jgyd" }]
+];
+var FlipVertical = createLucideIcon("flip-vertical", __iconNode8);
+
+// node_modules/lucide-react/dist/esm/icons/folder-plus.js
+var __iconNode9 = [
+  ["path", { d: "M12 10v6", key: "1bos4e" }],
+  ["path", { d: "M9 13h6", key: "1uhe8q" }],
+  [
+    "path",
+    {
+      d: "M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z",
+      key: "1kt360"
+    }
+  ]
+];
+var FolderPlus = createLucideIcon("folder-plus", __iconNode9);
+
+// node_modules/lucide-react/dist/esm/icons/house.js
+var __iconNode10 = [
+  ["path", { d: "M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8", key: "5wwlr5" }],
+  [
+    "path",
+    {
+      d: "M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z",
+      key: "1d0kgt"
+    }
+  ]
+];
+var House = createLucideIcon("house", __iconNode10);
+
+// node_modules/lucide-react/dist/esm/icons/image.js
+var __iconNode11 = [
+  ["rect", { width: "18", height: "18", x: "3", y: "3", rx: "2", ry: "2", key: "1m3agn" }],
+  ["circle", { cx: "9", cy: "9", r: "2", key: "af1f0g" }],
+  ["path", { d: "m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21", key: "1xmnt7" }]
+];
+var Image2 = createLucideIcon("image", __iconNode11);
+
+// node_modules/lucide-react/dist/esm/icons/move.js
+var __iconNode12 = [
+  ["path", { d: "M12 2v20", key: "t6zp3m" }],
+  ["path", { d: "m15 19-3 3-3-3", key: "11eu04" }],
+  ["path", { d: "m19 9 3 3-3 3", key: "1mg7y2" }],
+  ["path", { d: "M2 12h20", key: "9i4pu4" }],
+  ["path", { d: "m5 9-3 3 3 3", key: "j64kie" }],
+  ["path", { d: "m9 5 3-3 3 3", key: "l8vdw6" }]
+];
+var Move = createLucideIcon("move", __iconNode12);
+
+// node_modules/lucide-react/dist/esm/icons/paint-bucket.js
+var __iconNode13 = [
+  [
+    "path",
+    { d: "m19 11-8-8-8.6 8.6a2 2 0 0 0 0 2.8l5.2 5.2c.8.8 2 .8 2.8 0L19 11Z", key: "irua1i" }
+  ],
+  ["path", { d: "m5 2 5 5", key: "1lls2c" }],
+  ["path", { d: "M2 13h15", key: "1hkzvu" }],
+  ["path", { d: "M22 20a2 2 0 1 1-4 0c0-1.6 1.7-2.4 2-4 .3 1.6 2 2.4 2 4Z", key: "xk76lq" }]
+];
+var PaintBucket = createLucideIcon("paint-bucket", __iconNode13);
+
+// node_modules/lucide-react/dist/esm/icons/palette.js
+var __iconNode14 = [
+  [
+    "path",
+    {
+      d: "M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z",
+      key: "e79jfc"
+    }
+  ],
+  ["circle", { cx: "13.5", cy: "6.5", r: ".5", fill: "currentColor", key: "1okk4w" }],
+  ["circle", { cx: "17.5", cy: "10.5", r: ".5", fill: "currentColor", key: "f64h9f" }],
+  ["circle", { cx: "6.5", cy: "12.5", r: ".5", fill: "currentColor", key: "qy21gx" }],
+  ["circle", { cx: "8.5", cy: "7.5", r: ".5", fill: "currentColor", key: "fotxhn" }]
+];
+var Palette = createLucideIcon("palette", __iconNode14);
+
+// node_modules/lucide-react/dist/esm/icons/pen.js
+var __iconNode15 = [
+  [
+    "path",
+    {
+      d: "M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z",
+      key: "1a8usu"
+    }
+  ]
+];
+var Pen = createLucideIcon("pen", __iconNode15);
+
+// node_modules/lucide-react/dist/esm/icons/plus.js
+var __iconNode16 = [
+  ["path", { d: "M5 12h14", key: "1ays0h" }],
+  ["path", { d: "M12 5v14", key: "s699le" }]
+];
+var Plus = createLucideIcon("plus", __iconNode16);
+
+// node_modules/lucide-react/dist/esm/icons/redo-2.js
+var __iconNode17 = [
+  ["path", { d: "m15 14 5-5-5-5", key: "12vg1m" }],
+  ["path", { d: "M20 9H9.5A5.5 5.5 0 0 0 4 14.5A5.5 5.5 0 0 0 9.5 20H13", key: "6uklza" }]
+];
+var Redo2 = createLucideIcon("redo-2", __iconNode17);
+
+// node_modules/lucide-react/dist/esm/icons/rotate-ccw.js
+var __iconNode18 = [
+  ["path", { d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8", key: "1357e3" }],
+  ["path", { d: "M3 3v5h5", key: "1xhq8a" }]
+];
+var RotateCcw = createLucideIcon("rotate-ccw", __iconNode18);
+
+// node_modules/lucide-react/dist/esm/icons/rotate-cw.js
+var __iconNode19 = [
+  ["path", { d: "M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8", key: "1p45f6" }],
+  ["path", { d: "M21 3v5h-5", key: "1q7to0" }]
+];
+var RotateCw = createLucideIcon("rotate-cw", __iconNode19);
+
+// node_modules/lucide-react/dist/esm/icons/settings.js
+var __iconNode20 = [
+  [
+    "path",
+    {
+      d: "M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z",
+      key: "1qme2f"
+    }
+  ],
+  ["circle", { cx: "12", cy: "12", r: "3", key: "1v7zrd" }]
+];
+var Settings = createLucideIcon("settings", __iconNode20);
+
+// node_modules/lucide-react/dist/esm/icons/square.js
+var __iconNode21 = [
+  ["rect", { width: "18", height: "18", x: "3", y: "3", rx: "2", key: "afitv7" }]
+];
+var Square = createLucideIcon("square", __iconNode21);
+
+// node_modules/lucide-react/dist/esm/icons/trash-2.js
+var __iconNode22 = [
+  ["path", { d: "M3 6h18", key: "d0wm0j" }],
+  ["path", { d: "M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6", key: "4alrt4" }],
+  ["path", { d: "M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2", key: "v07s0e" }],
+  ["line", { x1: "10", x2: "10", y1: "11", y2: "17", key: "1uufr5" }],
+  ["line", { x1: "14", x2: "14", y1: "11", y2: "17", key: "xtxkd" }]
+];
+var Trash2 = createLucideIcon("trash-2", __iconNode22);
+
+// node_modules/lucide-react/dist/esm/icons/undo-2.js
+var __iconNode23 = [
+  ["path", { d: "M9 14 4 9l5-5", key: "102s5s" }],
+  ["path", { d: "M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11", key: "f3b9sd" }]
+];
+var Undo2 = createLucideIcon("undo-2", __iconNode23);
+
+// node_modules/lucide-react/dist/esm/icons/upload.js
+var __iconNode24 = [
+  ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }],
+  ["polyline", { points: "17 8 12 3 7 8", key: "t8dd8p" }],
+  ["line", { x1: "12", x2: "12", y1: "3", y2: "15", key: "widbto" }]
+];
+var Upload = createLucideIcon("upload", __iconNode24);
+
+// node_modules/lucide-react/dist/esm/icons/x.js
+var __iconNode25 = [
+  ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
+  ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
+];
+var X = createLucideIcon("x", __iconNode25);
+
+// node_modules/lucide-react/dist/esm/icons/zoom-in.js
+var __iconNode26 = [
+  ["circle", { cx: "11", cy: "11", r: "8", key: "4ej97u" }],
+  ["line", { x1: "21", x2: "16.65", y1: "21", y2: "16.65", key: "13gj7c" }],
+  ["line", { x1: "11", x2: "11", y1: "8", y2: "14", key: "1vmskp" }],
+  ["line", { x1: "8", x2: "14", y1: "11", y2: "11", key: "durymu" }]
+];
+var ZoomIn = createLucideIcon("zoom-in", __iconNode26);
+
+// node_modules/lucide-react/dist/esm/icons/zoom-out.js
+var __iconNode27 = [
+  ["circle", { cx: "11", cy: "11", r: "8", key: "4ej97u" }],
+  ["line", { x1: "21", x2: "16.65", y1: "21", y2: "16.65", key: "13gj7c" }],
+  ["line", { x1: "8", x2: "14", y1: "11", y2: "11", key: "durymu" }]
+];
+var ZoomOut = createLucideIcon("zoom-out", __iconNode27);
+
+// src/components/BeadGrid.tsx
 var import_jsx_runtime = __toESM(require_jsx_runtime());
 var BeadGrid = ({
   grid,
   onBeadClick,
   selectedColor,
   currentTool,
-  templateType
+  templateType,
+  onUndo,
+  onRedo,
+  canUndo,
+  canRedo
 }) => {
-  const isDrawing = (0, import_react.useRef)(false);
+  const isDrawing = (0, import_react3.useRef)(false);
+  const [scale, setScale] = (0, import_react3.useState)(1);
+  const handleZoomIn = () => {
+    setScale((prev) => Math.min(prev + 0.2, 2));
+  };
+  const handleZoomOut = () => {
+    setScale((prev) => Math.max(prev - 0.2, 0.4));
+  };
   const handleCellClick = (row, col) => {
     onBeadClick(row, col);
   };
@@ -26940,15 +27301,68 @@ var BeadGrid = ({
   };
   const config = getTemplateConfig();
   return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "flex flex-col items-center", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "flex justify-between items-center w-full mb-3", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "flex gap-2", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+          "button",
+          {
+            onClick: handleZoomOut,
+            className: "p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all",
+            title: "\u7E2E\u5C0F",
+            children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ZoomOut, { className: "w-5 h-5" })
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "flex items-center px-3 py-2 bg-white rounded-lg shadow-lg", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { className: "text-sm font-semibold", children: [
+          Math.round(scale * 100),
+          "%"
+        ] }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+          "button",
+          {
+            onClick: handleZoomIn,
+            className: "p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all",
+            title: "\u653E\u5927",
+            children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ZoomIn, { className: "w-5 h-5" })
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "flex gap-2", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+          "button",
+          {
+            onClick: onUndo,
+            disabled: !canUndo,
+            className: "p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed",
+            title: "\u64A4\u92B7",
+            children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Undo2, { className: "w-5 h-5" })
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+          "button",
+          {
+            onClick: onRedo,
+            disabled: !canRedo,
+            className: "p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed",
+            title: "\u91CD\u4F5C",
+            children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Redo2, { className: "w-5 h-5" })
+          }
+        )
+      ] })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "overflow-auto max-h-[80vh] max-w-[90vw] p-4 bg-gray-50 rounded-lg border-2 border-gray-200", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "flex items-center justify-center", style: { minWidth: "fit-content", minHeight: "fit-content" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
       "div",
       {
-        className: `grid border-2 border-gray-400 bg-white shadow-lg touch-none ${config.isCircle ? "rounded-full" : ""}`,
+        className: `grid border-2 border-gray-300 bg-white shadow-lg touch-none ${config.isCircle ? "rounded-full" : ""}`,
         style: {
           width: config.size,
           height: config.size,
           gridTemplateColumns: `repeat(${config.gridSize}, 1fr)`,
-          gridTemplateRows: `repeat(${config.gridSize}, 1fr)`
+          gridTemplateRows: `repeat(${config.gridSize}, 1fr)`,
+          gap: "4px",
+          padding: "12px",
+          transform: `scale(${scale})`,
+          transformOrigin: "center",
+          transition: "transform 0.2s ease-out"
         },
         onMouseLeave: handleMouseUp,
         onMouseUp: handleMouseUp,
@@ -26960,11 +27374,12 @@ var BeadGrid = ({
             return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
               "button",
               {
-                className: `border border-gray-300 rounded-full transition-all duration-150 hover:scale-110 ${color ? "shadow-md" : ""} ${!inCircle ? "invisible" : ""}`,
+                className: `rounded-full transition-all duration-150 hover:scale-110 ${color ? "shadow-md" : ""} ${!inCircle ? "invisible" : ""}`,
                 style: {
-                  backgroundColor: color || "transparent",
-                  borderColor: color ? color : "#d1d5db",
-                  visibility: inCircle ? "visible" : "hidden"
+                  backgroundColor: color || "#e5e7eb",
+                  visibility: inCircle ? "visible" : "hidden",
+                  aspectRatio: "1",
+                  transform: color ? "scale(1)" : "scale(0.5)"
                 },
                 "data-row": rowIndex,
                 "data-col": colIndex,
@@ -26981,7 +27396,7 @@ var BeadGrid = ({
           })
         )
       }
-    ),
+    ) }) }),
     /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "mt-4 text-sm text-gray-600", children: config.label })
   ] });
 };
@@ -26989,305 +27404,6 @@ var BeadGrid_default = BeadGrid;
 
 // src/components/ColorPicker.tsx
 var import_react4 = __toESM(require_react());
-
-// node_modules/lucide-react/dist/esm/createLucideIcon.js
-var import_react3 = __toESM(require_react());
-
-// node_modules/lucide-react/dist/esm/shared/src/utils.js
-var toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
-var toCamelCase = (string) => string.replace(
-  /^([A-Z])|[\s-_]+(\w)/g,
-  (match, p1, p2) => p2 ? p2.toUpperCase() : p1.toLowerCase()
-);
-var toPascalCase = (string) => {
-  const camelCase = toCamelCase(string);
-  return camelCase.charAt(0).toUpperCase() + camelCase.slice(1);
-};
-var mergeClasses = (...classes) => classes.filter((className, index, array) => {
-  return Boolean(className) && className.trim() !== "" && array.indexOf(className) === index;
-}).join(" ").trim();
-var hasA11yProp = (props) => {
-  for (const prop in props) {
-    if (prop.startsWith("aria-") || prop === "role" || prop === "title") {
-      return true;
-    }
-  }
-};
-
-// node_modules/lucide-react/dist/esm/Icon.js
-var import_react2 = __toESM(require_react());
-
-// node_modules/lucide-react/dist/esm/defaultAttributes.js
-var defaultAttributes = {
-  xmlns: "http://www.w3.org/2000/svg",
-  width: 24,
-  height: 24,
-  viewBox: "0 0 24 24",
-  fill: "none",
-  stroke: "currentColor",
-  strokeWidth: 2,
-  strokeLinecap: "round",
-  strokeLinejoin: "round"
-};
-
-// node_modules/lucide-react/dist/esm/Icon.js
-var Icon = (0, import_react2.forwardRef)(
-  ({
-    color = "currentColor",
-    size = 24,
-    strokeWidth = 2,
-    absoluteStrokeWidth,
-    className = "",
-    children,
-    iconNode,
-    ...rest
-  }, ref) => {
-    return (0, import_react2.createElement)(
-      "svg",
-      {
-        ref,
-        ...defaultAttributes,
-        width: size,
-        height: size,
-        stroke: color,
-        strokeWidth: absoluteStrokeWidth ? Number(strokeWidth) * 24 / Number(size) : strokeWidth,
-        className: mergeClasses("lucide", className),
-        ...!children && !hasA11yProp(rest) && { "aria-hidden": "true" },
-        ...rest
-      },
-      [
-        ...iconNode.map(([tag, attrs]) => (0, import_react2.createElement)(tag, attrs)),
-        ...Array.isArray(children) ? children : [children]
-      ]
-    );
-  }
-);
-
-// node_modules/lucide-react/dist/esm/createLucideIcon.js
-var createLucideIcon = (iconName, iconNode) => {
-  const Component4 = (0, import_react3.forwardRef)(
-    ({ className, ...props }, ref) => (0, import_react3.createElement)(Icon, {
-      ref,
-      iconNode,
-      className: mergeClasses(
-        `lucide-${toKebabCase(toPascalCase(iconName))}`,
-        `lucide-${iconName}`,
-        className
-      ),
-      ...props
-    })
-  );
-  Component4.displayName = toPascalCase(iconName);
-  return Component4;
-};
-
-// node_modules/lucide-react/dist/esm/icons/brush.js
-var __iconNode = [
-  ["path", { d: "m9.06 11.9 8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08", key: "1styjt" }],
-  [
-    "path",
-    {
-      d: "M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1.08 1.1 2.49 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.02z",
-      key: "z0l1mu"
-    }
-  ]
-];
-var Brush = createLucideIcon("brush", __iconNode);
-
-// node_modules/lucide-react/dist/esm/icons/crosshair.js
-var __iconNode2 = [
-  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-  ["line", { x1: "22", x2: "18", y1: "12", y2: "12", key: "l9bcsi" }],
-  ["line", { x1: "6", x2: "2", y1: "12", y2: "12", key: "13hhkx" }],
-  ["line", { x1: "12", x2: "12", y1: "6", y2: "2", key: "10w3f3" }],
-  ["line", { x1: "12", x2: "12", y1: "22", y2: "18", key: "15g9kq" }]
-];
-var Crosshair = createLucideIcon("crosshair", __iconNode2);
-
-// node_modules/lucide-react/dist/esm/icons/download.js
-var __iconNode3 = [
-  ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }],
-  ["polyline", { points: "7 10 12 15 17 10", key: "2ggqvy" }],
-  ["line", { x1: "12", x2: "12", y1: "15", y2: "3", key: "1vk2je" }]
-];
-var Download = createLucideIcon("download", __iconNode3);
-
-// node_modules/lucide-react/dist/esm/icons/eraser.js
-var __iconNode4 = [
-  [
-    "path",
-    {
-      d: "m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21",
-      key: "182aya"
-    }
-  ],
-  ["path", { d: "M22 21H7", key: "t4ddhn" }],
-  ["path", { d: "m5 11 9 9", key: "1mo9qw" }]
-];
-var Eraser = createLucideIcon("eraser", __iconNode4);
-
-// node_modules/lucide-react/dist/esm/icons/flip-horizontal.js
-var __iconNode5 = [
-  ["path", { d: "M8 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h3", key: "1i73f7" }],
-  ["path", { d: "M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3", key: "saxlbk" }],
-  ["path", { d: "M12 20v2", key: "1lh1kg" }],
-  ["path", { d: "M12 14v2", key: "8jcxud" }],
-  ["path", { d: "M12 8v2", key: "1woqiv" }],
-  ["path", { d: "M12 2v2", key: "tus03m" }]
-];
-var FlipHorizontal = createLucideIcon("flip-horizontal", __iconNode5);
-
-// node_modules/lucide-react/dist/esm/icons/flip-vertical.js
-var __iconNode6 = [
-  ["path", { d: "M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3", key: "14bfxa" }],
-  ["path", { d: "M21 16v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3", key: "14rx03" }],
-  ["path", { d: "M4 12H2", key: "rhcxmi" }],
-  ["path", { d: "M10 12H8", key: "s88cx1" }],
-  ["path", { d: "M16 12h-2", key: "10asgb" }],
-  ["path", { d: "M22 12h-2", key: "14jgyd" }]
-];
-var FlipVertical = createLucideIcon("flip-vertical", __iconNode6);
-
-// node_modules/lucide-react/dist/esm/icons/heart.js
-var __iconNode7 = [
-  [
-    "path",
-    {
-      d: "M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z",
-      key: "c3ymky"
-    }
-  ]
-];
-var Heart = createLucideIcon("heart", __iconNode7);
-
-// node_modules/lucide-react/dist/esm/icons/image.js
-var __iconNode8 = [
-  ["rect", { width: "18", height: "18", x: "3", y: "3", rx: "2", ry: "2", key: "1m3agn" }],
-  ["circle", { cx: "9", cy: "9", r: "2", key: "af1f0g" }],
-  ["path", { d: "m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21", key: "1xmnt7" }]
-];
-var Image2 = createLucideIcon("image", __iconNode8);
-
-// node_modules/lucide-react/dist/esm/icons/move.js
-var __iconNode9 = [
-  ["path", { d: "M12 2v20", key: "t6zp3m" }],
-  ["path", { d: "m15 19-3 3-3-3", key: "11eu04" }],
-  ["path", { d: "m19 9 3 3-3 3", key: "1mg7y2" }],
-  ["path", { d: "M2 12h20", key: "9i4pu4" }],
-  ["path", { d: "m5 9-3 3 3 3", key: "j64kie" }],
-  ["path", { d: "m9 5 3-3 3 3", key: "l8vdw6" }]
-];
-var Move = createLucideIcon("move", __iconNode9);
-
-// node_modules/lucide-react/dist/esm/icons/paint-bucket.js
-var __iconNode10 = [
-  [
-    "path",
-    { d: "m19 11-8-8-8.6 8.6a2 2 0 0 0 0 2.8l5.2 5.2c.8.8 2 .8 2.8 0L19 11Z", key: "irua1i" }
-  ],
-  ["path", { d: "m5 2 5 5", key: "1lls2c" }],
-  ["path", { d: "M2 13h15", key: "1hkzvu" }],
-  ["path", { d: "M22 20a2 2 0 1 1-4 0c0-1.6 1.7-2.4 2-4 .3 1.6 2 2.4 2 4Z", key: "xk76lq" }]
-];
-var PaintBucket = createLucideIcon("paint-bucket", __iconNode10);
-
-// node_modules/lucide-react/dist/esm/icons/palette.js
-var __iconNode11 = [
-  [
-    "path",
-    {
-      d: "M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z",
-      key: "e79jfc"
-    }
-  ],
-  ["circle", { cx: "13.5", cy: "6.5", r: ".5", fill: "currentColor", key: "1okk4w" }],
-  ["circle", { cx: "17.5", cy: "10.5", r: ".5", fill: "currentColor", key: "f64h9f" }],
-  ["circle", { cx: "6.5", cy: "12.5", r: ".5", fill: "currentColor", key: "qy21gx" }],
-  ["circle", { cx: "8.5", cy: "7.5", r: ".5", fill: "currentColor", key: "fotxhn" }]
-];
-var Palette = createLucideIcon("palette", __iconNode11);
-
-// node_modules/lucide-react/dist/esm/icons/plus.js
-var __iconNode12 = [
-  ["path", { d: "M5 12h14", key: "1ays0h" }],
-  ["path", { d: "M12 5v14", key: "s699le" }]
-];
-var Plus = createLucideIcon("plus", __iconNode12);
-
-// node_modules/lucide-react/dist/esm/icons/redo-2.js
-var __iconNode13 = [
-  ["path", { d: "m15 14 5-5-5-5", key: "12vg1m" }],
-  ["path", { d: "M20 9H9.5A5.5 5.5 0 0 0 4 14.5A5.5 5.5 0 0 0 9.5 20H13", key: "6uklza" }]
-];
-var Redo2 = createLucideIcon("redo-2", __iconNode13);
-
-// node_modules/lucide-react/dist/esm/icons/rotate-ccw.js
-var __iconNode14 = [
-  ["path", { d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8", key: "1357e3" }],
-  ["path", { d: "M3 3v5h5", key: "1xhq8a" }]
-];
-var RotateCcw = createLucideIcon("rotate-ccw", __iconNode14);
-
-// node_modules/lucide-react/dist/esm/icons/rotate-cw.js
-var __iconNode15 = [
-  ["path", { d: "M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8", key: "1p45f6" }],
-  ["path", { d: "M21 3v5h-5", key: "1q7to0" }]
-];
-var RotateCw = createLucideIcon("rotate-cw", __iconNode15);
-
-// node_modules/lucide-react/dist/esm/icons/smile.js
-var __iconNode16 = [
-  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-  ["path", { d: "M8 14s1.5 2 4 2 4-2 4-2", key: "1y1vjs" }],
-  ["line", { x1: "9", x2: "9.01", y1: "9", y2: "9", key: "yxxnd0" }],
-  ["line", { x1: "15", x2: "15.01", y1: "9", y2: "9", key: "1p4y9e" }]
-];
-var Smile = createLucideIcon("smile", __iconNode16);
-
-// node_modules/lucide-react/dist/esm/icons/square.js
-var __iconNode17 = [
-  ["rect", { width: "18", height: "18", x: "3", y: "3", rx: "2", key: "afitv7" }]
-];
-var Square = createLucideIcon("square", __iconNode17);
-
-// node_modules/lucide-react/dist/esm/icons/star.js
-var __iconNode18 = [
-  [
-    "path",
-    {
-      d: "M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z",
-      key: "r04s7s"
-    }
-  ]
-];
-var Star = createLucideIcon("star", __iconNode18);
-
-// node_modules/lucide-react/dist/esm/icons/trash-2.js
-var __iconNode19 = [
-  ["path", { d: "M3 6h18", key: "d0wm0j" }],
-  ["path", { d: "M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6", key: "4alrt4" }],
-  ["path", { d: "M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2", key: "v07s0e" }],
-  ["line", { x1: "10", x2: "10", y1: "11", y2: "17", key: "1uufr5" }],
-  ["line", { x1: "14", x2: "14", y1: "11", y2: "17", key: "xtxkd" }]
-];
-var Trash2 = createLucideIcon("trash-2", __iconNode19);
-
-// node_modules/lucide-react/dist/esm/icons/undo-2.js
-var __iconNode20 = [
-  ["path", { d: "M9 14 4 9l5-5", key: "102s5s" }],
-  ["path", { d: "M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11", key: "f3b9sd" }]
-];
-var Undo2 = createLucideIcon("undo-2", __iconNode20);
-
-// node_modules/lucide-react/dist/esm/icons/upload.js
-var __iconNode21 = [
-  ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }],
-  ["polyline", { points: "17 8 12 3 7 8", key: "t8dd8p" }],
-  ["line", { x1: "12", x2: "12", y1: "3", y2: "15", key: "widbto" }]
-];
-var Upload = createLucideIcon("upload", __iconNode21);
-
-// src/components/ColorPicker.tsx
 var import_jsx_runtime2 = __toESM(require_jsx_runtime());
 var ColorPicker = ({
   selectedColor,
@@ -27297,6 +27413,12 @@ var ColorPicker = ({
   onRemoveCustomColor
 }) => {
   const [customColorInput, setCustomColorInput] = (0, import_react4.useState)("");
+  const [colorGroups, setColorGroups] = (0, import_react4.useState)([]);
+  const [currentGroupId, setCurrentGroupId] = (0, import_react4.useState)("default");
+  const [newGroupName, setNewGroupName] = (0, import_react4.useState)("");
+  const [editingGroupId, setEditingGroupId] = (0, import_react4.useState)(null);
+  const [editingGroupName, setEditingGroupName] = (0, import_react4.useState)("");
+  const [showNewGroupInput, setShowNewGroupInput] = (0, import_react4.useState)(false);
   const baseColors = [
     "#FF6B6B",
     "#4FC3F7",
@@ -27309,22 +27431,82 @@ var ColorPicker = ({
     "#424242",
     "#000000"
   ];
-  const handleAddCustomColor = () => {
+  (0, import_react4.useEffect)(() => {
+    const savedGroups = localStorage.getItem("beadArt-colorGroups");
+    if (savedGroups) {
+      try {
+        const groups = JSON.parse(savedGroups);
+        setColorGroups(groups);
+      } catch (error) {
+        console.error("Failed to load color groups:", error);
+      }
+    } else {
+      const defaultGroups = [
+        { id: "default", name: "\u9810\u8A2D\u7FA4\u7D44", colors: [] }
+      ];
+      setColorGroups(defaultGroups);
+    }
+  }, []);
+  (0, import_react4.useEffect)(() => {
+    if (colorGroups.length > 0) {
+      localStorage.setItem("beadArt-colorGroups", JSON.stringify(colorGroups));
+    }
+  }, [colorGroups]);
+  const currentGroup = colorGroups.find((g) => g.id === currentGroupId) || colorGroups[0];
+  const handleCreateGroup = () => {
+    if (newGroupName.trim()) {
+      const newGroup = {
+        id: Date.now().toString(),
+        name: newGroupName.trim(),
+        colors: []
+      };
+      setColorGroups([...colorGroups, newGroup]);
+      setCurrentGroupId(newGroup.id);
+      setNewGroupName("");
+      setShowNewGroupInput(false);
+    }
+  };
+  const handleDeleteGroup = (groupId) => {
+    if (colorGroups.length <= 1) {
+      alert("\u81F3\u5C11\u9700\u8981\u4FDD\u7559\u4E00\u500B\u7FA4\u7D44");
+      return;
+    }
+    if (confirm("\u78BA\u5B9A\u8981\u522A\u9664\u6B64\u7FA4\u7D44\u55CE?")) {
+      const newGroups = colorGroups.filter((g) => g.id !== groupId);
+      setColorGroups(newGroups);
+      if (currentGroupId === groupId) {
+        setCurrentGroupId(newGroups[0].id);
+      }
+    }
+  };
+  const handleRenameGroup = (groupId) => {
+    if (editingGroupName.trim()) {
+      setColorGroups(colorGroups.map(
+        (g) => g.id === groupId ? { ...g, name: editingGroupName.trim() } : g
+      ));
+      setEditingGroupId(null);
+      setEditingGroupName("");
+    }
+  };
+  const handleAddColorToGroup = () => {
     if (customColorInput && /^#[0-9A-F]{6}$/i.test(customColorInput)) {
-      onAddCustomColor(customColorInput.toUpperCase());
+      const color = customColorInput.toUpperCase();
+      if (currentGroup && !currentGroup.colors.includes(color)) {
+        setColorGroups(colorGroups.map(
+          (g) => g.id === currentGroupId ? { ...g, colors: [...g.colors, color] } : g
+        ));
+      }
       setCustomColorInput("");
     }
   };
+  const handleRemoveColorFromGroup = (color) => {
+    setColorGroups(colorGroups.map(
+      (g) => g.id === currentGroupId ? { ...g, colors: g.colors.filter((c) => c !== color) } : g
+    ));
+  };
   const handleColorInputKeyPress = (e) => {
     if (e.key === "Enter") {
-      handleAddCustomColor();
-    }
-  };
-  const handleColorClick = (color, e) => {
-    if (e.altKey && customColors.includes(color)) {
-      onRemoveCustomColor(color);
-    } else {
-      onColorSelect(color);
+      handleAddColorToGroup();
     }
   };
   return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "bg-white rounded-lg shadow-md p-4", children: [
@@ -27332,7 +27514,7 @@ var ColorPicker = ({
       /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Palette, { size: 20 }),
       "\u984F\u8272\u9078\u64C7\u5668"
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "mb-6 p-3 bg-gray-50 rounded-lg", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "mb-4 p-3 bg-gray-50 rounded-lg", children: [
       /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "flex items-center justify-between mb-2", children: [
         /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: "text-sm font-medium text-gray-600", children: "\u7576\u524D\u984F\u8272" }),
         /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "text-xs text-gray-500", children: selectedColor })
@@ -27345,7 +27527,7 @@ var ColorPicker = ({
         }
       )
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "mb-6", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "mb-4", children: [
       /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h4", { className: "text-sm font-medium text-gray-700 mb-3", children: "\u57FA\u790E\u984F\u8272" }),
       /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "grid grid-cols-5 gap-2", children: baseColors.map((color) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
         "button",
@@ -27359,58 +27541,176 @@ var ColorPicker = ({
       )) })
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "mb-4", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h4", { className: "text-sm font-medium text-gray-700 mb-3", children: "\u81EA\u5B9A\u7FA9\u984F\u8272" }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "flex gap-2 mb-3", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
-          "input",
-          {
-            type: "text",
-            value: customColorInput,
-            onChange: (e) => setCustomColorInput(e.target.value),
-            onKeyPress: handleColorInputKeyPress,
-            placeholder: "#FF5733",
-            className: "flex-1 px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          }
-        ),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "flex items-center justify-between mb-3", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h4", { className: "text-sm font-medium text-gray-700", children: "\u984F\u8272\u7FA4\u7D44" }),
         /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
           "button",
           {
-            onClick: handleAddCustomColor,
-            className: "px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors flex items-center gap-1 text-sm",
+            onClick: () => setShowNewGroupInput(!showNewGroupInput),
+            className: "text-xs px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition-colors flex items-center gap-1",
+            title: "\u65B0\u589E\u7FA4\u7D44",
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Plus, { size: 16 }),
-              "\u6DFB\u52A0"
+              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(FolderPlus, { size: 14 }),
+              "\u65B0\u589E"
             ]
           }
         )
       ] }),
-      customColors.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "grid grid-cols-5 gap-2", children: customColors.map((color) => /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
-        "button",
-        {
-          className: `w-8 h-8 rounded border-2 transition-all hover:scale-110 relative group ${selectedColor === color ? "border-blue-500 shadow-md" : "border-gray-300"}`,
-          style: { backgroundColor: color },
-          onClick: (e) => handleColorClick(color, e),
-          title: `\u9EDE\u64CA\u9078\u64C7 ${color}
-\u6309\u4F4FAlt\u9EDE\u64CA\u522A\u9664`,
-          children: [
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-opacity rounded" }),
-            /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
-              Trash2,
-              {
-                size: 12,
-                className: "absolute top-0 right-0 text-white bg-red-500 rounded-bl opacity-0 group-hover:opacity-100 transition-opacity"
-              }
-            )
-          ]
-        },
-        color
-      )) })
+      showNewGroupInput && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "flex gap-2 mb-3", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+          "input",
+          {
+            type: "text",
+            value: newGroupName,
+            onChange: (e) => setNewGroupName(e.target.value),
+            onKeyPress: (e) => e.key === "Enter" && handleCreateGroup(),
+            placeholder: "\u7FA4\u7D44\u540D\u7A31",
+            className: "flex-1 px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+          "button",
+          {
+            onClick: handleCreateGroup,
+            className: "px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600 text-xs",
+            children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Check, { size: 14 })
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+          "button",
+          {
+            onClick: () => {
+              setShowNewGroupInput(false);
+              setNewGroupName("");
+            },
+            className: "px-2 py-1 bg-gray-400 text-white rounded hover:bg-gray-500 text-xs",
+            children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(X, { size: 14 })
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "flex flex-wrap gap-2 mb-3", children: colorGroups.map((group) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "flex items-center gap-1", children: editingGroupId === group.id ? /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "flex items-center gap-1", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+          "input",
+          {
+            type: "text",
+            value: editingGroupName,
+            onChange: (e) => setEditingGroupName(e.target.value),
+            onKeyPress: (e) => e.key === "Enter" && handleRenameGroup(group.id),
+            className: "px-2 py-1 border border-gray-300 rounded text-xs w-24 focus:outline-none focus:ring-2 focus:ring-blue-500",
+            autoFocus: true
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+          "button",
+          {
+            onClick: () => handleRenameGroup(group.id),
+            className: "p-1 bg-blue-500 text-white rounded hover:bg-blue-600",
+            children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Check, { size: 12 })
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+          "button",
+          {
+            onClick: () => {
+              setEditingGroupId(null);
+              setEditingGroupName("");
+            },
+            className: "p-1 bg-gray-400 text-white rounded hover:bg-gray-500",
+            children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(X, { size: 12 })
+          }
+        )
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
+          "button",
+          {
+            onClick: () => setCurrentGroupId(group.id),
+            className: `px-3 py-1 rounded text-xs transition-colors ${currentGroupId === group.id ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`,
+            children: [
+              group.name,
+              " (",
+              group.colors.length,
+              ")"
+            ]
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+          "button",
+          {
+            onClick: () => {
+              setEditingGroupId(group.id);
+              setEditingGroupName(group.name);
+            },
+            className: "p-1 text-gray-500 hover:text-blue-500",
+            title: "\u91CD\u547D\u540D",
+            children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Pen, { size: 12 })
+          }
+        ),
+        colorGroups.length > 1 && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+          "button",
+          {
+            onClick: () => handleDeleteGroup(group.id),
+            className: "p-1 text-gray-500 hover:text-red-500",
+            title: "\u522A\u9664\u7FA4\u7D44",
+            children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Trash2, { size: 12 })
+          }
+        )
+      ] }) }, group.id)) }),
+      currentGroup && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "flex gap-2 mb-3", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+            "input",
+            {
+              type: "text",
+              value: customColorInput,
+              onChange: (e) => setCustomColorInput(e.target.value),
+              onKeyPress: handleColorInputKeyPress,
+              placeholder: "#FF5733",
+              className: "flex-1 px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
+            "button",
+            {
+              onClick: handleAddColorToGroup,
+              className: "px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors flex items-center gap-1 text-sm",
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Plus, { size: 16 }),
+                "\u6DFB\u52A0"
+              ]
+            }
+          )
+        ] }),
+        currentGroup.colors.length > 0 ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "grid grid-cols-5 gap-2", children: currentGroup.colors.map((color) => /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(
+          "button",
+          {
+            className: `w-8 h-8 rounded border-2 transition-all hover:scale-110 relative group ${selectedColor === color ? "border-blue-500 shadow-md" : "border-gray-300"}`,
+            style: { backgroundColor: color },
+            onClick: () => onColorSelect(color),
+            title: `\u9078\u64C7 ${color}`,
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-opacity rounded" }),
+              /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+                "button",
+                {
+                  onClick: (e) => {
+                    e.stopPropagation();
+                    handleRemoveColorFromGroup(color);
+                  },
+                  className: "absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center",
+                  children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(X, { size: 10 })
+                }
+              )
+            ]
+          },
+          color
+        )) }) : /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "text-xs text-gray-400 text-center py-4 border border-dashed border-gray-300 rounded", children: "\u6B64\u7FA4\u7D44\u5C1A\u7121\u984F\u8272" })
+      ] })
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "text-xs text-gray-500 bg-blue-50 p-2 rounded border border-blue-200", children: [
       /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u{1F4A1} \u63D0\u793A\uFF1A" }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u2022 \u9EDE\u64CA\u7FA4\u7D44\u6A19\u7C64\u5207\u63DB\u4E0D\u540C\u7684\u984F\u8272\u7FA4\u7D44" }),
       /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u2022 \u9EDE\u64CA\u984F\u8272\u65B9\u584A\u9078\u64C7\u984F\u8272" }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u2022 \u5728\u81EA\u5B9A\u7FA9\u984F\u8272\u4E0A\u6309\u4F4F Alt \u9375\u9EDE\u64CA\u53EF\u522A\u9664" }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u2022 \u8F38\u5165\u5341\u516D\u9032\u5236\u984F\u8272\u4EE3\u78BC\u6DFB\u52A0\u81EA\u5B9A\u7FA9\u984F\u8272" })
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u2022 \u8F38\u5165\u5341\u516D\u9032\u5236\u984F\u8272\u4EE3\u78BC\u6DFB\u52A0\u5230\u7576\u524D\u7FA4\u7D44" })
     ] })
   ] });
 };
@@ -27424,6 +27724,7 @@ var ToolPanel = ({
   onSaveJSON,
   onSaveImage,
   onLoadJSON,
+  onLoadImage,
   onUndo,
   onRedo,
   currentTool,
@@ -27432,103 +27733,8 @@ var ToolPanel = ({
   canRedo
 }) => {
   return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "bg-white rounded-lg shadow-md p-6", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h3", { className: "text-lg font-semibold text-gray-700 mb-4", children: "\u5DE5\u5177" }),
-    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "space-y-3 mb-6", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "grid grid-cols-3 gap-2", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
-        "button",
-        {
-          className: `p-3 rounded-lg border-2 transition-all ${currentTool === "brush" ? "border-blue-500 bg-blue-50 text-blue-600" : "border-gray-200 hover:border-gray-300"}`,
-          onClick: () => onToolChange("brush"),
-          title: "\u756B\u7B46\u5DE5\u5177",
-          children: [
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Brush, { size: 20, className: "mx-auto" }),
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "text-xs mt-1 block", children: "\u756B\u7B46" })
-          ]
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
-        "button",
-        {
-          className: `p-3 rounded-lg border-2 transition-all ${currentTool === "eraser" ? "border-blue-500 bg-blue-50 text-blue-600" : "border-gray-200 hover:border-gray-300"}`,
-          onClick: () => onToolChange("eraser"),
-          title: "\u6A61\u76AE\u64E6\u5DE5\u5177",
-          children: [
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Eraser, { size: 20, className: "mx-auto" }),
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "text-xs mt-1 block", children: "\u6A61\u76AE" })
-          ]
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
-        "button",
-        {
-          className: `p-3 rounded-lg border-2 transition-all ${currentTool === "fill" ? "border-blue-500 bg-blue-50 text-blue-600" : "border-gray-200 hover:border-gray-300"}`,
-          onClick: () => onToolChange("fill"),
-          title: "\u586B\u5145\u5DE5\u5177 - \u66FF\u63DB\u76F8\u9130\u540C\u8272\u8C46\u5B50",
-          children: [
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(PaintBucket, { size: 20, className: "mx-auto" }),
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "text-xs mt-1 block", children: "\u586B\u5145" })
-          ]
-        }
-      )
-    ] }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "space-y-3 mb-6", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "grid grid-cols-2 gap-2", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
-          "button",
-          {
-            className: "p-2 rounded-lg border border-gray-200 hover:border-gray-300 transition-all flex items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed",
-            onClick: onUndo,
-            disabled: !canUndo,
-            title: "\u64A4\u92B7\u4E0A\u4E00\u6B65",
-            children: [
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Undo2, { size: 16 }),
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "text-sm", children: "\u64A4\u92B7" })
-            ]
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
-          "button",
-          {
-            className: "p-2 rounded-lg border border-gray-200 hover:border-gray-300 transition-all flex items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed",
-            onClick: onRedo,
-            disabled: !canRedo,
-            title: "\u91CD\u505A\u4E0B\u4E00\u6B65",
-            children: [
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Redo2, { size: 16 }),
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "text-sm", children: "\u91CD\u505A" })
-            ]
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "grid grid-cols-2 gap-2", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
-          "button",
-          {
-            className: "p-2 rounded-lg border border-gray-200 hover:border-gray-300 transition-all flex items-center justify-center gap-1",
-            onClick: onClear,
-            title: "\u6E05\u9664\u6240\u6709\u8C46\u5B50",
-            children: [
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Trash2, { size: 16 }),
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "text-sm", children: "\u6E05\u9664" })
-            ]
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
-          "button",
-          {
-            className: "p-2 rounded-lg border border-gray-200 hover:border-gray-300 transition-all flex items-center justify-center gap-1",
-            onClick: onReset,
-            title: "\u91CD\u7F6E\u6240\u6709\u8A2D\u7F6E",
-            children: [
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(RotateCcw, { size: 16 }),
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "text-sm", children: "\u91CD\u7F6E" })
-            ]
-          }
-        )
-      ] })
-    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h3", { className: "text-lg font-semibold text-gray-700 mb-4", children: "\u6A94\u6848" }),
     /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "space-y-3", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h4", { className: "text-sm font-medium text-gray-600", children: "\u6587\u4EF6\u64CD\u4F5C" }),
       /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "grid grid-cols-2 gap-2", children: [
         /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
           "button",
@@ -27569,6 +27775,21 @@ var ToolPanel = ({
           /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Upload, { size: 16 }),
           /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "text-sm", children: "\u52A0\u8F09JSON" })
         ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("label", { className: "block", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+          "input",
+          {
+            type: "file",
+            accept: "image/*",
+            onChange: onLoadImage,
+            className: "hidden"
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "w-full p-2 rounded-lg border border-gray-200 hover:border-gray-300 transition-all flex items-center justify-center gap-1 cursor-pointer", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Image2, { size: 16 }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "text-sm", children: "\u8F09\u5165\u5716\u7247" })
+        ] })
       ] })
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200", children: [
@@ -27583,43 +27804,8 @@ var ToolPanel = ({
 };
 var ToolPanel_default = ToolPanel;
 
-// src/components/PresetPanel.tsx
-var import_jsx_runtime4 = __toESM(require_jsx_runtime());
-var PresetPanel = ({ onLoadPreset }) => {
-  const presets = [
-    { key: "heart", label: "\u611B\u5FC3", icon: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Heart, { size: 16 }), color: "#FF6B6B" },
-    { key: "star", label: "\u661F\u661F", icon: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Star, { size: 16 }), color: "#FFEAA7" },
-    { key: "smile", label: "\u7B11\u81C9", icon: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Smile, { size: 16 }), color: "#FFEAA7" },
-    { key: "clear", label: "\u7A7A\u767D", icon: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Square, { size: 16 }), color: "#FFFFFF" }
-  ];
-  return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "flex flex-col space-y-3 p-4 bg-white rounded-lg shadow-md", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("h3", { className: "text-lg font-semibold text-gray-700", children: "\u9810\u8A2D\u5716\u6848" }),
-    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { className: "grid grid-cols-2 gap-2", children: presets.map((preset) => /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(
-      "button",
-      {
-        className: "flex items-center space-x-2 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg border border-gray-300 hover:bg-gray-200 transition-colors",
-        onClick: () => onLoadPreset(preset.key),
-        children: [
-          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
-            "div",
-            {
-              className: "w-4 h-4 rounded-full border border-gray-300",
-              style: { backgroundColor: preset.color }
-            }
-          ),
-          preset.icon,
-          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "text-sm", children: preset.label })
-        ]
-      },
-      preset.key
-    )) }),
-    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("p", { className: "text-xs text-gray-500 text-center", children: "\u9EDE\u64CA\u5716\u6848\u52A0\u8F09\u5230\u756B\u5E03" })
-  ] });
-};
-var PresetPanel_default = PresetPanel;
-
 // src/components/SymmetryPanel.tsx
-var import_jsx_runtime5 = __toESM(require_jsx_runtime());
+var import_jsx_runtime4 = __toESM(require_jsx_runtime());
 var SymmetryPanel = ({
   symmetryType,
   onSymmetryChange
@@ -27661,263 +27847,65 @@ var SymmetryPanel = ({
       color: "text-orange-600"
     }
   ];
-  return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "bg-white rounded-lg shadow-md p-4", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("h3", { className: "text-lg font-semibold mb-3 text-gray-700", children: "\u5C0D\u7A31\u6A21\u5F0F" }),
-    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: "space-y-2", children: symmetryOptions.map((option) => {
+  return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "bg-white rounded-lg shadow-md p-4", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("h3", { className: "text-lg font-semibold mb-3 text-gray-700", children: "\u5C0D\u7A31\u6A21\u5F0F" }),
+    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { className: "space-y-2", children: symmetryOptions.map((option) => {
       const IconComponent = option.icon;
       const isSelected = symmetryType === option.type;
-      return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
+      return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
         "button",
         {
           className: `w-full p-3 rounded-lg border-2 transition-all text-left ${isSelected ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"}`,
           onClick: () => onSymmetryChange(option.type),
-          children: /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "flex items-center gap-3", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: `p-2 rounded-lg ${isSelected ? "bg-blue-100" : "bg-gray-100"}`, children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "flex items-center gap-3", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { className: `p-2 rounded-lg ${isSelected ? "bg-blue-100" : "bg-gray-100"}`, children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
               IconComponent,
               {
                 size: 20,
                 className: isSelected ? "text-blue-600" : option.color
               }
             ) }),
-            /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "flex-1", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: `font-medium ${isSelected ? "text-blue-700" : "text-gray-700"}`, children: option.label }),
-              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: `text-xs ${isSelected ? "text-blue-600" : "text-gray-500"}`, children: option.description })
+            /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "flex-1", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { className: `font-medium ${isSelected ? "text-blue-700" : "text-gray-700"}`, children: option.label }),
+              /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { className: `text-xs ${isSelected ? "text-blue-600" : "text-gray-500"}`, children: option.description })
             ] }),
-            isSelected && /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: "w-2 h-2 bg-blue-500 rounded-full" })
+            isSelected && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { className: "w-2 h-2 bg-blue-500 rounded-full" })
           ] })
         },
         option.type
       );
     }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-200", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("h4", { className: "text-sm font-medium text-yellow-700 mb-1", children: "\u5C0D\u7A31\u6A21\u5F0F\u8AAA\u660E" }),
-      /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("ul", { className: "text-xs text-yellow-600 space-y-1", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("li", { children: "\u2022 \u6C34\u5E73\u5C0D\u7A31: \u5DE6\u53F3\u93E1\u50CF\uFF0C\u9069\u5408\u8774\u8776\u3001\u81C9\u8B5C\u7B49" }),
-        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("li", { children: "\u2022 \u5782\u76F4\u5C0D\u7A31: \u4E0A\u4E0B\u93E1\u50CF\uFF0C\u9069\u5408\u96EA\u82B1\u3001\u5EFA\u7BC9\u7B49" }),
-        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("li", { children: "\u2022 \u56DB\u8C61\u9650\u5C0D\u7A31: \u6C34\u5E73\u548C\u5782\u76F4\u5C0D\u7A31\u7D44\u5408" }),
-        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("li", { children: "\u2022 \u5F91\u5411\u5C0D\u7A31: \u516B\u500B\u65B9\u5411\u5C0D\u7A31\uFF0C\u9069\u5408\u66FC\u9640\u7F85" })
+    /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-200", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("h4", { className: "text-sm font-medium text-yellow-700 mb-1", children: "\u5C0D\u7A31\u6A21\u5F0F\u8AAA\u660E" }),
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("ul", { className: "text-xs text-yellow-600 space-y-1", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("li", { children: "\u2022 \u6C34\u5E73\u5C0D\u7A31: \u5DE6\u53F3\u93E1\u50CF\uFF0C\u9069\u5408\u8774\u8776\u3001\u81C9\u8B5C\u7B49" }),
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("li", { children: "\u2022 \u5782\u76F4\u5C0D\u7A31: \u4E0A\u4E0B\u93E1\u50CF\uFF0C\u9069\u5408\u96EA\u82B1\u3001\u5EFA\u7BC9\u7B49" }),
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("li", { children: "\u2022 \u56DB\u8C61\u9650\u5C0D\u7A31: \u6C34\u5E73\u548C\u5782\u76F4\u5C0D\u7A31\u7D44\u5408" }),
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("li", { children: "\u2022 \u5F91\u5411\u5C0D\u7A31: \u516B\u500B\u65B9\u5411\u5C0D\u7A31\uFF0C\u9069\u5408\u66FC\u9640\u7F85" })
       ] })
     ] })
   ] });
 };
 var SymmetryPanel_default = SymmetryPanel;
 
-// src/components/TemplatePanel.tsx
-var import_jsx_runtime6 = __toESM(require_jsx_runtime());
-var templates = [
-  {
-    id: "square-large",
-    name: "\u65B9\u578B\u677F-\u6A19\u6E96",
-    size: "145\xD7145mm",
-    beads: "29\xD729=841\u9846",
-    icon: "\u2B1C"
-  },
-  {
-    id: "square-small",
-    name: "\u65B9\u578B\u677F-\u5C0F",
-    size: "80\xD780mm",
-    beads: "14\xD714=196\u9846",
-    icon: "\u25FB\uFE0F"
-  },
-  {
-    id: "circle-large",
-    name: "\u5713\u578B\u677F-\u6A19\u6E96",
-    size: "155\xD7155mm",
-    beads: "\u76F4\u5F9129\u9846",
-    icon: "\u2B55"
-  }
-];
-var TemplatePanel = ({
-  selectedTemplate,
-  onTemplateChange
-}) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "bg-white rounded-lg shadow-md p-6", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h3", { className: "text-lg font-semibold text-gray-700 mb-4", children: "\u9078\u64C7\u6A21\u677F" }),
-    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "space-y-3", children: templates.map((template) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
-      "button",
-      {
-        onClick: () => onTemplateChange(template.id),
-        className: `w-full p-4 rounded-lg border-2 transition-all text-left ${selectedTemplate === template.id ? "border-blue-500 bg-blue-50 shadow-md" : "border-gray-300 hover:border-blue-300 hover:bg-gray-50"}`,
-        children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "flex items-center gap-3", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { className: "text-3xl", children: template.icon }),
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "flex-1", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "font-semibold text-gray-800", children: template.name }),
-            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "text-sm text-gray-600", children: template.size }),
-            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "text-xs text-gray-500", children: template.beads })
-          ] }),
-          selectedTemplate === template.id && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { className: "text-blue-500 text-xl", children: "\u2713" })
-        ] })
-      },
-      template.id
-    )) })
-  ] });
-};
-var TemplatePanel_default = TemplatePanel;
-
-// src/components/ImageUploadPanel.tsx
-var import_react5 = __toESM(require_react());
-var import_jsx_runtime7 = __toESM(require_jsx_runtime());
-var ImageUploadPanel = ({ onImageLoad, gridSize, availableColors }) => {
-  const fileInputRef = (0, import_react5.useRef)(null);
-  const colorDistance = (color1, color2) => {
-    const hex1 = color1.replace("#", "");
-    const hex2 = color2.replace("#", "");
-    const r1 = parseInt(hex1.substr(0, 2), 16);
-    const g1 = parseInt(hex1.substr(2, 2), 16);
-    const b1 = parseInt(hex1.substr(4, 2), 16);
-    const r2 = parseInt(hex2.substr(0, 2), 16);
-    const g2 = parseInt(hex2.substr(2, 2), 16);
-    const b2 = parseInt(hex2.substr(4, 2), 16);
-    return Math.sqrt(
-      Math.pow(r1 - r2, 2) + Math.pow(g1 - g2, 2) + Math.pow(b1 - b2, 2)
-    );
-  };
-  const findClosestBeadColor = (hexColor) => {
-    if (availableColors.length === 0) return "";
-    let closestColor = availableColors[0];
-    let minDistance = colorDistance(hexColor, closestColor);
-    for (const beadColor of availableColors) {
-      const distance = colorDistance(hexColor, beadColor);
-      if (distance < minDistance) {
-        minDistance = distance;
-        closestColor = beadColor;
-      }
-    }
-    return closestColor;
-  };
-  const rgbToHex = (r, g, b) => {
-    return "#" + [r, g, b].map((x) => {
-      const hex = x.toString(16);
-      return hex.length === 1 ? "0" + hex : hex;
-    }).join("");
-  };
-  const getBrightness = (r, g, b) => {
-    return (r * 299 + g * 587 + b * 114) / 1e3;
-  };
-  const isBackgroundColor = (r, g, b, bgR, bgG, bgB, threshold = 50) => {
-    const distance = Math.sqrt(
-      Math.pow(r - bgR, 2) + Math.pow(g - bgG, 2) + Math.pow(b - bgB, 2)
-    );
-    return distance < threshold;
-  };
-  const handleImageUpload = (event) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        canvas.width = gridSize;
-        canvas.height = gridSize;
-        const ctx = canvas.getContext("2d");
-        if (!ctx) return;
-        ctx.drawImage(img, 0, 0, gridSize, gridSize);
-        const imageData = ctx.getImageData(0, 0, gridSize, gridSize);
-        const pixels = imageData.data;
-        const corners = [
-          { row: 0, col: 0 },
-          { row: 0, col: gridSize - 1 },
-          { row: gridSize - 1, col: 0 },
-          { row: gridSize - 1, col: gridSize - 1 }
-        ];
-        let bgR = 0, bgG = 0, bgB = 0;
-        corners.forEach(({ row, col }) => {
-          const index = (row * gridSize + col) * 4;
-          bgR += pixels[index];
-          bgG += pixels[index + 1];
-          bgB += pixels[index + 2];
-        });
-        bgR = Math.round(bgR / 4);
-        bgG = Math.round(bgG / 4);
-        bgB = Math.round(bgB / 4);
-        const beadGrid = [];
-        for (let row = 0; row < gridSize; row++) {
-          const rowData = [];
-          for (let col = 0; col < gridSize; col++) {
-            const index = (row * gridSize + col) * 4;
-            const r = pixels[index];
-            const g = pixels[index + 1];
-            const b = pixels[index + 2];
-            const a = pixels[index + 3];
-            if (a < 128 || isBackgroundColor(r, g, b, bgR, bgG, bgB, 60)) {
-              rowData.push("");
-            } else {
-              const hexColor = rgbToHex(r, g, b);
-              const beadColor = findClosestBeadColor(hexColor);
-              rowData.push(beadColor);
-            }
-          }
-          beadGrid.push(rowData);
-        }
-        onImageLoad(beadGrid);
-      };
-      img.src = e.target?.result;
-    };
-    reader.readAsDataURL(file);
-    event.target.value = "";
-  };
-  const handleButtonClick = () => {
-    fileInputRef.current?.click();
-  };
-  return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "bg-white rounded-lg shadow-md p-6", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("h3", { className: "text-lg font-semibold text-gray-700 mb-4 flex items-center gap-2", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Image2, { className: "w-5 h-5" }),
-      "\u5716\u7247\u8F49\u63DB"
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "space-y-3", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { className: "text-sm text-gray-600", children: "\u4E0A\u50B3\u5716\u7247\u4E26\u81EA\u52D5\u8F49\u63DB\u70BA\u62FC\u8C46\u5716\u6848" }),
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(
-        "button",
-        {
-          onClick: handleButtonClick,
-          className: "w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all shadow-md hover:shadow-lg",
-          children: [
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Upload, { className: "w-5 h-5" }),
-            "\u4E0A\u50B3\u5716\u7247"
-          ]
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
-        "input",
-        {
-          ref: fileInputRef,
-          type: "file",
-          accept: "image/*",
-          onChange: handleImageUpload,
-          className: "hidden"
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "text-xs text-gray-500 space-y-1", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { children: "\u2022 \u652F\u63F4 JPG\u3001PNG\u3001GIF \u7B49\u683C\u5F0F" }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { children: "\u2022 \u81EA\u52D5\u53BB\u80CC\uFF08\u79FB\u9664\u56DB\u89D2\u80CC\u666F\u8272\uFF09" }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { children: "\u2022 \u5716\u7247\u6703\u81EA\u52D5\u7E2E\u653E\u81F3\u7DB2\u683C\u5927\u5C0F" }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { children: "\u2022 \u50C5\u4F7F\u7528\u984F\u8272\u9078\u64C7\u5668\u4E2D\u7684\u984F\u8272" }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { children: "\u2022 \u5EFA\u8B70\u5148\u6DFB\u52A0\u81EA\u5B9A\u7FA9\u984F\u8272\u4EE5\u7372\u5F97\u66F4\u597D\u6548\u679C" })
-      ] })
-    ] })
-  ] });
-};
-var ImageUploadPanel_default = ImageUploadPanel;
-
 // src/components/TransformPanel.tsx
-var import_jsx_runtime8 = __toESM(require_jsx_runtime());
+var import_jsx_runtime5 = __toESM(require_jsx_runtime());
 var TransformPanel = ({
   onMove,
   onFlipHorizontal,
   onFlipVertical,
   onRotate
 }) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "bg-white rounded-lg shadow-md p-6", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h3", { className: "text-lg font-semibold text-gray-700 mb-4", children: "\u5716\u6848\u8B8A\u63DB" }),
-    /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "mb-4", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "flex items-center gap-2 mb-2", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Move, { className: "w-4 h-4 text-gray-600" }),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "text-sm font-medium text-gray-700", children: "\u6574\u7FA4\u79FB\u52D5" })
+  return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "bg-white rounded-lg shadow-md p-6", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("h3", { className: "text-lg font-semibold text-gray-700 mb-4", children: "\u5716\u6848\u8B8A\u63DB" }),
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "mb-4", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "flex items-center gap-2 mb-2", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Move, { className: "w-4 h-4 text-gray-600" }),
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { className: "text-sm font-medium text-gray-700", children: "\u6574\u7FA4\u79FB\u52D5" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "grid grid-cols-3 gap-2", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {}),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "grid grid-cols-3 gap-2", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", {}),
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
           "button",
           {
             onClick: () => onMove("up"),
@@ -27926,8 +27914,8 @@ var TransformPanel = ({
             children: "\u2191"
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {}),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", {}),
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
           "button",
           {
             onClick: () => onMove("left"),
@@ -27936,8 +27924,8 @@ var TransformPanel = ({
             children: "\u2190"
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "flex items-center justify-center text-gray-400 text-xs", children: "\u79FB\u52D5" }),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: "flex items-center justify-center text-gray-400 text-xs", children: "\u79FB\u52D5" }),
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
           "button",
           {
             onClick: () => onMove("right"),
@@ -27946,8 +27934,8 @@ var TransformPanel = ({
             children: "\u2192"
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {}),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", {}),
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
           "button",
           {
             onClick: () => onMove("down"),
@@ -27956,106 +27944,78 @@ var TransformPanel = ({
             children: "\u2193"
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {})
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", {})
       ] })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "flex items-center gap-2 mb-2", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(RotateCw, { className: "w-4 h-4 text-gray-600" }),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "text-sm font-medium text-gray-700", children: "\u7FFB\u8F49 / \u65CB\u8F49" })
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "flex items-center gap-2 mb-2", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(RotateCw, { className: "w-4 h-4 text-gray-600" }),
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { className: "text-sm font-medium text-gray-700", children: "\u7FFB\u8F49 / \u65CB\u8F49" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "grid grid-cols-2 gap-2", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "grid grid-cols-2 gap-2", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(
           "button",
           {
             onClick: onFlipHorizontal,
             className: "flex items-center justify-center gap-2 px-3 py-2 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded transition-colors text-sm font-medium",
             title: "\u6C34\u5E73\u7FFB\u8F49",
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(FlipHorizontal, { className: "w-4 h-4" }),
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(FlipHorizontal, { className: "w-4 h-4" }),
               "\u6C34\u5E73"
             ]
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(
           "button",
           {
             onClick: onFlipVertical,
             className: "flex items-center justify-center gap-2 px-3 py-2 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded transition-colors text-sm font-medium",
             title: "\u5782\u76F4\u7FFB\u8F49",
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(FlipVertical, { className: "w-4 h-4" }),
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(FlipVertical, { className: "w-4 h-4" }),
               "\u5782\u76F4"
             ]
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(
           "button",
           {
             onClick: onRotate,
             className: "col-span-2 flex items-center justify-center gap-2 px-3 py-2 bg-green-100 hover:bg-green-200 text-green-700 rounded transition-colors text-sm font-medium",
             title: "\u9806\u6642\u91DD\u65CB\u8F4990\u5EA6",
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(RotateCw, { className: "w-4 h-4" }),
+              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(RotateCw, { className: "w-4 h-4" }),
               "\u65CB\u8F49 90\xB0"
             ]
           }
         )
       ] })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "mt-3 text-xs text-gray-500", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { children: "\u2022 \u79FB\u52D5\u6703\u4FDD\u6301\u5716\u6848\u5B8C\u6574\u6027" }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { children: "\u2022 \u8D85\u51FA\u908A\u754C\u7684\u90E8\u5206\u6703\u88AB\u88C1\u5207" })
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "mt-3 text-xs text-gray-500", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("p", { children: "\u2022 \u79FB\u52D5\u6703\u4FDD\u6301\u5716\u6848\u5B8C\u6574\u6027" }),
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("p", { children: "\u2022 \u8D85\u51FA\u908A\u754C\u7684\u90E8\u5206\u6703\u88AB\u88C1\u5207" })
     ] })
   ] });
 };
 var TransformPanel_default = TransformPanel;
 
 // src/pages/Home.tsx
-var import_jsx_runtime9 = __toESM(require_jsx_runtime());
-var PRESET_PATTERNS = {
-  heart: Array(29).fill(null).map(
-    (_, row) => Array(29).fill(null).map((_2, col) => {
-      const x = col - 14.5;
-      const y = row - 14.5;
-      const distance = Math.sqrt(x * x + y * y);
-      const angle = Math.atan2(y, x);
-      const heartEquation = distance < 10 - 5 * Math.sin(angle) * Math.sin(angle);
-      return heartEquation ? "#FF6B6B" : "";
-    })
-  ),
-  star: Array(29).fill(null).map(
-    (_, row) => Array(29).fill(null).map((_2, col) => {
-      const x = col - 14.5;
-      const y = row - 14.5;
-      const distance = Math.sqrt(x * x + y * y);
-      const angle = Math.atan2(y, x);
-      const starEquation = distance < 8 + 2 * Math.sin(5 * angle);
-      return starEquation ? "#FFEAA7" : "";
-    })
-  ),
-  smile: Array(29).fill(null).map(
-    (_, row) => Array(29).fill(null).map((_2, col) => {
-      const x = col - 14.5;
-      const y = row - 14.5;
-      const distance = Math.sqrt(x * x + y * y);
-      if (distance < 10) return "#FFEAA7";
-      if (col === 10 && (row === 8 || row === 9) || col === 19 && (row === 8 || row === 9)) return "#000000";
-      if (row === 18 && col >= 11 && col <= 18 && Math.abs((col - 14.5) / 3.5) < 1) return "#000000";
-      return "";
-    })
-  ),
-  clear: Array(29).fill(null).map(() => Array(29).fill(""))
-};
+var import_jsx_runtime6 = __toESM(require_jsx_runtime());
 var HomePage = () => {
-  const [templateType, setTemplateType] = (0, import_react6.useState)("square-large");
-  const [grid, setGrid] = (0, import_react6.useState)(
+  const navigate = useNavigate();
+  const getInitialTemplate = () => {
+    const saved = sessionStorage.getItem("selectedTemplate");
+    return saved || "square-large";
+  };
+  const [templateType, setTemplateType] = (0, import_react5.useState)(getInitialTemplate());
+  const [grid, setGrid] = (0, import_react5.useState)(
     Array(29).fill(null).map(() => Array(29).fill(""))
   );
-  const [selectedColor, setSelectedColor] = (0, import_react6.useState)("#FF6B6B");
-  const [currentTool, setCurrentTool] = (0, import_react6.useState)("brush");
-  const [symmetryType, setSymmetryType] = (0, import_react6.useState)("none");
-  const [customColors, setCustomColors] = (0, import_react6.useState)([]);
+  const [selectedColor, setSelectedColor] = (0, import_react5.useState)("#FF6B6B");
+  const [currentTool, setCurrentTool] = (0, import_react5.useState)("brush");
+  const [symmetryType, setSymmetryType] = (0, import_react5.useState)("none");
+  const [openPanel, setOpenPanel] = (0, import_react5.useState)(null);
+  const [customColors, setCustomColors] = (0, import_react5.useState)([]);
   const baseColors = [
     "#FF6B6B",
     "#4FC3F7",
@@ -28069,12 +28029,12 @@ var HomePage = () => {
     "#000000"
   ];
   const availableColors = [...baseColors, ...customColors];
-  const [history, setHistory] = (0, import_react6.useState)([
+  const [history, setHistory] = (0, import_react5.useState)([
     Array(29).fill(null).map(() => Array(29).fill(""))
   ]);
-  const [historyIndex, setHistoryIndex] = (0, import_react6.useState)(0);
-  const gridRef = (0, import_react6.useRef)(null);
-  (0, import_react6.useEffect)(() => {
+  const [historyIndex, setHistoryIndex] = (0, import_react5.useState)(0);
+  const gridRef = (0, import_react5.useRef)(null);
+  (0, import_react5.useEffect)(() => {
     const savedColors = localStorage.getItem("beadArt-customColors");
     if (savedColors) {
       try {
@@ -28084,10 +28044,10 @@ var HomePage = () => {
       }
     }
   }, []);
-  (0, import_react6.useEffect)(() => {
+  (0, import_react5.useEffect)(() => {
     localStorage.setItem("beadArt-customColors", JSON.stringify(customColors));
   }, [customColors]);
-  const updateHistory = (0, import_react6.useCallback)((newGrid) => {
+  const updateHistory = (0, import_react5.useCallback)((newGrid) => {
     const newHistory = history.slice(0, historyIndex + 1);
     newHistory.push(newGrid);
     if (newHistory.length > 50) {
@@ -28096,7 +28056,7 @@ var HomePage = () => {
     setHistory(newHistory);
     setHistoryIndex(newHistory.length - 1);
   }, [history, historyIndex]);
-  const floodFill = (0, import_react6.useCallback)((startRow, startCol, newColor) => {
+  const floodFill = (0, import_react5.useCallback)((startRow, startCol, newColor) => {
     const oldColor = grid[startRow][startCol];
     if (oldColor === newColor) return grid;
     const newGrid = grid.map((row) => [...row]);
@@ -28119,7 +28079,7 @@ var HomePage = () => {
     }
     return newGrid;
   }, [grid]);
-  const handleSymmetricalPlacement = (0, import_react6.useCallback)((row, col, color, tool) => {
+  const handleSymmetricalPlacement = (0, import_react5.useCallback)((row, col, color, tool) => {
     const newGrid = grid.map((row2) => [...row2]);
     const center = 14;
     const placeBead = (r, c, clr, t) => {
@@ -28159,7 +28119,7 @@ var HomePage = () => {
     }
     return newGrid;
   }, [grid, symmetryType]);
-  const handleBeadClick = (0, import_react6.useCallback)((row, col) => {
+  const handleBeadClick = (0, import_react5.useCallback)((row, col) => {
     setGrid((prevGrid) => {
       let newGrid;
       if (currentTool === "brush") {
@@ -28291,13 +28251,6 @@ var HomePage = () => {
     reader.readAsText(file);
     event.target.value = "";
   };
-  const handleLoadPreset = (patternKey) => {
-    const presetGrid = PRESET_PATTERNS[patternKey];
-    if (presetGrid) {
-      setGrid(presetGrid);
-      updateHistory(presetGrid);
-    }
-  };
   const handleTemplateChange = (newTemplate) => {
     setTemplateType(newTemplate);
     let newGridSize = 29;
@@ -28313,6 +28266,86 @@ var HomePage = () => {
     setGrid(imageData);
     updateHistory(imageData);
     alert(`\u5716\u7247\u5DF2\u6210\u529F\u8F49\u63DB\u70BA\u62FC\u8C46\u5716\u6848\uFF01\u5171\u4F7F\u7528\u4E86 ${imageData.flat().filter((color) => color !== "").length} \u9846\u8C46\u5B50\u3002`);
+  };
+  const handleLoadImage = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const gridSize = grid.length;
+        canvas.width = gridSize;
+        canvas.height = gridSize;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+        ctx.drawImage(img, 0, 0, gridSize, gridSize);
+        const imageData = ctx.getImageData(0, 0, gridSize, gridSize);
+        const pixels = imageData.data;
+        const corners = [
+          { row: 0, col: 0 },
+          { row: 0, col: gridSize - 1 },
+          { row: gridSize - 1, col: 0 },
+          { row: gridSize - 1, col: gridSize - 1 }
+        ];
+        let bgR = 0, bgG = 0, bgB = 0;
+        corners.forEach(({ row, col }) => {
+          const index = (row * gridSize + col) * 4;
+          bgR += pixels[index];
+          bgG += pixels[index + 1];
+          bgB += pixels[index + 2];
+        });
+        bgR = Math.round(bgR / 4);
+        bgG = Math.round(bgG / 4);
+        bgB = Math.round(bgB / 4);
+        const beadGrid = [];
+        for (let row = 0; row < gridSize; row++) {
+          const rowData = [];
+          for (let col = 0; col < gridSize; col++) {
+            const index = (row * gridSize + col) * 4;
+            const r = pixels[index];
+            const g = pixels[index + 1];
+            const b = pixels[index + 2];
+            const a = pixels[index + 3];
+            const isBackground = a < 128 || Math.sqrt(Math.pow(r - bgR, 2) + Math.pow(g - bgG, 2) + Math.pow(b - bgB, 2)) < 60;
+            if (isBackground) {
+              rowData.push("");
+            } else {
+              const hexColor = "#" + [r, g, b].map((x) => {
+                const hex = x.toString(16);
+                return hex.length === 1 ? "0" + hex : hex;
+              }).join("");
+              let closestColor = availableColors[0];
+              let minDistance = Infinity;
+              for (const beadColor of availableColors) {
+                const hex1 = hexColor.replace("#", "");
+                const hex2 = beadColor.replace("#", "");
+                const r1 = parseInt(hex1.substr(0, 2), 16);
+                const g1 = parseInt(hex1.substr(2, 2), 16);
+                const b1 = parseInt(hex1.substr(4, 2), 16);
+                const r2 = parseInt(hex2.substr(0, 2), 16);
+                const g2 = parseInt(hex2.substr(2, 2), 16);
+                const b2 = parseInt(hex2.substr(4, 2), 16);
+                const distance = Math.sqrt(
+                  Math.pow(r1 - r2, 2) + Math.pow(g1 - g2, 2) + Math.pow(b1 - b2, 2)
+                );
+                if (distance < minDistance) {
+                  minDistance = distance;
+                  closestColor = beadColor;
+                }
+              }
+              rowData.push(closestColor);
+            }
+          }
+          beadGrid.push(rowData);
+        }
+        handleImageLoad(beadGrid);
+      };
+      img.src = e.target?.result;
+    };
+    reader.readAsDataURL(file);
+    event.target.value = "";
   };
   const handleMove = (direction) => {
     const gridSize = grid.length;
@@ -28364,141 +28397,263 @@ var HomePage = () => {
     setGrid(newGrid);
     updateHistory(newGrid);
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "container mx-auto px-4", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("header", { className: "text-center mb-8", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("h1", { className: "text-4xl font-bold text-gray-800 mb-2", children: "\u5275\u610F\u62FC\u8C46\u85DD\u8853" }),
-      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { className: "text-lg text-gray-600", children: "\u9078\u64C7\u60A8\u7684\u6A21\u677F\u4E26\u5275\u4F5C\u62FC\u8C46\u4F5C\u54C1" })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "flex flex-col lg:flex-row gap-8 items-start justify-center", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "flex flex-col gap-6", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
-          TemplatePanel_default,
-          {
-            selectedTemplate: templateType,
-            onTemplateChange: handleTemplateChange
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
-          ImageUploadPanel_default,
-          {
-            onImageLoad: handleImageLoad,
-            gridSize: grid.length,
-            availableColors
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
-          ColorPicker_default,
-          {
-            selectedColor,
-            onColorSelect: setSelectedColor,
-            customColors,
-            onAddCustomColor: handleAddCustomColor,
-            onRemoveCustomColor: handleRemoveCustomColor
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
-          ToolPanel_default,
-          {
-            onClear: handleClear,
-            onReset: handleReset,
-            onSaveJSON: handleSaveJSON,
-            onSaveImage: handleSaveImage,
-            onLoadJSON: handleLoadJSON,
-            onUndo: handleUndo,
-            onRedo: handleRedo,
-            currentTool,
-            onToolChange: setCurrentTool,
-            canUndo: historyIndex > 0,
-            canRedo: historyIndex < history.length - 1
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
-          SymmetryPanel_default,
-          {
-            symmetryType,
-            onSymmetryChange: setSymmetryType
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
-          TransformPanel_default,
-          {
-            onMove: handleMove,
-            onFlipHorizontal: handleFlipHorizontal,
-            onFlipVertical: handleFlipVertical,
-            onRotate: handleRotate
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(PresetPanel_default, { onLoadPreset: handleLoadPreset })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { ref: gridRef, children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+  const togglePanel = (panelName) => {
+    setOpenPanel(openPanel === panelName ? null : panelName);
+  };
+  const handleBackToHome = () => {
+    if (confirm("\u8FD4\u56DE\u9996\u9801\u5C07\u6E05\u9664\u7576\u524D\u4F5C\u54C1,\u78BA\u5B9A\u8981\u7E7C\u7E8C\u55CE?")) {
+      sessionStorage.removeItem("selectedTemplate");
+      navigate("/");
+    }
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 relative", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("header", { className: "text-center py-6 bg-white/80 backdrop-blur-sm shadow-sm", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h1", { className: "text-3xl font-bold text-gray-800", children: "\u5275\u610F\u62FC\u8C46\u85DD\u8853" }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "flex items-center justify-center py-8", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { ref: gridRef, children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
         BeadGrid_default,
         {
           grid,
           onBeadClick: handleBeadClick,
           selectedColor,
           currentTool,
-          templateType
+          templateType,
+          onUndo: handleUndo,
+          onRedo: handleRedo,
+          canUndo: historyIndex > 0,
+          canRedo: historyIndex < history.length - 1
         }
       ) }),
-      /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "bg-white rounded-lg shadow-md p-6 min-w-[200px]", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("h3", { className: "text-lg font-semibold text-gray-700 mb-4", children: "\u7D71\u8A08\u8CC7\u8A0A" }),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "space-y-3", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "flex justify-between", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: "text-gray-600", children: "\u5DF2\u4F7F\u7528\u8C46\u5B50:" }),
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("span", { className: "font-semibold", children: [
-              grid.flat().filter((color) => color !== "").length,
-              " / ",
-              grid.length * grid[0].length
-            ] })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "flex justify-between", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: "text-gray-600", children: "\u7576\u524D\u5DE5\u5177:" }),
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: "font-semibold capitalize", children: currentTool === "brush" ? "\u756B\u7B46" : currentTool === "eraser" ? "\u6A61\u76AE" : currentTool === "fill" ? "\u586B\u5145" : currentTool })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "flex justify-between", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: "text-gray-600", children: "\u5C0D\u7A31\u6A21\u5F0F:" }),
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: "font-semibold capitalize", children: symmetryType === "none" ? "\u7121" : symmetryType === "horizontal" ? "\u6C34\u5E73" : symmetryType === "vertical" ? "\u5782\u76F4" : symmetryType === "both" ? "\u56DB\u8C61\u9650" : "\u5F91\u5411" })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "flex justify-between items-center", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: "text-gray-600", children: "\u7576\u524D\u984F\u8272:" }),
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
-              "div",
-              {
-                className: "w-4 h-4 rounded border border-gray-300",
-                style: { backgroundColor: selectedColor }
-              }
-            )
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "flex justify-between", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { className: "text-gray-600", children: "\u64CD\u4F5C\u6B77\u53F2:" }),
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("span", { className: "font-semibold", children: [
-              historyIndex + 1,
-              " / ",
-              history.length
-            ] })
-          ] })
-        ] })
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "flex justify-center gap-3 mt-4", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+          "button",
+          {
+            onClick: () => setCurrentTool("brush"),
+            className: `p-3 rounded-lg shadow-lg transition-all ${currentTool === "brush" ? "bg-blue-500 text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`,
+            title: "\u756B\u7B46",
+            children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Brush, { size: 24 })
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+          "button",
+          {
+            onClick: () => setCurrentTool("eraser"),
+            className: `p-3 rounded-lg shadow-lg transition-all ${currentTool === "eraser" ? "bg-blue-500 text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`,
+            title: "\u6A61\u76AE\u64E6",
+            children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Eraser, { size: 24 })
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+          "button",
+          {
+            onClick: () => setCurrentTool("fill"),
+            className: `p-3 rounded-lg shadow-lg transition-all ${currentTool === "fill" ? "bg-blue-500 text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`,
+            title: "\u586B\u5145",
+            children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(PaintBucket, { size: 24 })
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+          "button",
+          {
+            onClick: handleReset,
+            className: "p-3 rounded-lg shadow-lg transition-all bg-white text-gray-700 hover:bg-gray-50",
+            title: "\u91CD\u7F6E",
+            children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(RotateCcw, { size: 24 })
+          }
+        )
       ] })
+    ] }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "fixed left-4 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-50", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+        "button",
+        {
+          onClick: handleBackToHome,
+          className: "p-3 rounded-lg shadow-lg transition-all bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-300",
+          title: "\u8FD4\u56DE\u9996\u9801",
+          children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(House, { size: 24 })
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "h-px bg-gray-300 my-1" }),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+        "button",
+        {
+          onClick: () => togglePanel("color"),
+          className: `p-3 rounded-lg shadow-lg transition-all ${openPanel === "color" ? "bg-blue-500 text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`,
+          title: "\u984F\u8272\u9078\u64C7",
+          children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Palette, { size: 24 })
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+        "button",
+        {
+          onClick: () => togglePanel("symmetry"),
+          className: `p-3 rounded-lg shadow-lg transition-all ${openPanel === "symmetry" ? "bg-blue-500 text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`,
+          title: "\u5C0D\u7A31\u6A21\u5F0F",
+          children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(FlipHorizontal, { size: 24 })
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+        "button",
+        {
+          onClick: () => togglePanel("transform"),
+          className: `p-3 rounded-lg shadow-lg transition-all ${openPanel === "transform" ? "bg-blue-500 text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`,
+          title: "\u79FB\u52D5\u8207\u8B8A\u63DB",
+          children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Move, { size: 24 })
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+        "button",
+        {
+          onClick: () => togglePanel("settings"),
+          className: `p-3 rounded-lg shadow-lg transition-all ${openPanel === "settings" ? "bg-blue-500 text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`,
+          title: "\u5DE5\u5177\u8207\u8A2D\u5B9A",
+          children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Settings, { size: 24 })
+        }
+      )
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("footer", { className: "text-center mt-8 text-gray-500 text-sm", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { children: "\u63D0\u793A: \u9EDE\u64CA\u653E\u7F6E\u8C46\u5B50\uFF0C\u6309\u4F4F\u9F20\u6A19\u62D6\u52D5\u53EF\u4EE5\u9023\u7E8C\u653E\u7F6E" }),
-      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { children: "\u5728\u79FB\u52D5\u8A2D\u5099\u4E0A\uFF0C\u89F8\u6478\u4E26\u62D6\u52D5\u4E5F\u53EF\u4EE5\u7E6A\u88FD" }),
-      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { className: "mt-2 text-blue-600", children: "\u65B0\u529F\u80FD: \u4E09\u7A2E\u6A21\u677F\u3001\u5716\u7247\u8F49\u63DB\u3001\u6574\u7FA4\u79FB\u52D5\u3001\u7FFB\u8F49\u65CB\u8F49\u3001\u5C0D\u7A31\u6A21\u5F0F\u3001\u81EA\u5B9A\u7FA9\u984F\u8272" })
-    ] })
-  ] }) });
+    openPanel && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "fixed left-20 top-1/2 -translate-y-1/2 z-40 max-h-[80vh] overflow-y-auto", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "bg-white rounded-lg shadow-2xl p-4 min-w-[300px] max-w-[400px] relative", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+        "button",
+        {
+          onClick: () => setOpenPanel(null),
+          className: "absolute top-2 right-2 p-1 hover:bg-gray-100 rounded",
+          children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(X, { size: 20 })
+        }
+      ),
+      openPanel === "color" && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+        ColorPicker_default,
+        {
+          selectedColor,
+          onColorSelect: setSelectedColor,
+          customColors,
+          onAddCustomColor: handleAddCustomColor,
+          onRemoveCustomColor: handleRemoveCustomColor
+        }
+      ),
+      openPanel === "symmetry" && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+        SymmetryPanel_default,
+        {
+          symmetryType,
+          onSymmetryChange: setSymmetryType
+        }
+      ),
+      openPanel === "transform" && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+        TransformPanel_default,
+        {
+          onMove: handleMove,
+          onFlipHorizontal: handleFlipHorizontal,
+          onFlipVertical: handleFlipVertical,
+          onRotate: handleRotate
+        }
+      ),
+      openPanel === "settings" && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+        ToolPanel_default,
+        {
+          onClear: handleClear,
+          onReset: handleReset,
+          onSaveJSON: handleSaveJSON,
+          onSaveImage: handleSaveImage,
+          onLoadJSON: handleLoadJSON,
+          onLoadImage: handleLoadImage,
+          onUndo: handleUndo,
+          onRedo: handleRedo,
+          currentTool,
+          onToolChange: setCurrentTool,
+          canUndo: historyIndex > 0,
+          canRedo: historyIndex < history.length - 1
+        }
+      )
+    ] }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "fixed bottom-4 left-1/2 -translate-x-1/2 text-center text-xs text-gray-500 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm", children: "\u9EDE\u64CA\u5DE6\u5074\u5716\u793A\u958B\u555F\u529F\u80FD\u9762\u677F" })
+  ] });
 };
 var Home_default = HomePage;
 
+// src/pages/TemplateSelection.tsx
+var import_jsx_runtime7 = __toESM(require_jsx_runtime());
+var TemplateSelection = () => {
+  const navigate = useNavigate();
+  const templates = [
+    {
+      id: "square-large",
+      name: "\u65B9\u578B\u677F-\u6A19\u6E96",
+      size: "145\xD7145mm",
+      beads: "29\xD729=841\u9846",
+      description: "\u9069\u5408\u88FD\u4F5C\u8F03\u5927\u7684\u4F5C\u54C1,\u7D30\u7BC0\u8C50\u5BCC",
+      icon: Square
+    },
+    {
+      id: "square-small",
+      name: "\u65B9\u578B\u677F-\u5C0F\u578B",
+      size: "80\xD780mm",
+      beads: "14\xD714=196\u9846",
+      description: "\u9069\u5408\u5FEB\u901F\u5275\u4F5C\u5C0F\u578B\u4F5C\u54C1",
+      icon: Square
+    },
+    {
+      id: "circle-large",
+      name: "\u5713\u578B\u677F-\u5927\u578B",
+      size: "155\xD7155mm",
+      beads: "\u76F4\u5F9129\u9846",
+      description: "\u5713\u5F62\u8A2D\u8A08,\u9069\u5408\u7279\u6B8A\u9020\u578B",
+      icon: Circle
+    }
+  ];
+  const handleSelectTemplate = (templateId) => {
+    sessionStorage.setItem("selectedTemplate", templateId);
+    navigate("/editor");
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-8", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "max-w-6xl w-full", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "text-center mb-12", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("h1", { className: "text-5xl font-bold text-gray-800 mb-4", children: "\u5275\u610F\u62FC\u8C46\u85DD\u8853" }),
+      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { className: "text-xl text-gray-600", children: "\u9078\u64C7\u60A8\u7684\u62FC\u8C46\u677F\u6A21\u677F\u958B\u59CB\u5275\u4F5C" })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-8", children: templates.map((template) => {
+      const IconComponent = template.icon;
+      return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(
+        "button",
+        {
+          onClick: () => handleSelectTemplate(template.id),
+          className: "group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 text-left hover:scale-105 transform",
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "flex justify-center mb-6", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "w-32 h-32 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl flex items-center justify-center group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(IconComponent, { size: 64, className: "text-blue-600", strokeWidth: 1.5 }) }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "text-center", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("h3", { className: "text-2xl font-bold text-gray-800 mb-2", children: template.name }),
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "space-y-1 text-gray-600 mb-4", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("p", { className: "text-sm", children: [
+                  "\u5C3A\u5BF8: ",
+                  template.size
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("p", { className: "text-sm", children: [
+                  "\u8C46\u5B50: ",
+                  template.beads
+                ] })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { className: "text-sm text-gray-500 italic", children: template.description })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "mt-6 text-center", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: "inline-block px-6 py-2 bg-blue-500 text-white rounded-full text-sm font-semibold group-hover:bg-blue-600 transition-colors", children: "\u9078\u64C7\u6B64\u6A21\u677F" }) })
+          ]
+        },
+        template.id
+      );
+    }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "mt-12 text-center", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { className: "text-gray-500 text-sm", children: "\u{1F4A1} \u63D0\u793A: \u9078\u64C7\u6A21\u677F\u5F8C\u5373\u53EF\u958B\u59CB\u5275\u4F5C,\u60A8\u53EF\u4EE5\u96A8\u6642\u5728\u7DE8\u8F2F\u5668\u4E2D\u5207\u63DB\u6A21\u677F" }) })
+  ] }) });
+};
+var TemplateSelection_default = TemplateSelection;
+
 // src/App.tsx
-var import_jsx_runtime10 = __toESM(require_jsx_runtime());
+var import_jsx_runtime8 = __toESM(require_jsx_runtime());
 function App() {
-  return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(HashRouter, { children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Routes, { children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Route, { path: "/", element: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Home_default, {}) }) }) });
+  return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(HashRouter, { children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(Routes, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Route, { path: "/", element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(TemplateSelection_default, {}) }),
+    /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Route, { path: "/editor", element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Home_default, {}) })
+  ] }) });
 }
 
 // src/main.tsx
-var import_jsx_runtime11 = __toESM(require_jsx_runtime());
+var import_jsx_runtime9 = __toESM(require_jsx_runtime());
 var root = (0, import_client.createRoot)(document.getElementById("root"));
-root.render(/* @__PURE__ */ (0, import_jsx_runtime11.jsx)(App, {}));
+root.render(/* @__PURE__ */ (0, import_jsx_runtime9.jsx)(App, {}));
 /*! Bundled license information:
 
 react/cjs/react.development.js:
@@ -28576,26 +28731,32 @@ lucide-react/dist/esm/defaultAttributes.js:
 lucide-react/dist/esm/Icon.js:
 lucide-react/dist/esm/createLucideIcon.js:
 lucide-react/dist/esm/icons/brush.js:
+lucide-react/dist/esm/icons/check.js:
+lucide-react/dist/esm/icons/circle.js:
 lucide-react/dist/esm/icons/crosshair.js:
 lucide-react/dist/esm/icons/download.js:
 lucide-react/dist/esm/icons/eraser.js:
 lucide-react/dist/esm/icons/flip-horizontal.js:
 lucide-react/dist/esm/icons/flip-vertical.js:
-lucide-react/dist/esm/icons/heart.js:
+lucide-react/dist/esm/icons/folder-plus.js:
+lucide-react/dist/esm/icons/house.js:
 lucide-react/dist/esm/icons/image.js:
 lucide-react/dist/esm/icons/move.js:
 lucide-react/dist/esm/icons/paint-bucket.js:
 lucide-react/dist/esm/icons/palette.js:
+lucide-react/dist/esm/icons/pen.js:
 lucide-react/dist/esm/icons/plus.js:
 lucide-react/dist/esm/icons/redo-2.js:
 lucide-react/dist/esm/icons/rotate-ccw.js:
 lucide-react/dist/esm/icons/rotate-cw.js:
-lucide-react/dist/esm/icons/smile.js:
+lucide-react/dist/esm/icons/settings.js:
 lucide-react/dist/esm/icons/square.js:
-lucide-react/dist/esm/icons/star.js:
 lucide-react/dist/esm/icons/trash-2.js:
 lucide-react/dist/esm/icons/undo-2.js:
 lucide-react/dist/esm/icons/upload.js:
+lucide-react/dist/esm/icons/x.js:
+lucide-react/dist/esm/icons/zoom-in.js:
+lucide-react/dist/esm/icons/zoom-out.js:
 lucide-react/dist/esm/lucide-react.js:
   (**
    * @license lucide-react v0.503.0 - ISC
