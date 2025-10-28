@@ -27261,8 +27261,9 @@ var BeadGrid = ({
     isDrawing.current = false;
   };
   const handleTouchStart = (e, row, col) => {
-    if (e.touches.length === 2) {
+    if (e.touches.length >= 2) {
       isPinching.current = true;
+      isDrawing.current = false;
       const distance = getTouchDistance(e.touches);
       lastTouchDistance.current = distance;
       return;
@@ -27277,11 +27278,17 @@ var BeadGrid = ({
       isPinching.current = true;
       isDrawing.current = false;
       const distance = getTouchDistance(e.touches);
-      if (distance && lastTouchDistance.current) {
-        const delta = distance - lastTouchDistance.current;
-        const scaleDelta = delta * 0.01;
-        setScale((prev) => Math.max(0.4, Math.min(2, prev + scaleDelta)));
-        lastTouchDistance.current = distance;
+      if (distance) {
+        if (lastTouchDistance.current === null) {
+          lastTouchDistance.current = distance;
+        } else {
+          const scale_ratio = distance / lastTouchDistance.current;
+          setScale((prev) => {
+            const newScale = prev * scale_ratio;
+            return Math.max(0.4, Math.min(2, newScale));
+          });
+          lastTouchDistance.current = distance;
+        }
       }
       return;
     }
@@ -27294,10 +27301,19 @@ var BeadGrid = ({
       onBeadClick(row, col);
     }
   };
-  const handleTouchEnd = () => {
-    isDrawing.current = false;
-    isPinching.current = false;
-    lastTouchDistance.current = null;
+  const handleTouchEnd = (e) => {
+    if (e.touches.length >= 2) {
+      isPinching.current = true;
+      const distance = getTouchDistance(e.touches);
+      lastTouchDistance.current = distance;
+    } else if (e.touches.length === 0) {
+      isDrawing.current = false;
+      isPinching.current = false;
+      lastTouchDistance.current = null;
+    } else {
+      isPinching.current = false;
+      lastTouchDistance.current = null;
+    }
   };
   const getTemplateConfig = () => {
     switch (templateType) {
@@ -27400,7 +27416,7 @@ var BeadGrid = ({
           padding: "12px",
           transform: `scale(${scale})`,
           transformOrigin: "center",
-          transition: "transform 0.2s ease-out"
+          transition: isPinching.current ? "none" : "transform 0.2s ease-out"
         },
         onMouseLeave: handleMouseUp,
         onMouseUp: handleMouseUp,

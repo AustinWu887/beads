@@ -78,8 +78,9 @@ const BeadGrid: React.FC<BeadGridProps> = ({
   // 觸摸事件處理
   const handleTouchStart = (e: React.TouchEvent, row: number, col: number) => {
     // 檢測是否為雙指縮放手勢
-    if (e.touches.length === 2) {
+    if (e.touches.length >= 2) {
       isPinching.current = true;
+      isDrawing.current = false;
       const distance = getTouchDistance(e.touches);
       lastTouchDistance.current = distance;
       return;
@@ -99,11 +100,19 @@ const BeadGrid: React.FC<BeadGridProps> = ({
       isDrawing.current = false;
       
       const distance = getTouchDistance(e.touches);
-      if (distance && lastTouchDistance.current) {
-        const delta = distance - lastTouchDistance.current;
-        const scaleDelta = delta * 0.01;
-        setScale(prev => Math.max(0.4, Math.min(2, prev + scaleDelta)));
-        lastTouchDistance.current = distance;
+      if (distance) {
+        if (lastTouchDistance.current === null) {
+          // 初始化距離
+          lastTouchDistance.current = distance;
+        } else {
+          // 計算縮放比例（提高靈敏度）
+          const scale_ratio = distance / lastTouchDistance.current;
+          setScale(prev => {
+            const newScale = prev * scale_ratio;
+            return Math.max(0.4, Math.min(2, newScale));
+          });
+          lastTouchDistance.current = distance;
+        }
       }
       return;
     }
@@ -121,10 +130,22 @@ const BeadGrid: React.FC<BeadGridProps> = ({
     }
   };
 
-  const handleTouchEnd = () => {
-    isDrawing.current = false;
-    isPinching.current = false;
-    lastTouchDistance.current = null;
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    // 如果還有觸控點，檢查是否繼續縮放
+    if (e.touches.length >= 2) {
+      isPinching.current = true;
+      const distance = getTouchDistance(e.touches);
+      lastTouchDistance.current = distance;
+    } else if (e.touches.length === 0) {
+      // 所有手指都離開，重置狀態
+      isDrawing.current = false;
+      isPinching.current = false;
+      lastTouchDistance.current = null;
+    } else {
+      // 只剩一個手指，重置縮放狀態但不重置繪製狀態
+      isPinching.current = false;
+      lastTouchDistance.current = null;
+    }
   };
 
   // 根據模板類型獲取配置
@@ -233,7 +254,7 @@ const BeadGrid: React.FC<BeadGridProps> = ({
               padding: '12px',
               transform: `scale(${scale})`,
               transformOrigin: 'center',
-              transition: 'transform 0.2s ease-out',
+              transition: isPinching.current ? 'none' : 'transform 0.2s ease-out',
             }}
         onMouseLeave={handleMouseUp}
         onMouseUp={handleMouseUp}
