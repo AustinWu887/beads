@@ -10,6 +10,7 @@ import ToolPanel from '../components/ToolPanel';
 import SymmetryPanel from '../components/SymmetryPanel';
 import ImageUploadPanel from '../components/ImageUploadPanel';
 import TransformPanel from '../components/TransformPanel';
+import StatsPanel from '../components/StatsPanel';
 import { 
   Palette, 
   Settings, 
@@ -29,7 +30,8 @@ import {
   Square,
   ZoomIn,
   ZoomOut,
-  Hand
+  Hand,
+  BarChart3
 } from 'lucide-react';
 
 // 對稱類型
@@ -343,12 +345,12 @@ const HomePage: React.FC = () => {
   const handleZoomIn = () => {
     const container = containerRef.current;
     if (!container) {
-      setScale(prev => Math.min(prev + 0.2, 2));
+      setScale(prev => Math.min(prev + 0.2, 3));
       return;
     }
     
     const oldScale = scale;
-    const newScale = Math.min(oldScale + 0.2, 2);
+    const newScale = Math.min(oldScale + 0.2, 3);
     
     // 記錄縮放前的中心位置
     const scrollLeft = container.scrollLeft;
@@ -373,12 +375,12 @@ const HomePage: React.FC = () => {
   const handleZoomOut = () => {
     const container = containerRef.current;
     if (!container) {
-      setScale(prev => Math.max(prev - 0.2, 0.4));
+      setScale(prev => Math.max(prev - 0.2, 1.0));
       return;
     }
     
     const oldScale = scale;
-    const newScale = Math.max(oldScale - 0.2, 0.4);
+    const newScale = Math.max(oldScale - 0.2, 1.0);
     
     // 記錄縮放前的中心位置
     const scrollLeft = container.scrollLeft;
@@ -754,7 +756,8 @@ const HomePage: React.FC = () => {
             <div className="flex gap-2">
               <button
                 onClick={handleZoomOut}
-                className="p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all"
+                disabled={scale <= 1.0}
+                className="p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 title="縮小"
               >
                 <ZoomOut className="w-5 h-5" />
@@ -764,7 +767,8 @@ const HomePage: React.FC = () => {
               </div>
               <button
                 onClick={handleZoomIn}
-                className="p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all"
+                disabled={scale >= 3.0}
+                className="p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 title="放大"
               >
                 <ZoomIn className="w-5 h-5" />
@@ -934,6 +938,17 @@ const HomePage: React.FC = () => {
               >
                 <Settings size={24} />
               </button>
+              <button
+                onClick={() => togglePanel('stats')}
+                className={`p-3 rounded-lg shadow-lg transition-all ${
+                  openPanel === 'stats' 
+                    ? 'bg-blue-500 text-white' 
+                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                }`}
+                title="拼豆統計"
+              >
+                <BarChart3 size={24} />
+              </button>
             </div>
           </div>
         </div>
@@ -993,6 +1008,10 @@ const HomePage: React.FC = () => {
                   canUndo={historyIndex > 0}
                   canRedo={historyIndex < history.length - 1}
                 />
+              )}
+
+              {openPanel === 'stats' && (
+                <StatsPanel grid={grid} />
               )}
             </div>
           </div>
