@@ -23,7 +23,13 @@ import {
   Undo2,
   Redo2,
   RotateCcw,
-  FlipHorizontal
+  FlipHorizontal,
+  FlipVertical,
+  Crosshair,
+  Square,
+  ZoomIn,
+  ZoomOut,
+  Hand
 } from 'lucide-react';
 
 // 對稱類型
@@ -60,6 +66,8 @@ const HomePage: React.FC = () => {
   const [selectedColor, setSelectedColor] = useState<string>('#FF6B6B');
   const [currentTool, setCurrentTool] = useState<string>('brush');
   const [symmetryType, setSymmetryType] = useState<SymmetryType>('none');
+  const [scale, setScale] = useState<number>(1);
+  const [isPanMode, setIsPanMode] = useState<boolean>(false);
   
   // 面板展開狀態
   const [openPanel, setOpenPanel] = useState<string | null>(null);
@@ -84,6 +92,10 @@ const HomePage: React.FC = () => {
   
   // 用於圖片導出的ref
   const gridRef = useRef<HTMLDivElement>(null);
+  // 畫板容器ref用於拖動滾動
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
+  const dragStart = useRef({ x: 0, y: 0, scrollLeft: 0, scrollTop: 0 });
 
   // 從localStorage加載自定義顏色
   useEffect(() => {
@@ -101,6 +113,47 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     localStorage.setItem('beadArt-customColors', JSON.stringify(customColors));
   }, [customColors]);
+
+  // 移動模式的拖動滾動功能
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container || !isPanMode) return;
+
+    const handleMouseDown = (e: MouseEvent) => {
+      isDragging.current = true;
+      dragStart.current = {
+        x: e.clientX,
+        y: e.clientY,
+        scrollLeft: container.scrollLeft,
+        scrollTop: container.scrollTop
+      };
+      container.style.cursor = 'grabbing';
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDragging.current) return;
+      e.preventDefault();
+      const dx = e.clientX - dragStart.current.x;
+      const dy = e.clientY - dragStart.current.y;
+      container.scrollLeft = dragStart.current.scrollLeft - dx;
+      container.scrollTop = dragStart.current.scrollTop - dy;
+    };
+
+    const handleMouseUp = () => {
+      isDragging.current = false;
+      container.style.cursor = 'grab';
+    };
+
+    container.addEventListener('mousedown', handleMouseDown);
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      container.removeEventListener('mousedown', handleMouseDown);
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isPanMode]);
 
   // 更新歷史記錄
   const updateHistory = useCallback((newGrid: string[][]) => {
@@ -284,6 +337,16 @@ const HomePage: React.FC = () => {
       setHistoryIndex(historyIndex + 1);
       setGrid(history[historyIndex + 1]);
     }
+  };
+
+  // 放大
+  const handleZoomIn = () => {
+    setScale(prev => Math.min(prev + 0.2, 2));
+  };
+
+  // 縮小
+  const handleZoomOut = () => {
+    setScale(prev => Math.max(prev - 0.2, 0.4));
   };
 
   // 保存為JSON
@@ -615,19 +678,95 @@ const HomePage: React.FC = () => {
       {/* 主要內容區 - 板子置中 */}
       <div className="flex items-center justify-center py-8">
         <div>
-          {/* 畫板 */}
-          <div ref={gridRef}>
-            <BeadGrid
-              grid={grid}
-              onBeadClick={handleBeadClick}
-              selectedColor={selectedColor}
-              currentTool={currentTool}
-              templateType={templateType}
-              onUndo={handleUndo}
-              onRedo={handleRedo}
-              canUndo={historyIndex > 0}
-              canRedo={historyIndex < history.length - 1}
-            />
+          {/* 控制按鈕 - 撤銷/重做靠左，縮放置中，模式切換靠右 */}
+          <div className="flex justify-between items-center w-full mb-3">
+            {/* 撤銷/重作按鈕 - 左側 */}
+            <div className="flex gap-2">
+              <button
+                onClick={handleUndo}
+                disabled={historyIndex <= 0}
+                className="p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                title="撤銷"
+              >
+                <Undo2 className="w-5 h-5" />
+              </button>
+              <button
+                onClick={handleRedo}
+                disabled={historyIndex >= history.length - 1}
+                className="p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                title="重作"
+              >
+                <Redo2 className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* 縮放控制按鈕 - 中間 */}
+            <div className="flex gap-2">
+              <button
+                onClick={handleZoomOut}
+                className="p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all"
+                title="縮小"
+              >
+                <ZoomOut className="w-5 h-5" />
+              </button>
+              <div className="flex items-center px-3 py-2 bg-white rounded-lg shadow-lg">
+                <span className="text-sm font-semibold">{Math.round(scale * 100)}%</span>
+              </div>
+              <button
+                onClick={handleZoomIn}
+                className="p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all"
+                title="放大"
+              >
+                <ZoomIn className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* 模式切換按鈕 - 右側 */}
+            <button
+              onClick={() => setIsPanMode(!isPanMode)}
+              className={`px-4 py-2 rounded-lg shadow-lg transition-all flex items-center gap-2 ${
+                isPanMode 
+                  ? 'bg-blue-500 text-white' 
+                  : 'bg-white text-gray-700 hover:bg-gray-50'
+              }`}
+              title={isPanMode ? "切換到放豆模式" : "切換到移動模式"}
+            >
+              {isPanMode ? (
+                <>
+                  <Hand className="w-5 h-5" />
+                  <span className="text-sm font-semibold">移動</span>
+                </>
+              ) : (
+                <>
+                  <Brush className="w-5 h-5" />
+                  <span className="text-sm font-semibold">放豆</span>
+                </>
+              )}
+            </button>
+          </div>
+
+          {/* 畫板容器 - 限制縮放範圍 */}
+          <div 
+            ref={containerRef}
+            className={`overflow-auto max-w-[95vw] max-h-[70vh] rounded-lg border-2 border-gray-300 bg-gray-50 ${
+              isPanMode ? 'cursor-grab active:cursor-grabbing' : ''
+            }`}
+          >
+            <div 
+              ref={gridRef} 
+              className="inline-block"
+              style={{ pointerEvents: isPanMode ? 'none' : 'auto' }}
+            >
+              <BeadGrid
+                grid={grid}
+                onBeadClick={isPanMode ? () => {} : handleBeadClick}
+                selectedColor={selectedColor}
+                currentTool={currentTool}
+                templateType={templateType}
+                scale={scale}
+                onScaleChange={setScale}
+              />
+            </div>
           </div>
 
           {/* 工具按鈕 - 下方 */}
@@ -701,11 +840,17 @@ const HomePage: React.FC = () => {
                 className={`p-3 rounded-lg shadow-lg transition-all ${
                   openPanel === 'symmetry' 
                     ? 'bg-blue-500 text-white' 
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                    : symmetryType !== 'none'
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-white text-gray-700 hover:bg-gray-50'
                 }`}
                 title="對稱模式"
               >
-                <FlipHorizontal size={24} />
+                {symmetryType === 'horizontal' && <FlipHorizontal size={24} />}
+                {symmetryType === 'vertical' && <FlipVertical size={24} />}
+                {symmetryType === 'both' && <Crosshair size={24} />}
+                {symmetryType === 'radial' && <RotateCcw size={24} />}
+                {symmetryType === 'none' && <Square size={24} />}
               </button>
               <button
                 onClick={() => togglePanel('transform')}

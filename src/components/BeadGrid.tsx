@@ -2,8 +2,7 @@
  * 互動式拼豆網格元件 - 用於拼豆藝術創作
  * 支援顏色放置、擦除和網格互動，優化移動端觸摸交互
  */
-import React, { useRef, useState } from 'react';
-import { ZoomIn, ZoomOut, Undo2, Redo2 } from 'lucide-react';
+import React, { useRef, useEffect } from 'react';
 
 export type TemplateType = 'square-large' | 'square-small' | 'circle-large';
 
@@ -13,10 +12,8 @@ interface BeadGridProps {
   selectedColor: string;
   currentTool: string;
   templateType: TemplateType;
-  onUndo: () => void;
-  onRedo: () => void;
-  canUndo: boolean;
-  canRedo: boolean;
+  scale: number;
+  onScaleChange: (scale: number) => void;
 }
 
 const BeadGrid: React.FC<BeadGridProps> = ({ 
@@ -25,28 +22,17 @@ const BeadGrid: React.FC<BeadGridProps> = ({
   selectedColor, 
   currentTool,
   templateType,
-  onUndo,
-  onRedo,
-  canUndo,
-  canRedo
+  scale,
+  onScaleChange
 }) => {
   const isDrawing = useRef(false);
-  const [scale, setScale] = useState(1);
   const lastTouchDistance = useRef<number | null>(null);
   const isPinching = useRef(false);
-
-  // 放大
-  const handleZoomIn = () => {
-    setScale(prev => Math.min(prev + 0.2, 2));
-  };
-
-  // 縮小
-  const handleZoomOut = () => {
-    setScale(prev => Math.max(prev - 0.2, 0.4));
-  };
+  const lastTouchedCell = useRef<string | null>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   // 計算兩個觸控點之間的距離
-  const getTouchDistance = (touches: React.TouchList) => {
+  const getTouchDistance = (touches: TouchList | React.TouchList) => {
     if (touches.length < 2) return null;
     const touch1 = touches[0];
     const touch2 = touches[1];
@@ -89,13 +75,15 @@ const BeadGrid: React.FC<BeadGridProps> = ({
     // 單指觸控才觸發繪製
     if (e.touches.length === 1 && !isPinching.current) {
       isDrawing.current = true;
+      lastTouchedCell.current = `${row}-${col}`;
       onBeadClick(row, col);
     }
   };
 
-  const handleTouchMove = (e: React.TouchEvent) => {
+  const handleTouchMove = (e: TouchEvent | React.TouchEvent) => {
     // 處理雙指縮放
     if (e.touches.length === 2) {
+      e.preventDefault();
       isPinching.current = true;
       isDrawing.current = false;
       
@@ -107,10 +95,8 @@ const BeadGrid: React.FC<BeadGridProps> = ({
         } else {
           // 計算縮放比例（提高靈敏度）
           const scale_ratio = distance / lastTouchDistance.current;
-          setScale(prev => {
-            const newScale = prev * scale_ratio;
-            return Math.max(0.4, Math.min(2, newScale));
-          });
+          const newScale = scale * scale_ratio;
+          onScaleChange(Math.max(0.4, Math.min(2, newScale)));
           lastTouchDistance.current = distance;
         }
       }
@@ -120,15 +106,39 @@ const BeadGrid: React.FC<BeadGridProps> = ({
     // 單指繪製
     if (!isDrawing.current || isPinching.current) return;
     
+    e.preventDefault();
     const touch = e.touches[0];
     const element = document.elementFromPoint(touch.clientX, touch.clientY);
     
     if (element && element.hasAttribute('data-row') && element.hasAttribute('data-col')) {
       const row = parseInt(element.getAttribute('data-row') || '0');
       const col = parseInt(element.getAttribute('data-col') || '0');
-      onBeadClick(row, col);
+      const cellKey = `${row}-${col}`;
+      
+      // 只有當觸控到不同的格子時才觸發,提高連續繪製的流暢度
+      if (cellKey !== lastTouchedCell.current) {
+        lastTouchedCell.current = cellKey;
+        onBeadClick(row, col);
+      }
     }
   };
+
+  // 設置非 passive 的觸控事件監聽器
+  useEffect(() => {
+    const gridElement = gridRef.current;
+    if (!gridElement) return;
+
+    const touchMoveHandler = (e: TouchEvent) => {
+      handleTouchMove(e);
+    };
+
+    // 添加非 passive 的事件監聽器
+    gridElement.addEventListener('touchmove', touchMoveHandler, { passive: false });
+
+    return () => {
+      gridElement.removeEventListener('touchmove', touchMoveHandler);
+    };
+  }, [scale, onScaleChange, onBeadClick]);
 
   const handleTouchEnd = (e: React.TouchEvent) => {
     // 如果還有觸控點，檢查是否繼續縮放
@@ -141,6 +151,7 @@ const BeadGrid: React.FC<BeadGridProps> = ({
       isDrawing.current = false;
       isPinching.current = false;
       lastTouchDistance.current = null;
+      lastTouchedCell.current = null;
     } else {
       // 只剩一個手指，重置縮放狀態但不重置繪製狀態
       isPinching.current = false;
@@ -194,54 +205,11 @@ const BeadGrid: React.FC<BeadGridProps> = ({
 
   return (
     <div className="flex flex-col items-center">
-      {/* 頂部按鈕列 - 縮放靠左，撤銷/重作靠右 */}
-      <div className="flex justify-between items-center w-full mb-3">
-        {/* 縮放控制按鈕 - 左側 */}
-        <div className="flex gap-2">
-          <button
-            onClick={handleZoomOut}
-            className="p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all"
-            title="縮小"
-          >
-            <ZoomOut className="w-5 h-5" />
-          </button>
-          <div className="flex items-center px-3 py-2 bg-white rounded-lg shadow-lg">
-            <span className="text-sm font-semibold">{Math.round(scale * 100)}%</span>
-          </div>
-          <button
-            onClick={handleZoomIn}
-            className="p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all"
-            title="放大"
-          >
-            <ZoomIn className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* 撤銷/重作按鈕 - 右側 */}
-        <div className="flex gap-2">
-          <button
-            onClick={onUndo}
-            disabled={!canUndo}
-            className="p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-            title="撤銷"
-          >
-            <Undo2 className="w-5 h-5" />
-          </button>
-          <button
-            onClick={onRedo}
-            disabled={!canRedo}
-            className="p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-            title="重作"
-          >
-            <Redo2 className="w-5 h-5" />
-          </button>
-        </div>
-      </div>
-
       {/* 網格容器 */}
-      <div className="flex items-center justify-center p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+      <div className="flex items-center justify-center p-4">
         <div className="flex items-center justify-center">
           <div
+            ref={gridRef}
             className={`grid border-2 border-gray-300 bg-white shadow-lg touch-none ${
               config.isCircle ? 'rounded-full' : ''
             }`}
@@ -255,10 +223,10 @@ const BeadGrid: React.FC<BeadGridProps> = ({
               transform: `scale(${scale})`,
               transformOrigin: 'center',
               transition: isPinching.current ? 'none' : 'transform 0.2s ease-out',
+              touchAction: 'none',
             }}
         onMouseLeave={handleMouseUp}
         onMouseUp={handleMouseUp}
-        onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
         onTouchCancel={handleTouchEnd}
       >
@@ -285,7 +253,6 @@ const BeadGrid: React.FC<BeadGridProps> = ({
                 onMouseEnter={() => inCircle && handleCellEnter(rowIndex, colIndex)}
                 onMouseDown={() => inCircle && handleMouseDown(rowIndex, colIndex)}
                 onTouchStart={(e) => inCircle && handleTouchStart(e, rowIndex, colIndex)}
-                onTouchMove={handleTouchMove}
                 title={inCircle ? `位置: (${rowIndex + 1}, ${colIndex + 1})` : ''}
                 disabled={!inCircle}
               />

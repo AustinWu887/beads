@@ -1083,7 +1083,7 @@ var require_react_development = __commonJS({
           }
           return dispatcher.useContext(Context);
         }
-        function useState8(initialState) {
+        function useState7(initialState) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useState(initialState);
         }
@@ -1095,7 +1095,7 @@ var require_react_development = __commonJS({
           var dispatcher = resolveDispatcher();
           return dispatcher.useRef(initialValue);
         }
-        function useEffect8(create, deps) {
+        function useEffect9(create, deps) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useEffect(create, deps);
         }
@@ -1878,7 +1878,7 @@ var require_react_development = __commonJS({
         exports.useContext = useContext6;
         exports.useDebugValue = useDebugValue;
         exports.useDeferredValue = useDeferredValue;
-        exports.useEffect = useEffect8;
+        exports.useEffect = useEffect9;
         exports.useId = useId2;
         exports.useImperativeHandle = useImperativeHandle;
         exports.useInsertionEffect = useInsertionEffect;
@@ -1886,7 +1886,7 @@ var require_react_development = __commonJS({
         exports.useMemo = useMemo5;
         exports.useReducer = useReducer;
         exports.useRef = useRef8;
-        exports.useState = useState8;
+        exports.useState = useState7;
         exports.useSyncExternalStore = useSyncExternalStore;
         exports.useTransition = useTransition2;
         exports.version = ReactVersion;
@@ -2433,7 +2433,7 @@ var require_react_dom_development = __commonJS({
         var HostPortal = 4;
         var HostComponent = 5;
         var HostText = 6;
-        var Fragment8 = 7;
+        var Fragment9 = 7;
         var Mode = 8;
         var ContextConsumer = 9;
         var ContextProvider = 10;
@@ -3590,7 +3590,7 @@ var require_react_dom_development = __commonJS({
               return "DehydratedFragment";
             case ForwardRef:
               return getWrappedName$1(type, type.render, "ForwardRef");
-            case Fragment8:
+            case Fragment9:
               return "Fragment";
             case HostComponent:
               return type;
@@ -12019,7 +12019,7 @@ var require_react_dom_development = __commonJS({
             }
           }
           function updateFragment2(returnFiber, current2, fragment, lanes, key) {
-            if (current2 === null || current2.tag !== Fragment8) {
+            if (current2 === null || current2.tag !== Fragment9) {
               var created = createFiberFromFragment(fragment, returnFiber.mode, lanes, key);
               created.return = returnFiber;
               return created;
@@ -12422,7 +12422,7 @@ var require_react_dom_development = __commonJS({
               if (child.key === key) {
                 var elementType = element.type;
                 if (elementType === REACT_FRAGMENT_TYPE) {
-                  if (child.tag === Fragment8) {
+                  if (child.tag === Fragment9) {
                     deleteRemainingChildren(returnFiber, child.sibling);
                     var existing = useFiber(child, element.props.children);
                     existing.return = returnFiber;
@@ -17898,7 +17898,7 @@ var require_react_dom_development = __commonJS({
               var _resolvedProps2 = workInProgress2.elementType === type ? _unresolvedProps2 : resolveDefaultProps(type, _unresolvedProps2);
               return updateForwardRef(current2, workInProgress2, type, _resolvedProps2, renderLanes2);
             }
-            case Fragment8:
+            case Fragment9:
               return updateFragment(current2, workInProgress2, renderLanes2);
             case Mode:
               return updateMode(current2, workInProgress2, renderLanes2);
@@ -18170,7 +18170,7 @@ var require_react_dom_development = __commonJS({
             case SimpleMemoComponent:
             case FunctionComponent:
             case ForwardRef:
-            case Fragment8:
+            case Fragment9:
             case Mode:
             case Profiler:
             case ContextConsumer:
@@ -22431,7 +22431,7 @@ var require_react_dom_development = __commonJS({
           return fiber;
         }
         function createFiberFromFragment(elements, mode, lanes, key) {
-          var fiber = createFiber(Fragment8, elements, key, mode);
+          var fiber = createFiber(Fragment9, elements, key, mode);
           fiber.lanes = lanes;
           return fiber;
         }
@@ -26856,10 +26856,216 @@ function useViewTransitionState(to, { relative } = {}) {
 var import_react5 = __toESM(require_react());
 
 // src/components/BeadGrid.tsx
-var import_react3 = __toESM(require_react());
+var import_react = __toESM(require_react());
+var import_jsx_runtime = __toESM(require_jsx_runtime());
+var BeadGrid = ({
+  grid,
+  onBeadClick,
+  selectedColor,
+  currentTool,
+  templateType,
+  scale,
+  onScaleChange
+}) => {
+  const isDrawing = (0, import_react.useRef)(false);
+  const lastTouchDistance = (0, import_react.useRef)(null);
+  const isPinching = (0, import_react.useRef)(false);
+  const lastTouchedCell = (0, import_react.useRef)(null);
+  const gridRef = (0, import_react.useRef)(null);
+  const getTouchDistance = (touches) => {
+    if (touches.length < 2) return null;
+    const touch1 = touches[0];
+    const touch2 = touches[1];
+    const dx = touch1.clientX - touch2.clientX;
+    const dy = touch1.clientY - touch2.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  };
+  const handleCellClick = (row, col) => {
+    onBeadClick(row, col);
+  };
+  const handleCellEnter = (row, col) => {
+    if (isDrawing.current) {
+      onBeadClick(row, col);
+    }
+  };
+  const handleMouseDown = (row, col) => {
+    isDrawing.current = true;
+    onBeadClick(row, col);
+  };
+  const handleMouseUp = () => {
+    isDrawing.current = false;
+  };
+  const handleTouchStart = (e, row, col) => {
+    if (e.touches.length >= 2) {
+      isPinching.current = true;
+      isDrawing.current = false;
+      const distance = getTouchDistance(e.touches);
+      lastTouchDistance.current = distance;
+      return;
+    }
+    if (e.touches.length === 1 && !isPinching.current) {
+      isDrawing.current = true;
+      lastTouchedCell.current = `${row}-${col}`;
+      onBeadClick(row, col);
+    }
+  };
+  const handleTouchMove = (e) => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      isPinching.current = true;
+      isDrawing.current = false;
+      const distance = getTouchDistance(e.touches);
+      if (distance) {
+        if (lastTouchDistance.current === null) {
+          lastTouchDistance.current = distance;
+        } else {
+          const scale_ratio = distance / lastTouchDistance.current;
+          const newScale = scale * scale_ratio;
+          onScaleChange(Math.max(0.4, Math.min(2, newScale)));
+          lastTouchDistance.current = distance;
+        }
+      }
+      return;
+    }
+    if (!isDrawing.current || isPinching.current) return;
+    e.preventDefault();
+    const touch = e.touches[0];
+    const element = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (element && element.hasAttribute("data-row") && element.hasAttribute("data-col")) {
+      const row = parseInt(element.getAttribute("data-row") || "0");
+      const col = parseInt(element.getAttribute("data-col") || "0");
+      const cellKey = `${row}-${col}`;
+      if (cellKey !== lastTouchedCell.current) {
+        lastTouchedCell.current = cellKey;
+        onBeadClick(row, col);
+      }
+    }
+  };
+  (0, import_react.useEffect)(() => {
+    const gridElement = gridRef.current;
+    if (!gridElement) return;
+    const touchMoveHandler = (e) => {
+      handleTouchMove(e);
+    };
+    gridElement.addEventListener("touchmove", touchMoveHandler, { passive: false });
+    return () => {
+      gridElement.removeEventListener("touchmove", touchMoveHandler);
+    };
+  }, [scale, onScaleChange, onBeadClick]);
+  const handleTouchEnd = (e) => {
+    if (e.touches.length >= 2) {
+      isPinching.current = true;
+      const distance = getTouchDistance(e.touches);
+      lastTouchDistance.current = distance;
+    } else if (e.touches.length === 0) {
+      isDrawing.current = false;
+      isPinching.current = false;
+      lastTouchDistance.current = null;
+      lastTouchedCell.current = null;
+    } else {
+      isPinching.current = false;
+      lastTouchDistance.current = null;
+    }
+  };
+  const getTemplateConfig = () => {
+    switch (templateType) {
+      case "square-large":
+        return {
+          size: "min(145mm, 85vw)",
+          gridSize: 29,
+          label: "\u7DB2\u683C\u5C3A\u5BF8: 145mm \xD7 145mm | \u8C46\u5B50\u6578\u91CF: 29 \xD7 29 = 841\u9846",
+          isCircle: false
+        };
+      case "square-small":
+        return {
+          size: "min(80mm, 85vw)",
+          gridSize: 14,
+          label: "\u7DB2\u683C\u5C3A\u5BF8: 80mm \xD7 80mm | \u8C46\u5B50\u6578\u91CF: 14 \xD7 14 = 196\u9846",
+          isCircle: false
+        };
+      case "circle-large":
+        return {
+          size: "min(155mm, 85vw)",
+          gridSize: 29,
+          label: "\u7DB2\u683C\u5C3A\u5BF8: 155mm \xD7 155mm | \u8C46\u5B50\u6578\u91CF: \u76F4\u5F9129\u9846",
+          isCircle: true
+        };
+      default:
+        return {
+          size: "145mm",
+          gridSize: 29,
+          label: "\u7DB2\u683C\u5C3A\u5BF8: 145mm \xD7 145mm | \u8C46\u5B50\u6578\u91CF: 29 \xD7 29 = 841\u9846",
+          isCircle: false
+        };
+    }
+  };
+  const isInCircle = (row, col, gridSize) => {
+    const center = (gridSize - 1) / 2;
+    const radius = gridSize / 2;
+    const distance = Math.sqrt(Math.pow(row - center, 2) + Math.pow(col - center, 2));
+    return distance <= radius;
+  };
+  const config = getTemplateConfig();
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "flex flex-col items-center", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "flex items-center justify-center p-4", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "flex items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+      "div",
+      {
+        ref: gridRef,
+        className: `grid border-2 border-gray-300 bg-white shadow-lg touch-none ${config.isCircle ? "rounded-full" : ""}`,
+        style: {
+          width: config.size,
+          height: config.size,
+          gridTemplateColumns: `repeat(${config.gridSize}, 1fr)`,
+          gridTemplateRows: `repeat(${config.gridSize}, 1fr)`,
+          gap: "4px",
+          padding: "12px",
+          transform: `scale(${scale})`,
+          transformOrigin: "center",
+          transition: isPinching.current ? "none" : "transform 0.2s ease-out",
+          touchAction: "none"
+        },
+        onMouseLeave: handleMouseUp,
+        onMouseUp: handleMouseUp,
+        onTouchEnd: handleTouchEnd,
+        onTouchCancel: handleTouchEnd,
+        children: grid.map(
+          (row, rowIndex) => row.map((color, colIndex) => {
+            const inCircle = !config.isCircle || isInCircle(rowIndex, colIndex, config.gridSize);
+            return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+              "button",
+              {
+                className: `rounded-full transition-all duration-150 hover:scale-110 ${color ? "shadow-md" : ""} ${!inCircle ? "invisible" : ""}`,
+                style: {
+                  backgroundColor: color || "#e5e7eb",
+                  visibility: inCircle ? "visible" : "hidden",
+                  aspectRatio: "1",
+                  transform: color ? "scale(1)" : "scale(0.5)"
+                },
+                "data-row": rowIndex,
+                "data-col": colIndex,
+                onClick: () => inCircle && handleCellClick(rowIndex, colIndex),
+                onMouseEnter: () => inCircle && handleCellEnter(rowIndex, colIndex),
+                onMouseDown: () => inCircle && handleMouseDown(rowIndex, colIndex),
+                onTouchStart: (e) => inCircle && handleTouchStart(e, rowIndex, colIndex),
+                title: inCircle ? `\u4F4D\u7F6E: (${rowIndex + 1}, ${colIndex + 1})` : "",
+                disabled: !inCircle
+              },
+              `${rowIndex}-${colIndex}`
+            );
+          })
+        )
+      }
+    ) }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "mt-4 text-sm text-gray-600", children: config.label })
+  ] });
+};
+var BeadGrid_default = BeadGrid;
+
+// src/components/ColorPicker.tsx
+var import_react4 = __toESM(require_react());
 
 // node_modules/lucide-react/dist/esm/createLucideIcon.js
-var import_react2 = __toESM(require_react());
+var import_react3 = __toESM(require_react());
 
 // node_modules/lucide-react/dist/esm/shared/src/utils.js
 var toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
@@ -26883,7 +27089,7 @@ var hasA11yProp = (props) => {
 };
 
 // node_modules/lucide-react/dist/esm/Icon.js
-var import_react = __toESM(require_react());
+var import_react2 = __toESM(require_react());
 
 // node_modules/lucide-react/dist/esm/defaultAttributes.js
 var defaultAttributes = {
@@ -26899,7 +27105,7 @@ var defaultAttributes = {
 };
 
 // node_modules/lucide-react/dist/esm/Icon.js
-var Icon = (0, import_react.forwardRef)(
+var Icon = (0, import_react2.forwardRef)(
   ({
     color = "currentColor",
     size = 24,
@@ -26910,7 +27116,7 @@ var Icon = (0, import_react.forwardRef)(
     iconNode,
     ...rest
   }, ref) => {
-    return (0, import_react.createElement)(
+    return (0, import_react2.createElement)(
       "svg",
       {
         ref,
@@ -26924,7 +27130,7 @@ var Icon = (0, import_react.forwardRef)(
         ...rest
       },
       [
-        ...iconNode.map(([tag, attrs]) => (0, import_react.createElement)(tag, attrs)),
+        ...iconNode.map(([tag, attrs]) => (0, import_react2.createElement)(tag, attrs)),
         ...Array.isArray(children) ? children : [children]
       ]
     );
@@ -26933,8 +27139,8 @@ var Icon = (0, import_react.forwardRef)(
 
 // node_modules/lucide-react/dist/esm/createLucideIcon.js
 var createLucideIcon = (iconName, iconNode) => {
-  const Component4 = (0, import_react2.forwardRef)(
-    ({ className, ...props }, ref) => (0, import_react2.createElement)(Icon, {
+  const Component4 = (0, import_react3.forwardRef)(
+    ({ className, ...props }, ref) => (0, import_react3.createElement)(Icon, {
       ref,
       iconNode,
       className: mergeClasses(
@@ -27046,8 +27252,23 @@ var __iconNode11 = [
 ];
 var FolderPlus = createLucideIcon("folder-plus", __iconNode11);
 
-// node_modules/lucide-react/dist/esm/icons/house.js
+// node_modules/lucide-react/dist/esm/icons/hand.js
 var __iconNode12 = [
+  ["path", { d: "M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2", key: "1fvzgz" }],
+  ["path", { d: "M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2", key: "1kc0my" }],
+  ["path", { d: "M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8", key: "10h0bg" }],
+  [
+    "path",
+    {
+      d: "M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15",
+      key: "1s1gnw"
+    }
+  ]
+];
+var Hand = createLucideIcon("hand", __iconNode12);
+
+// node_modules/lucide-react/dist/esm/icons/house.js
+var __iconNode13 = [
   ["path", { d: "M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8", key: "5wwlr5" }],
   [
     "path",
@@ -27057,18 +27278,18 @@ var __iconNode12 = [
     }
   ]
 ];
-var House = createLucideIcon("house", __iconNode12);
+var House = createLucideIcon("house", __iconNode13);
 
 // node_modules/lucide-react/dist/esm/icons/image.js
-var __iconNode13 = [
+var __iconNode14 = [
   ["rect", { width: "18", height: "18", x: "3", y: "3", rx: "2", ry: "2", key: "1m3agn" }],
   ["circle", { cx: "9", cy: "9", r: "2", key: "af1f0g" }],
   ["path", { d: "m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21", key: "1xmnt7" }]
 ];
-var Image2 = createLucideIcon("image", __iconNode13);
+var Image2 = createLucideIcon("image", __iconNode14);
 
 // node_modules/lucide-react/dist/esm/icons/move.js
-var __iconNode14 = [
+var __iconNode15 = [
   ["path", { d: "M12 2v20", key: "t6zp3m" }],
   ["path", { d: "m15 19-3 3-3-3", key: "11eu04" }],
   ["path", { d: "m19 9 3 3-3 3", key: "1mg7y2" }],
@@ -27076,10 +27297,10 @@ var __iconNode14 = [
   ["path", { d: "m5 9-3 3 3 3", key: "j64kie" }],
   ["path", { d: "m9 5 3-3 3 3", key: "l8vdw6" }]
 ];
-var Move = createLucideIcon("move", __iconNode14);
+var Move = createLucideIcon("move", __iconNode15);
 
 // node_modules/lucide-react/dist/esm/icons/paint-bucket.js
-var __iconNode15 = [
+var __iconNode16 = [
   [
     "path",
     { d: "m19 11-8-8-8.6 8.6a2 2 0 0 0 0 2.8l5.2 5.2c.8.8 2 .8 2.8 0L19 11Z", key: "irua1i" }
@@ -27088,10 +27309,10 @@ var __iconNode15 = [
   ["path", { d: "M2 13h15", key: "1hkzvu" }],
   ["path", { d: "M22 20a2 2 0 1 1-4 0c0-1.6 1.7-2.4 2-4 .3 1.6 2 2.4 2 4Z", key: "xk76lq" }]
 ];
-var PaintBucket = createLucideIcon("paint-bucket", __iconNode15);
+var PaintBucket = createLucideIcon("paint-bucket", __iconNode16);
 
 // node_modules/lucide-react/dist/esm/icons/palette.js
-var __iconNode16 = [
+var __iconNode17 = [
   [
     "path",
     {
@@ -27104,10 +27325,10 @@ var __iconNode16 = [
   ["circle", { cx: "6.5", cy: "12.5", r: ".5", fill: "currentColor", key: "qy21gx" }],
   ["circle", { cx: "8.5", cy: "7.5", r: ".5", fill: "currentColor", key: "fotxhn" }]
 ];
-var Palette = createLucideIcon("palette", __iconNode16);
+var Palette = createLucideIcon("palette", __iconNode17);
 
 // node_modules/lucide-react/dist/esm/icons/pen.js
-var __iconNode17 = [
+var __iconNode18 = [
   [
     "path",
     {
@@ -27116,38 +27337,38 @@ var __iconNode17 = [
     }
   ]
 ];
-var Pen = createLucideIcon("pen", __iconNode17);
+var Pen = createLucideIcon("pen", __iconNode18);
 
 // node_modules/lucide-react/dist/esm/icons/plus.js
-var __iconNode18 = [
+var __iconNode19 = [
   ["path", { d: "M5 12h14", key: "1ays0h" }],
   ["path", { d: "M12 5v14", key: "s699le" }]
 ];
-var Plus = createLucideIcon("plus", __iconNode18);
+var Plus = createLucideIcon("plus", __iconNode19);
 
 // node_modules/lucide-react/dist/esm/icons/redo-2.js
-var __iconNode19 = [
+var __iconNode20 = [
   ["path", { d: "m15 14 5-5-5-5", key: "12vg1m" }],
   ["path", { d: "M20 9H9.5A5.5 5.5 0 0 0 4 14.5A5.5 5.5 0 0 0 9.5 20H13", key: "6uklza" }]
 ];
-var Redo2 = createLucideIcon("redo-2", __iconNode19);
+var Redo2 = createLucideIcon("redo-2", __iconNode20);
 
 // node_modules/lucide-react/dist/esm/icons/rotate-ccw.js
-var __iconNode20 = [
+var __iconNode21 = [
   ["path", { d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8", key: "1357e3" }],
   ["path", { d: "M3 3v5h5", key: "1xhq8a" }]
 ];
-var RotateCcw = createLucideIcon("rotate-ccw", __iconNode20);
+var RotateCcw = createLucideIcon("rotate-ccw", __iconNode21);
 
 // node_modules/lucide-react/dist/esm/icons/rotate-cw.js
-var __iconNode21 = [
+var __iconNode22 = [
   ["path", { d: "M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8", key: "1p45f6" }],
   ["path", { d: "M21 3v5h-5", key: "1q7to0" }]
 ];
-var RotateCw = createLucideIcon("rotate-cw", __iconNode21);
+var RotateCw = createLucideIcon("rotate-cw", __iconNode22);
 
 // node_modules/lucide-react/dist/esm/icons/settings.js
-var __iconNode22 = [
+var __iconNode23 = [
   [
     "path",
     {
@@ -27157,308 +27378,64 @@ var __iconNode22 = [
   ],
   ["circle", { cx: "12", cy: "12", r: "3", key: "1v7zrd" }]
 ];
-var Settings = createLucideIcon("settings", __iconNode22);
+var Settings = createLucideIcon("settings", __iconNode23);
 
 // node_modules/lucide-react/dist/esm/icons/square.js
-var __iconNode23 = [
+var __iconNode24 = [
   ["rect", { width: "18", height: "18", x: "3", y: "3", rx: "2", key: "afitv7" }]
 ];
-var Square = createLucideIcon("square", __iconNode23);
+var Square = createLucideIcon("square", __iconNode24);
 
 // node_modules/lucide-react/dist/esm/icons/trash-2.js
-var __iconNode24 = [
+var __iconNode25 = [
   ["path", { d: "M3 6h18", key: "d0wm0j" }],
   ["path", { d: "M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6", key: "4alrt4" }],
   ["path", { d: "M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2", key: "v07s0e" }],
   ["line", { x1: "10", x2: "10", y1: "11", y2: "17", key: "1uufr5" }],
   ["line", { x1: "14", x2: "14", y1: "11", y2: "17", key: "xtxkd" }]
 ];
-var Trash2 = createLucideIcon("trash-2", __iconNode24);
+var Trash2 = createLucideIcon("trash-2", __iconNode25);
 
 // node_modules/lucide-react/dist/esm/icons/undo-2.js
-var __iconNode25 = [
+var __iconNode26 = [
   ["path", { d: "M9 14 4 9l5-5", key: "102s5s" }],
   ["path", { d: "M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11", key: "f3b9sd" }]
 ];
-var Undo2 = createLucideIcon("undo-2", __iconNode25);
+var Undo2 = createLucideIcon("undo-2", __iconNode26);
 
 // node_modules/lucide-react/dist/esm/icons/upload.js
-var __iconNode26 = [
+var __iconNode27 = [
   ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }],
   ["polyline", { points: "17 8 12 3 7 8", key: "t8dd8p" }],
   ["line", { x1: "12", x2: "12", y1: "3", y2: "15", key: "widbto" }]
 ];
-var Upload = createLucideIcon("upload", __iconNode26);
+var Upload = createLucideIcon("upload", __iconNode27);
 
 // node_modules/lucide-react/dist/esm/icons/x.js
-var __iconNode27 = [
+var __iconNode28 = [
   ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
   ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
 ];
-var X = createLucideIcon("x", __iconNode27);
+var X = createLucideIcon("x", __iconNode28);
 
 // node_modules/lucide-react/dist/esm/icons/zoom-in.js
-var __iconNode28 = [
+var __iconNode29 = [
   ["circle", { cx: "11", cy: "11", r: "8", key: "4ej97u" }],
   ["line", { x1: "21", x2: "16.65", y1: "21", y2: "16.65", key: "13gj7c" }],
   ["line", { x1: "11", x2: "11", y1: "8", y2: "14", key: "1vmskp" }],
   ["line", { x1: "8", x2: "14", y1: "11", y2: "11", key: "durymu" }]
 ];
-var ZoomIn = createLucideIcon("zoom-in", __iconNode28);
+var ZoomIn = createLucideIcon("zoom-in", __iconNode29);
 
 // node_modules/lucide-react/dist/esm/icons/zoom-out.js
-var __iconNode29 = [
+var __iconNode30 = [
   ["circle", { cx: "11", cy: "11", r: "8", key: "4ej97u" }],
   ["line", { x1: "21", x2: "16.65", y1: "21", y2: "16.65", key: "13gj7c" }],
   ["line", { x1: "8", x2: "14", y1: "11", y2: "11", key: "durymu" }]
 ];
-var ZoomOut = createLucideIcon("zoom-out", __iconNode29);
-
-// src/components/BeadGrid.tsx
-var import_jsx_runtime = __toESM(require_jsx_runtime());
-var BeadGrid = ({
-  grid,
-  onBeadClick,
-  selectedColor,
-  currentTool,
-  templateType,
-  onUndo,
-  onRedo,
-  canUndo,
-  canRedo
-}) => {
-  const isDrawing = (0, import_react3.useRef)(false);
-  const [scale, setScale] = (0, import_react3.useState)(1);
-  const lastTouchDistance = (0, import_react3.useRef)(null);
-  const isPinching = (0, import_react3.useRef)(false);
-  const handleZoomIn = () => {
-    setScale((prev) => Math.min(prev + 0.2, 2));
-  };
-  const handleZoomOut = () => {
-    setScale((prev) => Math.max(prev - 0.2, 0.4));
-  };
-  const getTouchDistance = (touches) => {
-    if (touches.length < 2) return null;
-    const touch1 = touches[0];
-    const touch2 = touches[1];
-    const dx = touch1.clientX - touch2.clientX;
-    const dy = touch1.clientY - touch2.clientY;
-    return Math.sqrt(dx * dx + dy * dy);
-  };
-  const handleCellClick = (row, col) => {
-    onBeadClick(row, col);
-  };
-  const handleCellEnter = (row, col) => {
-    if (isDrawing.current) {
-      onBeadClick(row, col);
-    }
-  };
-  const handleMouseDown = (row, col) => {
-    isDrawing.current = true;
-    onBeadClick(row, col);
-  };
-  const handleMouseUp = () => {
-    isDrawing.current = false;
-  };
-  const handleTouchStart = (e, row, col) => {
-    if (e.touches.length >= 2) {
-      isPinching.current = true;
-      isDrawing.current = false;
-      const distance = getTouchDistance(e.touches);
-      lastTouchDistance.current = distance;
-      return;
-    }
-    if (e.touches.length === 1 && !isPinching.current) {
-      isDrawing.current = true;
-      onBeadClick(row, col);
-    }
-  };
-  const handleTouchMove = (e) => {
-    if (e.touches.length === 2) {
-      isPinching.current = true;
-      isDrawing.current = false;
-      const distance = getTouchDistance(e.touches);
-      if (distance) {
-        if (lastTouchDistance.current === null) {
-          lastTouchDistance.current = distance;
-        } else {
-          const scale_ratio = distance / lastTouchDistance.current;
-          setScale((prev) => {
-            const newScale = prev * scale_ratio;
-            return Math.max(0.4, Math.min(2, newScale));
-          });
-          lastTouchDistance.current = distance;
-        }
-      }
-      return;
-    }
-    if (!isDrawing.current || isPinching.current) return;
-    const touch = e.touches[0];
-    const element = document.elementFromPoint(touch.clientX, touch.clientY);
-    if (element && element.hasAttribute("data-row") && element.hasAttribute("data-col")) {
-      const row = parseInt(element.getAttribute("data-row") || "0");
-      const col = parseInt(element.getAttribute("data-col") || "0");
-      onBeadClick(row, col);
-    }
-  };
-  const handleTouchEnd = (e) => {
-    if (e.touches.length >= 2) {
-      isPinching.current = true;
-      const distance = getTouchDistance(e.touches);
-      lastTouchDistance.current = distance;
-    } else if (e.touches.length === 0) {
-      isDrawing.current = false;
-      isPinching.current = false;
-      lastTouchDistance.current = null;
-    } else {
-      isPinching.current = false;
-      lastTouchDistance.current = null;
-    }
-  };
-  const getTemplateConfig = () => {
-    switch (templateType) {
-      case "square-large":
-        return {
-          size: "min(145mm, 85vw)",
-          gridSize: 29,
-          label: "\u7DB2\u683C\u5C3A\u5BF8: 145mm \xD7 145mm | \u8C46\u5B50\u6578\u91CF: 29 \xD7 29 = 841\u9846",
-          isCircle: false
-        };
-      case "square-small":
-        return {
-          size: "min(80mm, 85vw)",
-          gridSize: 14,
-          label: "\u7DB2\u683C\u5C3A\u5BF8: 80mm \xD7 80mm | \u8C46\u5B50\u6578\u91CF: 14 \xD7 14 = 196\u9846",
-          isCircle: false
-        };
-      case "circle-large":
-        return {
-          size: "min(155mm, 85vw)",
-          gridSize: 29,
-          label: "\u7DB2\u683C\u5C3A\u5BF8: 155mm \xD7 155mm | \u8C46\u5B50\u6578\u91CF: \u76F4\u5F9129\u9846",
-          isCircle: true
-        };
-      default:
-        return {
-          size: "145mm",
-          gridSize: 29,
-          label: "\u7DB2\u683C\u5C3A\u5BF8: 145mm \xD7 145mm | \u8C46\u5B50\u6578\u91CF: 29 \xD7 29 = 841\u9846",
-          isCircle: false
-        };
-    }
-  };
-  const isInCircle = (row, col, gridSize) => {
-    const center = (gridSize - 1) / 2;
-    const radius = gridSize / 2;
-    const distance = Math.sqrt(Math.pow(row - center, 2) + Math.pow(col - center, 2));
-    return distance <= radius;
-  };
-  const config = getTemplateConfig();
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "flex flex-col items-center", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "flex justify-between items-center w-full mb-3", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "flex gap-2", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-          "button",
-          {
-            onClick: handleZoomOut,
-            className: "p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all",
-            title: "\u7E2E\u5C0F",
-            children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ZoomOut, { className: "w-5 h-5" })
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "flex items-center px-3 py-2 bg-white rounded-lg shadow-lg", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { className: "text-sm font-semibold", children: [
-          Math.round(scale * 100),
-          "%"
-        ] }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-          "button",
-          {
-            onClick: handleZoomIn,
-            className: "p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all",
-            title: "\u653E\u5927",
-            children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ZoomIn, { className: "w-5 h-5" })
-          }
-        )
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "flex gap-2", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-          "button",
-          {
-            onClick: onUndo,
-            disabled: !canUndo,
-            className: "p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed",
-            title: "\u64A4\u92B7",
-            children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Undo2, { className: "w-5 h-5" })
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-          "button",
-          {
-            onClick: onRedo,
-            disabled: !canRedo,
-            className: "p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed",
-            title: "\u91CD\u4F5C",
-            children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Redo2, { className: "w-5 h-5" })
-          }
-        )
-      ] })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "flex items-center justify-center p-4 bg-gray-50 rounded-lg border-2 border-gray-200", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "flex items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-      "div",
-      {
-        className: `grid border-2 border-gray-300 bg-white shadow-lg touch-none ${config.isCircle ? "rounded-full" : ""}`,
-        style: {
-          width: config.size,
-          height: config.size,
-          gridTemplateColumns: `repeat(${config.gridSize}, 1fr)`,
-          gridTemplateRows: `repeat(${config.gridSize}, 1fr)`,
-          gap: "4px",
-          padding: "12px",
-          transform: `scale(${scale})`,
-          transformOrigin: "center",
-          transition: isPinching.current ? "none" : "transform 0.2s ease-out"
-        },
-        onMouseLeave: handleMouseUp,
-        onMouseUp: handleMouseUp,
-        onTouchMove: handleTouchMove,
-        onTouchEnd: handleTouchEnd,
-        onTouchCancel: handleTouchEnd,
-        children: grid.map(
-          (row, rowIndex) => row.map((color, colIndex) => {
-            const inCircle = !config.isCircle || isInCircle(rowIndex, colIndex, config.gridSize);
-            return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-              "button",
-              {
-                className: `rounded-full transition-all duration-150 hover:scale-110 ${color ? "shadow-md" : ""} ${!inCircle ? "invisible" : ""}`,
-                style: {
-                  backgroundColor: color || "#e5e7eb",
-                  visibility: inCircle ? "visible" : "hidden",
-                  aspectRatio: "1",
-                  transform: color ? "scale(1)" : "scale(0.5)"
-                },
-                "data-row": rowIndex,
-                "data-col": colIndex,
-                onClick: () => inCircle && handleCellClick(rowIndex, colIndex),
-                onMouseEnter: () => inCircle && handleCellEnter(rowIndex, colIndex),
-                onMouseDown: () => inCircle && handleMouseDown(rowIndex, colIndex),
-                onTouchStart: (e) => inCircle && handleTouchStart(e, rowIndex, colIndex),
-                onTouchMove: handleTouchMove,
-                title: inCircle ? `\u4F4D\u7F6E: (${rowIndex + 1}, ${colIndex + 1})` : "",
-                disabled: !inCircle
-              },
-              `${rowIndex}-${colIndex}`
-            );
-          })
-        )
-      }
-    ) }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "mt-4 text-sm text-gray-600", children: config.label })
-  ] });
-};
-var BeadGrid_default = BeadGrid;
+var ZoomOut = createLucideIcon("zoom-out", __iconNode30);
 
 // src/components/ColorPicker.tsx
-var import_react4 = __toESM(require_react());
 var import_jsx_runtime2 = __toESM(require_jsx_runtime());
 var ColorPicker = ({
   selectedColor,
@@ -28186,6 +28163,8 @@ var HomePage = () => {
   const [selectedColor, setSelectedColor] = (0, import_react5.useState)("#FF6B6B");
   const [currentTool, setCurrentTool] = (0, import_react5.useState)("brush");
   const [symmetryType, setSymmetryType] = (0, import_react5.useState)("none");
+  const [scale, setScale] = (0, import_react5.useState)(1);
+  const [isPanMode, setIsPanMode] = (0, import_react5.useState)(false);
   const [openPanel, setOpenPanel] = (0, import_react5.useState)(null);
   const [customColors, setCustomColors] = (0, import_react5.useState)([]);
   const baseColors = [
@@ -28206,6 +28185,9 @@ var HomePage = () => {
   ]);
   const [historyIndex, setHistoryIndex] = (0, import_react5.useState)(0);
   const gridRef = (0, import_react5.useRef)(null);
+  const containerRef = (0, import_react5.useRef)(null);
+  const isDragging = (0, import_react5.useRef)(false);
+  const dragStart = (0, import_react5.useRef)({ x: 0, y: 0, scrollLeft: 0, scrollTop: 0 });
   (0, import_react5.useEffect)(() => {
     const savedColors = localStorage.getItem("beadArt-customColors");
     if (savedColors) {
@@ -28219,6 +28201,40 @@ var HomePage = () => {
   (0, import_react5.useEffect)(() => {
     localStorage.setItem("beadArt-customColors", JSON.stringify(customColors));
   }, [customColors]);
+  (0, import_react5.useEffect)(() => {
+    const container = containerRef.current;
+    if (!container || !isPanMode) return;
+    const handleMouseDown = (e) => {
+      isDragging.current = true;
+      dragStart.current = {
+        x: e.clientX,
+        y: e.clientY,
+        scrollLeft: container.scrollLeft,
+        scrollTop: container.scrollTop
+      };
+      container.style.cursor = "grabbing";
+    };
+    const handleMouseMove = (e) => {
+      if (!isDragging.current) return;
+      e.preventDefault();
+      const dx = e.clientX - dragStart.current.x;
+      const dy = e.clientY - dragStart.current.y;
+      container.scrollLeft = dragStart.current.scrollLeft - dx;
+      container.scrollTop = dragStart.current.scrollTop - dy;
+    };
+    const handleMouseUp = () => {
+      isDragging.current = false;
+      container.style.cursor = "grab";
+    };
+    container.addEventListener("mousedown", handleMouseDown);
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+    return () => {
+      container.removeEventListener("mousedown", handleMouseDown);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isPanMode]);
   const updateHistory = (0, import_react5.useCallback)((newGrid) => {
     const newHistory = history.slice(0, historyIndex + 1);
     newHistory.push(newGrid);
@@ -28345,6 +28361,12 @@ var HomePage = () => {
       setHistoryIndex(historyIndex + 1);
       setGrid(history[historyIndex + 1]);
     }
+  };
+  const handleZoomIn = () => {
+    setScale((prev) => Math.min(prev + 0.2, 2));
+  };
+  const handleZoomOut = () => {
+    setScale((prev) => Math.max(prev - 0.2, 0.4));
   };
   const handleSaveJSON = () => {
     const data2 = {
@@ -28585,20 +28607,97 @@ var HomePage = () => {
   return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 relative", children: [
     /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("header", { className: "text-center py-6 bg-white/80 backdrop-blur-sm shadow-sm", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h1", { className: "text-3xl font-bold text-gray-800", children: "\u5275\u610F\u62FC\u8C46\u85DD\u8853" }) }),
     /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "flex items-center justify-center py-8", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { ref: gridRef, children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
-        BeadGrid_default,
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "flex justify-between items-center w-full mb-3", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "flex gap-2", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+            "button",
+            {
+              onClick: handleUndo,
+              disabled: historyIndex <= 0,
+              className: "p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed",
+              title: "\u64A4\u92B7",
+              children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Undo2, { className: "w-5 h-5" })
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+            "button",
+            {
+              onClick: handleRedo,
+              disabled: historyIndex >= history.length - 1,
+              className: "p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed",
+              title: "\u91CD\u4F5C",
+              children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Redo2, { className: "w-5 h-5" })
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "flex gap-2", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+            "button",
+            {
+              onClick: handleZoomOut,
+              className: "p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all",
+              title: "\u7E2E\u5C0F",
+              children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(ZoomOut, { className: "w-5 h-5" })
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "flex items-center px-3 py-2 bg-white rounded-lg shadow-lg", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("span", { className: "text-sm font-semibold", children: [
+            Math.round(scale * 100),
+            "%"
+          ] }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+            "button",
+            {
+              onClick: handleZoomIn,
+              className: "p-2 bg-white rounded-lg shadow-lg hover:bg-gray-50 transition-all",
+              title: "\u653E\u5927",
+              children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(ZoomIn, { className: "w-5 h-5" })
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+          "button",
+          {
+            onClick: () => setIsPanMode(!isPanMode),
+            className: `px-4 py-2 rounded-lg shadow-lg transition-all flex items-center gap-2 ${isPanMode ? "bg-blue-500 text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`,
+            title: isPanMode ? "\u5207\u63DB\u5230\u653E\u8C46\u6A21\u5F0F" : "\u5207\u63DB\u5230\u79FB\u52D5\u6A21\u5F0F",
+            children: isPanMode ? /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Hand, { className: "w-5 h-5" }),
+              /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { className: "text-sm font-semibold", children: "\u79FB\u52D5" })
+            ] }) : /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Brush, { className: "w-5 h-5" }),
+              /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { className: "text-sm font-semibold", children: "\u653E\u8C46" })
+            ] })
+          }
+        )
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+        "div",
         {
-          grid,
-          onBeadClick: handleBeadClick,
-          selectedColor,
-          currentTool,
-          templateType,
-          onUndo: handleUndo,
-          onRedo: handleRedo,
-          canUndo: historyIndex > 0,
-          canRedo: historyIndex < history.length - 1
+          ref: containerRef,
+          className: `overflow-auto max-w-[95vw] max-h-[70vh] rounded-lg border-2 border-gray-300 bg-gray-50 ${isPanMode ? "cursor-grab active:cursor-grabbing" : ""}`,
+          children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+            "div",
+            {
+              ref: gridRef,
+              className: "inline-block",
+              style: { pointerEvents: isPanMode ? "none" : "auto" },
+              children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+                BeadGrid_default,
+                {
+                  grid,
+                  onBeadClick: isPanMode ? () => {
+                  } : handleBeadClick,
+                  selectedColor,
+                  currentTool,
+                  templateType,
+                  scale,
+                  onScaleChange: setScale
+                }
+              )
+            }
+          )
         }
-      ) }),
+      ),
       /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "flex flex-col items-center gap-3 mt-4", children: [
         /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "flex justify-center gap-3", children: [
           /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
@@ -28657,13 +28756,19 @@ var HomePage = () => {
               children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Palette, { size: 24 })
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(
             "button",
             {
               onClick: () => togglePanel("symmetry"),
-              className: `p-3 rounded-lg shadow-lg transition-all ${openPanel === "symmetry" ? "bg-blue-500 text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`,
+              className: `p-3 rounded-lg shadow-lg transition-all ${openPanel === "symmetry" ? "bg-blue-500 text-white" : symmetryType !== "none" ? "bg-blue-500 text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`,
               title: "\u5C0D\u7A31\u6A21\u5F0F",
-              children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(FlipHorizontal, { size: 24 })
+              children: [
+                symmetryType === "horizontal" && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(FlipHorizontal, { size: 24 }),
+                symmetryType === "vertical" && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(FlipVertical, { size: 24 }),
+                symmetryType === "both" && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Crosshair, { size: 24 }),
+                symmetryType === "radial" && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(RotateCcw, { size: 24 }),
+                symmetryType === "none" && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Square, { size: 24 })
+              ]
             }
           ),
           /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
@@ -28917,6 +29022,7 @@ lucide-react/dist/esm/icons/eraser.js:
 lucide-react/dist/esm/icons/flip-horizontal.js:
 lucide-react/dist/esm/icons/flip-vertical.js:
 lucide-react/dist/esm/icons/folder-plus.js:
+lucide-react/dist/esm/icons/hand.js:
 lucide-react/dist/esm/icons/house.js:
 lucide-react/dist/esm/icons/image.js:
 lucide-react/dist/esm/icons/move.js:
