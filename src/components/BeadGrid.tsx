@@ -204,27 +204,24 @@ const BeadGrid: React.FC<BeadGridProps> = ({
   const config = getTemplateConfig();
 
   return (
-    <div className="flex flex-col items-center">
-      {/* 網格容器 */}
-      <div className="flex items-center justify-center p-4">
-        <div className="flex items-center justify-center">
-          <div
-            ref={gridRef}
-            className={`grid border-2 border-gray-300 bg-white shadow-lg touch-none ${
-              config.isCircle ? 'rounded-full' : ''
-            }`}
-            style={{
-              width: config.size,
-              height: config.size,
-              gridTemplateColumns: `repeat(${config.gridSize}, 1fr)`,
-              gridTemplateRows: `repeat(${config.gridSize}, 1fr)`,
-              gap: '4px',
-              padding: '12px',
-              transform: `scale(${scale})`,
-              transformOrigin: 'center',
-              transition: isPinching.current ? 'none' : 'transform 0.2s ease-out',
-              touchAction: 'none',
-            }}
+    <div className="p-4">
+      <div
+        ref={gridRef}
+        className={`grid border-2 border-gray-300 bg-white shadow-lg touch-none ${
+          config.isCircle ? 'rounded-full' : ''
+        }`}
+        style={{
+          width: config.size,
+          height: config.size,
+          gridTemplateColumns: `repeat(${config.gridSize}, 1fr)`,
+          gridTemplateRows: `repeat(${config.gridSize}, 1fr)`,
+          gap: '4px',
+          padding: '12px',
+          transform: `scale(${scale})`,
+          transformOrigin: 'center',
+          transition: isPinching.current ? 'none' : 'transform 0.2s ease-out',
+          touchAction: 'none',
+        }}
         onMouseLeave={handleMouseUp}
         onMouseUp={handleMouseUp}
         onTouchEnd={handleTouchEnd}
@@ -259,8 +256,6 @@ const BeadGrid: React.FC<BeadGridProps> = ({
             );
           })
         )}
-          </div>
-        </div>
       </div>
       <div className="mt-4 text-sm text-gray-600">
         {config.label}

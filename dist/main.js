@@ -27006,8 +27006,8 @@ var BeadGrid = ({
     return distance <= radius;
   };
   const config = getTemplateConfig();
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "flex flex-col items-center", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "flex items-center justify-center p-4", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "flex items-center justify-center", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "p-4", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
       "div",
       {
         ref: gridRef,
@@ -27055,7 +27055,7 @@ var BeadGrid = ({
           })
         )
       }
-    ) }) }),
+    ),
     /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "mt-4 text-sm text-gray-600", children: config.label })
   ] });
 };
@@ -28164,8 +28164,8 @@ var HomePage = () => {
   const [currentTool, setCurrentTool] = (0, import_react5.useState)("brush");
   const [symmetryType, setSymmetryType] = (0, import_react5.useState)("none");
   const [scale, setScale] = (0, import_react5.useState)(1);
-  const [isPanMode, setIsPanMode] = (0, import_react5.useState)(false);
   const [openPanel, setOpenPanel] = (0, import_react5.useState)(null);
+  const [isToolMenuOpen, setIsToolMenuOpen] = (0, import_react5.useState)(false);
   const [customColors, setCustomColors] = (0, import_react5.useState)([]);
   const baseColors = [
     "#FF6B6B",
@@ -28203,7 +28203,7 @@ var HomePage = () => {
   }, [customColors]);
   (0, import_react5.useEffect)(() => {
     const container = containerRef.current;
-    if (!container || !isPanMode) return;
+    if (!container || currentTool !== "pan") return;
     const handleMouseDown = (e) => {
       isDragging.current = true;
       dragStart.current = {
@@ -28234,7 +28234,7 @@ var HomePage = () => {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [isPanMode]);
+  }, [currentTool]);
   const updateHistory = (0, import_react5.useCallback)((newGrid) => {
     const newHistory = history.slice(0, historyIndex + 1);
     newHistory.push(newGrid);
@@ -28363,10 +28363,46 @@ var HomePage = () => {
     }
   };
   const handleZoomIn = () => {
-    setScale((prev) => Math.min(prev + 0.2, 2));
+    const container = containerRef.current;
+    if (!container) {
+      setScale((prev) => Math.min(prev + 0.2, 2));
+      return;
+    }
+    const oldScale = scale;
+    const newScale = Math.min(oldScale + 0.2, 2);
+    const scrollLeft = container.scrollLeft;
+    const scrollTop = container.scrollTop;
+    const containerWidth = container.clientWidth;
+    const containerHeight = container.clientHeight;
+    setScale(newScale);
+    setTimeout(() => {
+      const scaleRatio = newScale / oldScale;
+      const newScrollLeft = (scrollLeft + containerWidth / 2) * scaleRatio - containerWidth / 2;
+      const newScrollTop = (scrollTop + containerHeight / 2) * scaleRatio - containerHeight / 2;
+      container.scrollLeft = newScrollLeft;
+      container.scrollTop = newScrollTop;
+    }, 0);
   };
   const handleZoomOut = () => {
-    setScale((prev) => Math.max(prev - 0.2, 0.4));
+    const container = containerRef.current;
+    if (!container) {
+      setScale((prev) => Math.max(prev - 0.2, 0.4));
+      return;
+    }
+    const oldScale = scale;
+    const newScale = Math.max(oldScale - 0.2, 0.4);
+    const scrollLeft = container.scrollLeft;
+    const scrollTop = container.scrollTop;
+    const containerWidth = container.clientWidth;
+    const containerHeight = container.clientHeight;
+    setScale(newScale);
+    setTimeout(() => {
+      const scaleRatio = newScale / oldScale;
+      const newScrollLeft = (scrollLeft + containerWidth / 2) * scaleRatio - containerWidth / 2;
+      const newScrollTop = (scrollTop + containerHeight / 2) * scaleRatio - containerHeight / 2;
+      container.scrollLeft = newScrollLeft;
+      container.scrollTop = newScrollTop;
+    }, 0);
   };
   const handleSaveJSON = () => {
     const data2 = {
@@ -28654,38 +28690,95 @@ var HomePage = () => {
             }
           )
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
-          "button",
-          {
-            onClick: () => setIsPanMode(!isPanMode),
-            className: `px-4 py-2 rounded-lg shadow-lg transition-all flex items-center gap-2 ${isPanMode ? "bg-blue-500 text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`,
-            title: isPanMode ? "\u5207\u63DB\u5230\u653E\u8C46\u6A21\u5F0F" : "\u5207\u63DB\u5230\u79FB\u52D5\u6A21\u5F0F",
-            children: isPanMode ? /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Hand, { className: "w-5 h-5" }),
-              /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { className: "text-sm font-semibold", children: "\u79FB\u52D5" })
-            ] }) : /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Brush, { className: "w-5 h-5" }),
-              /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { className: "text-sm font-semibold", children: "\u653E\u8C46" })
-            ] })
-          }
-        )
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "relative", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(
+            "button",
+            {
+              onClick: () => setIsToolMenuOpen(!isToolMenuOpen),
+              className: "px-4 py-2 rounded-lg shadow-lg transition-all flex items-center gap-2 bg-blue-500 text-white hover:bg-blue-600",
+              title: "\u9078\u64C7\u5DE5\u5177",
+              children: [
+                currentTool === "brush" && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_jsx_runtime6.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Brush, { className: "w-5 h-5" }) }),
+                currentTool === "eraser" && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_jsx_runtime6.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Eraser, { className: "w-5 h-5" }) }),
+                currentTool === "fill" && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_jsx_runtime6.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(PaintBucket, { className: "w-5 h-5" }) }),
+                currentTool === "pan" && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_jsx_runtime6.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Hand, { className: "w-5 h-5" }) }),
+                /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(ChevronDown, { className: "w-4 h-4" })
+              ]
+            }
+          ),
+          isToolMenuOpen && /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "absolute right-0 top-full mt-2 bg-white rounded-lg shadow-xl border-2 border-gray-200 overflow-hidden z-50", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+              "button",
+              {
+                onClick: () => {
+                  setCurrentTool("brush");
+                  setIsToolMenuOpen(false);
+                },
+                className: `w-full px-4 py-3 flex items-center gap-3 transition-all ${currentTool === "brush" ? "bg-blue-50 text-blue-600" : "hover:bg-gray-50"}`,
+                children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Brush, { className: "w-5 h-5" })
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+              "button",
+              {
+                onClick: () => {
+                  setCurrentTool("eraser");
+                  setIsToolMenuOpen(false);
+                },
+                className: `w-full px-4 py-3 flex items-center gap-3 transition-all ${currentTool === "eraser" ? "bg-blue-50 text-blue-600" : "hover:bg-gray-50"}`,
+                children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Eraser, { className: "w-5 h-5" })
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+              "button",
+              {
+                onClick: () => {
+                  setCurrentTool("fill");
+                  setIsToolMenuOpen(false);
+                },
+                className: `w-full px-4 py-3 flex items-center gap-3 transition-all ${currentTool === "fill" ? "bg-blue-50 text-blue-600" : "hover:bg-gray-50"}`,
+                children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(PaintBucket, { className: "w-5 h-5" })
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+              "button",
+              {
+                onClick: () => {
+                  setCurrentTool("pan");
+                  setIsToolMenuOpen(false);
+                },
+                className: `w-full px-4 py-3 flex items-center gap-3 transition-all ${currentTool === "pan" ? "bg-blue-50 text-blue-600" : "hover:bg-gray-50"}`,
+                children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Hand, { className: "w-5 h-5" })
+              }
+            )
+          ] })
+        ] })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
         "div",
         {
           ref: containerRef,
-          className: `overflow-auto max-w-[95vw] max-h-[70vh] rounded-lg border-2 border-gray-300 bg-gray-50 ${isPanMode ? "cursor-grab active:cursor-grabbing" : ""}`,
+          className: `overflow-auto rounded-lg border-2 border-gray-300 bg-gray-50 ${currentTool === "pan" ? "cursor-grab active:cursor-grabbing" : ""}`,
+          style: {
+            maxWidth: "95vw",
+            maxHeight: "70vh",
+            width: "fit-content",
+            height: "fit-content"
+          },
           children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
             "div",
             {
               ref: gridRef,
               className: "inline-block",
-              style: { pointerEvents: isPanMode ? "none" : "auto" },
+              style: {
+                pointerEvents: currentTool === "pan" ? "none" : "auto",
+                padding: `${(scale - 1) * 50}%`
+              },
               children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
                 BeadGrid_default,
                 {
                   grid,
-                  onBeadClick: isPanMode ? () => {
+                  onBeadClick: currentTool === "pan" ? () => {
                   } : handleBeadClick,
                   selectedColor,
                   currentTool,
@@ -28699,44 +28792,15 @@ var HomePage = () => {
         }
       ),
       /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "flex flex-col items-center gap-3 mt-4", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "flex justify-center gap-3", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
-            "button",
-            {
-              onClick: () => setCurrentTool("brush"),
-              className: `p-3 rounded-lg shadow-lg transition-all ${currentTool === "brush" ? "bg-blue-500 text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`,
-              title: "\u756B\u7B46",
-              children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Brush, { size: 24 })
-            }
-          ),
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
-            "button",
-            {
-              onClick: () => setCurrentTool("eraser"),
-              className: `p-3 rounded-lg shadow-lg transition-all ${currentTool === "eraser" ? "bg-blue-500 text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`,
-              title: "\u6A61\u76AE\u64E6",
-              children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Eraser, { size: 24 })
-            }
-          ),
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
-            "button",
-            {
-              onClick: () => setCurrentTool("fill"),
-              className: `p-3 rounded-lg shadow-lg transition-all ${currentTool === "fill" ? "bg-blue-500 text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`,
-              title: "\u586B\u5145",
-              children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(PaintBucket, { size: 24 })
-            }
-          ),
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
-            "button",
-            {
-              onClick: handleReset,
-              className: "p-3 rounded-lg shadow-lg transition-all bg-white text-gray-700 hover:bg-gray-50",
-              title: "\u91CD\u7F6E",
-              children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(RotateCcw, { size: 24 })
-            }
-          )
-        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "flex justify-center gap-3", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+          "button",
+          {
+            onClick: handleReset,
+            className: "p-3 rounded-lg shadow-lg transition-all bg-white text-gray-700 hover:bg-gray-50",
+            title: "\u91CD\u7F6E",
+            children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(RotateCcw, { size: 24 })
+          }
+        ) }),
         /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "flex flex-wrap justify-center gap-3", children: [
           /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
             "button",

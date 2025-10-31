@@ -67,10 +67,10 @@ const HomePage: React.FC = () => {
   const [currentTool, setCurrentTool] = useState<string>('brush');
   const [symmetryType, setSymmetryType] = useState<SymmetryType>('none');
   const [scale, setScale] = useState<number>(1);
-  const [isPanMode, setIsPanMode] = useState<boolean>(false);
   
   // 面板展開狀態
   const [openPanel, setOpenPanel] = useState<string | null>(null);
+  const [isToolMenuOpen, setIsToolMenuOpen] = useState<boolean>(false);
   
   // 自定義顏色狀態
   const [customColors, setCustomColors] = useState<string[]>([]);
@@ -117,7 +117,7 @@ const HomePage: React.FC = () => {
   // 移動模式的拖動滾動功能
   useEffect(() => {
     const container = containerRef.current;
-    if (!container || !isPanMode) return;
+    if (!container || currentTool !== 'pan') return;
 
     const handleMouseDown = (e: MouseEvent) => {
       isDragging.current = true;
@@ -153,7 +153,7 @@ const HomePage: React.FC = () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isPanMode]);
+  }, [currentTool]);
 
   // 更新歷史記錄
   const updateHistory = useCallback((newGrid: string[][]) => {
@@ -341,12 +341,62 @@ const HomePage: React.FC = () => {
 
   // 放大
   const handleZoomIn = () => {
-    setScale(prev => Math.min(prev + 0.2, 2));
+    const container = containerRef.current;
+    if (!container) {
+      setScale(prev => Math.min(prev + 0.2, 2));
+      return;
+    }
+    
+    const oldScale = scale;
+    const newScale = Math.min(oldScale + 0.2, 2);
+    
+    // 記錄縮放前的中心位置
+    const scrollLeft = container.scrollLeft;
+    const scrollTop = container.scrollTop;
+    const containerWidth = container.clientWidth;
+    const containerHeight = container.clientHeight;
+    
+    setScale(newScale);
+    
+    // 等待 DOM 更新後調整滾動位置
+    setTimeout(() => {
+      const scaleRatio = newScale / oldScale;
+      const newScrollLeft = (scrollLeft + containerWidth / 2) * scaleRatio - containerWidth / 2;
+      const newScrollTop = (scrollTop + containerHeight / 2) * scaleRatio - containerHeight / 2;
+      
+      container.scrollLeft = newScrollLeft;
+      container.scrollTop = newScrollTop;
+    }, 0);
   };
 
   // 縮小
   const handleZoomOut = () => {
-    setScale(prev => Math.max(prev - 0.2, 0.4));
+    const container = containerRef.current;
+    if (!container) {
+      setScale(prev => Math.max(prev - 0.2, 0.4));
+      return;
+    }
+    
+    const oldScale = scale;
+    const newScale = Math.max(oldScale - 0.2, 0.4);
+    
+    // 記錄縮放前的中心位置
+    const scrollLeft = container.scrollLeft;
+    const scrollTop = container.scrollTop;
+    const containerWidth = container.clientWidth;
+    const containerHeight = container.clientHeight;
+    
+    setScale(newScale);
+    
+    // 等待 DOM 更新後調整滾動位置
+    setTimeout(() => {
+      const scaleRatio = newScale / oldScale;
+      const newScrollLeft = (scrollLeft + containerWidth / 2) * scaleRatio - containerWidth / 2;
+      const newScrollTop = (scrollTop + containerHeight / 2) * scaleRatio - containerHeight / 2;
+      
+      container.scrollLeft = newScrollLeft;
+      container.scrollTop = newScrollTop;
+    }, 0);
   };
 
   // 保存為JSON
@@ -721,45 +771,88 @@ const HomePage: React.FC = () => {
               </button>
             </div>
 
-            {/* 模式切換按鈕 - 右側 */}
-            <button
-              onClick={() => setIsPanMode(!isPanMode)}
-              className={`px-4 py-2 rounded-lg shadow-lg transition-all flex items-center gap-2 ${
-                isPanMode 
-                  ? 'bg-blue-500 text-white' 
-                  : 'bg-white text-gray-700 hover:bg-gray-50'
-              }`}
-              title={isPanMode ? "切換到放豆模式" : "切換到移動模式"}
-            >
-              {isPanMode ? (
-                <>
-                  <Hand className="w-5 h-5" />
-                  <span className="text-sm font-semibold">移動</span>
-                </>
-              ) : (
-                <>
-                  <Brush className="w-5 h-5" />
-                  <span className="text-sm font-semibold">放豆</span>
-                </>
+            {/* 工具選單 - 右側 */}
+            <div className="relative">
+              <button
+                onClick={() => setIsToolMenuOpen(!isToolMenuOpen)}
+                className="px-4 py-2 rounded-lg shadow-lg transition-all flex items-center gap-2 bg-blue-500 text-white hover:bg-blue-600"
+                title="選擇工具"
+              >
+                {currentTool === 'brush' && <><Brush className="w-5 h-5" /></>}
+                {currentTool === 'eraser' && <><Eraser className="w-5 h-5" /></>}
+                {currentTool === 'fill' && <><PaintBucket className="w-5 h-5" /></>}
+                {currentTool === 'pan' && <><Hand className="w-5 h-5" /></>}
+                <ChevronDown className="w-4 h-4" />
+              </button>
+              
+              {/* 下拉選單 */}
+              {isToolMenuOpen && (
+                <div className="absolute right-0 top-full mt-2 bg-white rounded-lg shadow-xl border-2 border-gray-200 overflow-hidden z-50">
+                  <button
+                    onClick={() => { setCurrentTool('brush'); setIsToolMenuOpen(false); }}
+                    className={`w-full px-4 py-3 flex items-center gap-3 transition-all ${
+                      currentTool === 'brush' ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-50'
+                    }`}
+                  >
+                    <Brush className="w-5 h-5" />
+                    {/* <span className="font-semibold">畫筆</span> */}
+                  </button>
+                  <button
+                    onClick={() => { setCurrentTool('eraser'); setIsToolMenuOpen(false); }}
+                    className={`w-full px-4 py-3 flex items-center gap-3 transition-all ${
+                      currentTool === 'eraser' ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-50'
+                    }`}
+                  >
+                    <Eraser className="w-5 h-5" />
+                    {/* <span className="font-semibold">橡皮擦</span> */}
+                  </button>
+                  <button
+                    onClick={() => { setCurrentTool('fill'); setIsToolMenuOpen(false); }}
+                    className={`w-full px-4 py-3 flex items-center gap-3 transition-all ${
+                      currentTool === 'fill' ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-50'
+                    }`}
+                  >
+                    <PaintBucket className="w-5 h-5" />
+                    {/* <span className="font-semibold">填充</span> */}
+                  </button>
+                  <button
+                    onClick={() => { setCurrentTool('pan'); setIsToolMenuOpen(false); }}
+                    className={`w-full px-4 py-3 flex items-center gap-3 transition-all ${
+                      currentTool === 'pan' ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-50'
+                    }`}
+                  >
+                    <Hand className="w-5 h-5" />
+                    {/* <span className="font-semibold">移動</span> */}
+                  </button>
+                </div>
               )}
-            </button>
+            </div>
           </div>
 
           {/* 畫板容器 - 限制縮放範圍 */}
           <div 
             ref={containerRef}
-            className={`overflow-auto max-w-[95vw] max-h-[70vh] rounded-lg border-2 border-gray-300 bg-gray-50 ${
-              isPanMode ? 'cursor-grab active:cursor-grabbing' : ''
+            className={`overflow-auto rounded-lg border-2 border-gray-300 bg-gray-50 ${
+              currentTool === 'pan' ? 'cursor-grab active:cursor-grabbing' : ''
             }`}
+            style={{
+              maxWidth: '95vw',
+              maxHeight: '70vh',
+              width: 'fit-content',
+              height: 'fit-content'
+            }}
           >
             <div 
               ref={gridRef} 
               className="inline-block"
-              style={{ pointerEvents: isPanMode ? 'none' : 'auto' }}
+              style={{ 
+                pointerEvents: currentTool === 'pan' ? 'none' : 'auto',
+                padding: `${(scale - 1) * 50}%`
+              }}
             >
               <BeadGrid
                 grid={grid}
-                onBeadClick={isPanMode ? () => {} : handleBeadClick}
+                onBeadClick={currentTool === 'pan' ? () => {} : handleBeadClick}
                 selectedColor={selectedColor}
                 currentTool={currentTool}
                 templateType={templateType}
@@ -769,43 +862,10 @@ const HomePage: React.FC = () => {
             </div>
           </div>
 
-          {/* 工具按鈕 - 下方 */}
+          {/* 功能按鈕 - 下方 */}
           <div className="flex flex-col items-center gap-3 mt-4">
-            {/* 第一排：繪圖工具 */}
+            {/* 第一排：功能按鈕 */}
             <div className="flex justify-center gap-3">
-              <button
-                onClick={() => setCurrentTool('brush')}
-                className={`p-3 rounded-lg shadow-lg transition-all ${
-                  currentTool === 'brush'
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
-                }`}
-                title="畫筆"
-              >
-                <Brush size={24} />
-              </button>
-              <button
-                onClick={() => setCurrentTool('eraser')}
-                className={`p-3 rounded-lg shadow-lg transition-all ${
-                  currentTool === 'eraser'
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
-                }`}
-                title="橡皮擦"
-              >
-                <Eraser size={24} />
-              </button>
-              <button
-                onClick={() => setCurrentTool('fill')}
-                className={`p-3 rounded-lg shadow-lg transition-all ${
-                  currentTool === 'fill'
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
-                }`}
-                title="填充"
-              >
-                <PaintBucket size={24} />
-              </button>
               <button
                 onClick={handleReset}
                 className="p-3 rounded-lg shadow-lg transition-all bg-white text-gray-700 hover:bg-gray-50"
