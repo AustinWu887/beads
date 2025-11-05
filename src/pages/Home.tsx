@@ -111,6 +111,27 @@ const HomePage: React.FC = () => {
     }
   }, []);
 
+  // 載入作品（如果有）
+  useEffect(() => {
+    const loadedWorkStr = sessionStorage.getItem('loadedWork');
+    if (loadedWorkStr) {
+      try {
+        const loadedWork = JSON.parse(loadedWorkStr);
+        if (loadedWork.grid && Array.isArray(loadedWork.grid)) {
+          setGrid(loadedWork.grid);
+          updateHistory(loadedWork.grid);
+          if (loadedWork.templateType) {
+            setTemplateType(loadedWork.templateType);
+          }
+        }
+        // 清除 sessionStorage 中的載入作品，避免重複載入
+        sessionStorage.removeItem('loadedWork');
+      } catch (error) {
+        console.error('Failed to load work:', error);
+      }
+    }
+  }, []);
+
   // 保存自定義顏色到localStorage
   useEffect(() => {
     localStorage.setItem('beadArt-customColors', JSON.stringify(customColors));
@@ -293,6 +314,18 @@ const HomePage: React.FC = () => {
     });
   }, [selectedColor, currentTool, updateHistory, floodFill, handleSymmetricalPlacement]);
 
+  // 選擇顏色並關閉面板
+  const handleColorSelect = (color: string) => {
+    setSelectedColor(color);
+    setOpenPanel(null);
+  };
+
+  // 選擇對稱模式並關閉面板
+  const handleSymmetrySelect = (type: SymmetryType) => {
+    setSymmetryType(type);
+    setOpenPanel(null);
+  };
+
   // 添加自定義顏色
   const handleAddCustomColor = (color: string) => {
     if (!customColors.includes(color)) {
@@ -401,32 +434,14 @@ const HomePage: React.FC = () => {
     }, 0);
   };
 
-  // 保存為JSON
-  const handleSaveJSON = () => {
-    const data = {
-      grid: grid,
-      timestamp: new Date().toISOString(),
-      beadCount: grid.flat().filter(color => color !== '').length
-    };
-    
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `拼豆作品_${new Date().toISOString().split('T')[0]}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    
-    alert(`作品已保存為JSON！共使用了 ${data.beadCount} 顆豆子。`);
-  };
-
-  // 保存為圖片
-  const handleSaveImage = () => {
+  // 統一保存功能 - 同時保存圖片和JSON
+  const handleSave = () => {
     if (!gridRef.current) return;
     
-    // 創建canvas元素
+    const timestamp = new Date().toISOString().split('T')[0];
+    const beadCount = grid.flat().filter(color => color !== '').length;
+    
+    // 1. 保存圖片
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -472,16 +487,35 @@ const HomePage: React.FC = () => {
       });
     });
     
-    // 導出為圖片
-    const url = canvas.toDataURL('image/png');
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `拼豆作品_${new Date().toISOString().split('T')[0]}.png`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    // 導出圖片
+    const imageUrl = canvas.toDataURL('image/png');
+    const imageLink = document.createElement('a');
+    imageLink.href = imageUrl;
+    imageLink.download = `拼豆作品_${timestamp}.png`;
+    document.body.appendChild(imageLink);
+    imageLink.click();
+    document.body.removeChild(imageLink);
     
-    alert(`作品已保存為圖片！共使用了 ${grid.flat().filter(color => color !== '').length} 顆豆子。`);
+    // 2. 保存JSON
+    const data = {
+      grid: grid,
+      templateType: templateType,
+      timestamp: new Date().toISOString(),
+      beadCount: beadCount,
+      thumbnail: imageUrl // 將縮略圖也存入JSON
+    };
+    
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const jsonUrl = URL.createObjectURL(blob);
+    const jsonLink = document.createElement('a');
+    jsonLink.href = jsonUrl;
+    jsonLink.download = `拼豆作品_${timestamp}.json`;
+    document.body.appendChild(jsonLink);
+    jsonLink.click();
+    document.body.removeChild(jsonLink);
+    URL.revokeObjectURL(jsonUrl);
+    
+    alert(`作品已保存！\n圖片: 拼豆作品_${timestamp}.png\nJSON: 拼豆作品_${timestamp}.json\n共使用了 ${beadCount} 顆豆子。`);
   };
 
   // 加載JSON文件
@@ -775,62 +809,19 @@ const HomePage: React.FC = () => {
               </button>
             </div>
 
-            {/* 工具選單 - 右側 */}
-            <div className="relative">
+            {/* 工具按鈕 - 右側 */}
+            <div className="flex gap-2">
               <button
-                onClick={() => setIsToolMenuOpen(!isToolMenuOpen)}
-                className="px-4 py-2 rounded-lg shadow-lg transition-all flex items-center gap-2 bg-blue-500 text-white hover:bg-blue-600"
-                title="選擇工具"
+                onClick={() => setCurrentTool('pan')}
+                className={`p-3 rounded-lg shadow-lg transition-all ${
+                  currentTool === 'pan' ? 'bg-blue-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'
+                }`}
+                title="移動"
               >
-                {currentTool === 'brush' && <><Brush className="w-5 h-5" /></>}
-                {currentTool === 'eraser' && <><Eraser className="w-5 h-5" /></>}
-                {currentTool === 'fill' && <><PaintBucket className="w-5 h-5" /></>}
-                {currentTool === 'pan' && <><Hand className="w-5 h-5" /></>}
-                <ChevronDown className="w-4 h-4" />
+                <Hand size={24} />
               </button>
-              
-              {/* 下拉選單 */}
-              {isToolMenuOpen && (
-                <div className="absolute right-0 top-full mt-2 bg-white rounded-lg shadow-xl border-2 border-gray-200 overflow-hidden z-50">
-                  <button
-                    onClick={() => { setCurrentTool('brush'); setIsToolMenuOpen(false); }}
-                    className={`w-full px-4 py-3 flex items-center gap-3 transition-all ${
-                      currentTool === 'brush' ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-50'
-                    }`}
-                  >
-                    <Brush className="w-5 h-5" />
-                    {/* <span className="font-semibold">畫筆</span> */}
-                  </button>
-                  <button
-                    onClick={() => { setCurrentTool('eraser'); setIsToolMenuOpen(false); }}
-                    className={`w-full px-4 py-3 flex items-center gap-3 transition-all ${
-                      currentTool === 'eraser' ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-50'
-                    }`}
-                  >
-                    <Eraser className="w-5 h-5" />
-                    {/* <span className="font-semibold">橡皮擦</span> */}
-                  </button>
-                  <button
-                    onClick={() => { setCurrentTool('fill'); setIsToolMenuOpen(false); }}
-                    className={`w-full px-4 py-3 flex items-center gap-3 transition-all ${
-                      currentTool === 'fill' ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-50'
-                    }`}
-                  >
-                    <PaintBucket className="w-5 h-5" />
-                    {/* <span className="font-semibold">填充</span> */}
-                  </button>
-                  <button
-                    onClick={() => { setCurrentTool('pan'); setIsToolMenuOpen(false); }}
-                    className={`w-full px-4 py-3 flex items-center gap-3 transition-all ${
-                      currentTool === 'pan' ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-50'
-                    }`}
-                  >
-                    <Hand className="w-5 h-5" />
-                    {/* <span className="font-semibold">移動</span> */}
-                  </button>
-                </div>
-              )}
             </div>
+
           </div>
 
           {/* 畫板容器 - 限制縮放範圍 */}
@@ -870,23 +861,41 @@ const HomePage: React.FC = () => {
           <div className="flex flex-col items-center gap-3 mt-4">
             {/* 第一排：功能按鈕 */}
             <div className="flex justify-center gap-3">
-              <button
+              {/* <button
                 onClick={handleReset}
                 className="p-3 rounded-lg shadow-lg transition-all bg-white text-gray-700 hover:bg-gray-50"
                 title="重置"
               >
                 <RotateCcw size={24} />
               </button>
-            </div>
-
-            {/* 第二排：功能工具 */}
-            <div className="flex flex-wrap justify-center gap-3">
+               */}
+              {/* 工具按鈕 */}
               <button
-                onClick={handleBackToHome}
-                className="p-3 rounded-lg shadow-lg transition-all bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-300"
-                title="返回首頁"
+                onClick={() => setCurrentTool('brush')}
+                className={`p-3 rounded-lg shadow-lg transition-all ${
+                  currentTool === 'brush' ? 'bg-blue-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'
+                }`}
+                title="畫筆"
               >
-                <HomeIcon size={24} />
+                <Brush size={24} />
+              </button>
+              <button
+                onClick={() => setCurrentTool('eraser')}
+                className={`p-3 rounded-lg shadow-lg transition-all ${
+                  currentTool === 'eraser' ? 'bg-blue-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'
+                }`}
+                title="橡皮擦"
+              >
+                <Eraser size={24} />
+              </button>
+              <button
+                onClick={() => setCurrentTool('fill')}
+                className={`p-3 rounded-lg shadow-lg transition-all ${
+                  currentTool === 'fill' ? 'bg-blue-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'
+                }`}
+                title="填充"
+              >
+                <PaintBucket size={24} />
               </button>
               <button
                 onClick={() => togglePanel('color')}
@@ -899,6 +908,19 @@ const HomePage: React.FC = () => {
               >
                 <Palette size={24} />
               </button>
+              
+            </div>
+
+            {/* 第二排：功能工具 */}
+            <div className="flex flex-wrap justify-center gap-3">
+              <button
+                onClick={handleBackToHome}
+                className="p-3 rounded-lg shadow-lg transition-all bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-300"
+                title="返回首頁"
+              >
+                <HomeIcon size={24} />
+              </button>
+              
               <button
                 onClick={() => togglePanel('symmetry')}
                 className={`p-3 rounded-lg shadow-lg transition-all ${
@@ -980,7 +1002,7 @@ const HomePage: React.FC = () => {
               {openPanel === 'symmetry' && (
                 <SymmetryPanel
                   symmetryType={symmetryType}
-                  onSymmetryChange={setSymmetryType}
+                  onSymmetryChange={handleSymmetrySelect}
                 />
               )}
 
@@ -997,8 +1019,7 @@ const HomePage: React.FC = () => {
                 <ToolPanel
                   onClear={handleClear}
                   onReset={handleReset}
-                  onSaveJSON={handleSaveJSON}
-                  onSaveImage={handleSaveImage}
+                  onSave={handleSave}
                   onLoadJSON={handleLoadJSON}
                   onLoadImage={handleLoadImage}
                   onUndo={handleUndo}

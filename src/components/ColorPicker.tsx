@@ -366,11 +366,11 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
         {currentGroup && (
           <>
             {currentGroup.colors.length > 0 ? (
-              <div className="grid grid-cols-5 gap-2">
+              <div className="grid grid-cols-8 gap-2">
                 {currentGroup.colors.map((color) => (
                   <div key={color} className="relative group">
                     <button
-                      className={`w-full aspect-square rounded border-2 transition-all hover:scale-105 ${
+                      className={`w-8 h-8 rounded border-2 transition-all hover:scale-105 ${
                         selectedColor === color 
                           ? 'border-blue-500 shadow-md' 
                           : 'border-gray-300'
@@ -386,10 +386,10 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                           handleRemoveColorFromGroup(color);
                         }
                       }}
-                      className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center hover:bg-red-600 shadow-md z-10"
+                      className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center hover:bg-red-600 shadow-md z-10"
                       title="刪除此顏色"
                     >
-                      <X size={12} />
+                      <X size={10} />
                     </button>
                   </div>
                 ))}

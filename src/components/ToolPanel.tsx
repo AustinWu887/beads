@@ -3,13 +3,12 @@
  * 包括畫筆、橡皮擦、填充工具和文件操作功能
  */
 import React from 'react';
-import { Brush, Eraser, Download, Upload, Undo2, Redo2, Trash2, RotateCcw, PaintBucket, Image as ImageIcon } from 'lucide-react';
+import { Download, Upload, Image as ImageIcon } from 'lucide-react';
 
 interface ToolPanelProps {
   onClear: () => void;
   onReset: () => void;
-  onSaveJSON: () => void;
-  onSaveImage: () => void;
+  onSave: () => void;
   onLoadJSON: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onLoadImage: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onUndo: () => void;
@@ -23,8 +22,7 @@ interface ToolPanelProps {
 const ToolPanel: React.FC<ToolPanelProps> = ({
   onClear,
   onReset,
-  onSaveJSON,
-  onSaveImage,
+  onSave,
   onLoadJSON,
   onLoadImage,
   onUndo,
@@ -40,25 +38,14 @@ const ToolPanel: React.FC<ToolPanelProps> = ({
 
       {/* 文件操作 */}
       <div className="space-y-3">
-        <div className="grid grid-cols-2 gap-2">
-          <button
-            className="p-2 rounded-lg border border-gray-200 hover:border-gray-300 transition-all flex items-center justify-center gap-1"
-            onClick={onSaveJSON}
-            title="保存為JSON文件"
-          >
-            <Download size={16} />
-            <span className="text-sm">保存JSON</span>
-          </button>
-          
-          <button
-            className="p-2 rounded-lg border border-gray-200 hover:border-gray-300 transition-all flex items-center justify-center gap-1"
-            onClick={onSaveImage}
-            title="保存為PNG圖片"
-          >
-            <Download size={16} />
-            <span className="text-sm">保存圖片</span>
-          </button>
-        </div>
+        <button
+          className="w-full p-3 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-all flex items-center justify-center gap-2 font-semibold"
+          onClick={onSave}
+          title="保存作品（圖片+JSON）"
+        >
+          <Download size={20} />
+          <span>保存作品</span>
+        </button>
         
         <label className="block">
           <input

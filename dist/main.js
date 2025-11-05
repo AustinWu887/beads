@@ -1083,7 +1083,7 @@ var require_react_development = __commonJS({
           }
           return dispatcher.useContext(Context);
         }
-        function useState7(initialState) {
+        function useState8(initialState) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useState(initialState);
         }
@@ -1886,7 +1886,7 @@ var require_react_development = __commonJS({
         exports.useMemo = useMemo5;
         exports.useReducer = useReducer;
         exports.useRef = useRef8;
-        exports.useState = useState7;
+        exports.useState = useState8;
         exports.useSyncExternalStore = useSyncExternalStore;
         exports.useTransition = useTransition2;
         exports.version = ReactVersion;
@@ -2382,9 +2382,9 @@ var require_react_dom_development = __commonJS({
         if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
           __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
         }
-        var React15 = require_react();
+        var React16 = require_react();
         var Scheduler = require_scheduler();
-        var ReactSharedInternals = React15.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        var ReactSharedInternals = React16.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         var suppressWarning = false;
         function setSuppressWarning(newSuppressWarning) {
           {
@@ -3991,7 +3991,7 @@ var require_react_dom_development = __commonJS({
           {
             if (props.value == null) {
               if (typeof props.children === "object" && props.children !== null) {
-                React15.Children.forEach(props.children, function(child) {
+                React16.Children.forEach(props.children, function(child) {
                   if (child == null) {
                     return;
                   }
@@ -23587,7 +23587,7 @@ var require_react_jsx_runtime_development = __commonJS({
     if (true) {
       (function() {
         "use strict";
-        var React15 = require_react();
+        var React16 = require_react();
         var REACT_ELEMENT_TYPE = Symbol.for("react.element");
         var REACT_PORTAL_TYPE = Symbol.for("react.portal");
         var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
@@ -23613,7 +23613,7 @@ var require_react_jsx_runtime_development = __commonJS({
           }
           return null;
         }
-        var ReactSharedInternals = React15.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        var ReactSharedInternals = React16.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         function error(format) {
           {
             {
@@ -27247,8 +27247,20 @@ var __iconNode11 = [
 ];
 var FlipVertical = createLucideIcon("flip-vertical", __iconNode11);
 
-// node_modules/lucide-react/dist/esm/icons/folder-plus.js
+// node_modules/lucide-react/dist/esm/icons/folder-open.js
 var __iconNode12 = [
+  [
+    "path",
+    {
+      d: "m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2",
+      key: "usdka0"
+    }
+  ]
+];
+var FolderOpen = createLucideIcon("folder-open", __iconNode12);
+
+// node_modules/lucide-react/dist/esm/icons/folder-plus.js
+var __iconNode13 = [
   ["path", { d: "M12 10v6", key: "1bos4e" }],
   ["path", { d: "M9 13h6", key: "1uhe8q" }],
   [
@@ -27259,10 +27271,10 @@ var __iconNode12 = [
     }
   ]
 ];
-var FolderPlus = createLucideIcon("folder-plus", __iconNode12);
+var FolderPlus = createLucideIcon("folder-plus", __iconNode13);
 
 // node_modules/lucide-react/dist/esm/icons/hand.js
-var __iconNode13 = [
+var __iconNode14 = [
   ["path", { d: "M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2", key: "1fvzgz" }],
   ["path", { d: "M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2", key: "1kc0my" }],
   ["path", { d: "M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8", key: "10h0bg" }],
@@ -27274,10 +27286,10 @@ var __iconNode13 = [
     }
   ]
 ];
-var Hand = createLucideIcon("hand", __iconNode13);
+var Hand = createLucideIcon("hand", __iconNode14);
 
 // node_modules/lucide-react/dist/esm/icons/house.js
-var __iconNode14 = [
+var __iconNode15 = [
   ["path", { d: "M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8", key: "5wwlr5" }],
   [
     "path",
@@ -27287,18 +27299,18 @@ var __iconNode14 = [
     }
   ]
 ];
-var House = createLucideIcon("house", __iconNode14);
+var House = createLucideIcon("house", __iconNode15);
 
 // node_modules/lucide-react/dist/esm/icons/image.js
-var __iconNode15 = [
+var __iconNode16 = [
   ["rect", { width: "18", height: "18", x: "3", y: "3", rx: "2", ry: "2", key: "1m3agn" }],
   ["circle", { cx: "9", cy: "9", r: "2", key: "af1f0g" }],
   ["path", { d: "m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21", key: "1xmnt7" }]
 ];
-var Image2 = createLucideIcon("image", __iconNode15);
+var Image2 = createLucideIcon("image", __iconNode16);
 
 // node_modules/lucide-react/dist/esm/icons/move.js
-var __iconNode16 = [
+var __iconNode17 = [
   ["path", { d: "M12 2v20", key: "t6zp3m" }],
   ["path", { d: "m15 19-3 3-3-3", key: "11eu04" }],
   ["path", { d: "m19 9 3 3-3 3", key: "1mg7y2" }],
@@ -27306,10 +27318,10 @@ var __iconNode16 = [
   ["path", { d: "m5 9-3 3 3 3", key: "j64kie" }],
   ["path", { d: "m9 5 3-3 3 3", key: "l8vdw6" }]
 ];
-var Move = createLucideIcon("move", __iconNode16);
+var Move = createLucideIcon("move", __iconNode17);
 
 // node_modules/lucide-react/dist/esm/icons/paint-bucket.js
-var __iconNode17 = [
+var __iconNode18 = [
   [
     "path",
     { d: "m19 11-8-8-8.6 8.6a2 2 0 0 0 0 2.8l5.2 5.2c.8.8 2 .8 2.8 0L19 11Z", key: "irua1i" }
@@ -27318,10 +27330,10 @@ var __iconNode17 = [
   ["path", { d: "M2 13h15", key: "1hkzvu" }],
   ["path", { d: "M22 20a2 2 0 1 1-4 0c0-1.6 1.7-2.4 2-4 .3 1.6 2 2.4 2 4Z", key: "xk76lq" }]
 ];
-var PaintBucket = createLucideIcon("paint-bucket", __iconNode17);
+var PaintBucket = createLucideIcon("paint-bucket", __iconNode18);
 
 // node_modules/lucide-react/dist/esm/icons/palette.js
-var __iconNode18 = [
+var __iconNode19 = [
   [
     "path",
     {
@@ -27334,10 +27346,10 @@ var __iconNode18 = [
   ["circle", { cx: "6.5", cy: "12.5", r: ".5", fill: "currentColor", key: "qy21gx" }],
   ["circle", { cx: "8.5", cy: "7.5", r: ".5", fill: "currentColor", key: "fotxhn" }]
 ];
-var Palette = createLucideIcon("palette", __iconNode18);
+var Palette = createLucideIcon("palette", __iconNode19);
 
 // node_modules/lucide-react/dist/esm/icons/pen.js
-var __iconNode19 = [
+var __iconNode20 = [
   [
     "path",
     {
@@ -27346,38 +27358,38 @@ var __iconNode19 = [
     }
   ]
 ];
-var Pen = createLucideIcon("pen", __iconNode19);
+var Pen = createLucideIcon("pen", __iconNode20);
 
 // node_modules/lucide-react/dist/esm/icons/plus.js
-var __iconNode20 = [
+var __iconNode21 = [
   ["path", { d: "M5 12h14", key: "1ays0h" }],
   ["path", { d: "M12 5v14", key: "s699le" }]
 ];
-var Plus = createLucideIcon("plus", __iconNode20);
+var Plus = createLucideIcon("plus", __iconNode21);
 
 // node_modules/lucide-react/dist/esm/icons/redo-2.js
-var __iconNode21 = [
+var __iconNode22 = [
   ["path", { d: "m15 14 5-5-5-5", key: "12vg1m" }],
   ["path", { d: "M20 9H9.5A5.5 5.5 0 0 0 4 14.5A5.5 5.5 0 0 0 9.5 20H13", key: "6uklza" }]
 ];
-var Redo2 = createLucideIcon("redo-2", __iconNode21);
+var Redo2 = createLucideIcon("redo-2", __iconNode22);
 
 // node_modules/lucide-react/dist/esm/icons/rotate-ccw.js
-var __iconNode22 = [
+var __iconNode23 = [
   ["path", { d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8", key: "1357e3" }],
   ["path", { d: "M3 3v5h5", key: "1xhq8a" }]
 ];
-var RotateCcw = createLucideIcon("rotate-ccw", __iconNode22);
+var RotateCcw = createLucideIcon("rotate-ccw", __iconNode23);
 
 // node_modules/lucide-react/dist/esm/icons/rotate-cw.js
-var __iconNode23 = [
+var __iconNode24 = [
   ["path", { d: "M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8", key: "1p45f6" }],
   ["path", { d: "M21 3v5h-5", key: "1q7to0" }]
 ];
-var RotateCw = createLucideIcon("rotate-cw", __iconNode23);
+var RotateCw = createLucideIcon("rotate-cw", __iconNode24);
 
 // node_modules/lucide-react/dist/esm/icons/settings.js
-var __iconNode24 = [
+var __iconNode25 = [
   [
     "path",
     {
@@ -27387,62 +27399,62 @@ var __iconNode24 = [
   ],
   ["circle", { cx: "12", cy: "12", r: "3", key: "1v7zrd" }]
 ];
-var Settings = createLucideIcon("settings", __iconNode24);
+var Settings = createLucideIcon("settings", __iconNode25);
 
 // node_modules/lucide-react/dist/esm/icons/square.js
-var __iconNode25 = [
+var __iconNode26 = [
   ["rect", { width: "18", height: "18", x: "3", y: "3", rx: "2", key: "afitv7" }]
 ];
-var Square = createLucideIcon("square", __iconNode25);
+var Square = createLucideIcon("square", __iconNode26);
 
 // node_modules/lucide-react/dist/esm/icons/trash-2.js
-var __iconNode26 = [
+var __iconNode27 = [
   ["path", { d: "M3 6h18", key: "d0wm0j" }],
   ["path", { d: "M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6", key: "4alrt4" }],
   ["path", { d: "M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2", key: "v07s0e" }],
   ["line", { x1: "10", x2: "10", y1: "11", y2: "17", key: "1uufr5" }],
   ["line", { x1: "14", x2: "14", y1: "11", y2: "17", key: "xtxkd" }]
 ];
-var Trash2 = createLucideIcon("trash-2", __iconNode26);
+var Trash2 = createLucideIcon("trash-2", __iconNode27);
 
 // node_modules/lucide-react/dist/esm/icons/undo-2.js
-var __iconNode27 = [
+var __iconNode28 = [
   ["path", { d: "M9 14 4 9l5-5", key: "102s5s" }],
   ["path", { d: "M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11", key: "f3b9sd" }]
 ];
-var Undo2 = createLucideIcon("undo-2", __iconNode27);
+var Undo2 = createLucideIcon("undo-2", __iconNode28);
 
 // node_modules/lucide-react/dist/esm/icons/upload.js
-var __iconNode28 = [
+var __iconNode29 = [
   ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }],
   ["polyline", { points: "17 8 12 3 7 8", key: "t8dd8p" }],
   ["line", { x1: "12", x2: "12", y1: "3", y2: "15", key: "widbto" }]
 ];
-var Upload = createLucideIcon("upload", __iconNode28);
+var Upload = createLucideIcon("upload", __iconNode29);
 
 // node_modules/lucide-react/dist/esm/icons/x.js
-var __iconNode29 = [
+var __iconNode30 = [
   ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
   ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
 ];
-var X = createLucideIcon("x", __iconNode29);
+var X = createLucideIcon("x", __iconNode30);
 
 // node_modules/lucide-react/dist/esm/icons/zoom-in.js
-var __iconNode30 = [
+var __iconNode31 = [
   ["circle", { cx: "11", cy: "11", r: "8", key: "4ej97u" }],
   ["line", { x1: "21", x2: "16.65", y1: "21", y2: "16.65", key: "13gj7c" }],
   ["line", { x1: "11", x2: "11", y1: "8", y2: "14", key: "1vmskp" }],
   ["line", { x1: "8", x2: "14", y1: "11", y2: "11", key: "durymu" }]
 ];
-var ZoomIn = createLucideIcon("zoom-in", __iconNode30);
+var ZoomIn = createLucideIcon("zoom-in", __iconNode31);
 
 // node_modules/lucide-react/dist/esm/icons/zoom-out.js
-var __iconNode31 = [
+var __iconNode32 = [
   ["circle", { cx: "11", cy: "11", r: "8", key: "4ej97u" }],
   ["line", { x1: "21", x2: "16.65", y1: "21", y2: "16.65", key: "13gj7c" }],
   ["line", { x1: "8", x2: "14", y1: "11", y2: "11", key: "durymu" }]
 ];
-var ZoomOut = createLucideIcon("zoom-out", __iconNode31);
+var ZoomOut = createLucideIcon("zoom-out", __iconNode32);
 
 // src/components/ColorPicker.tsx
 var import_jsx_runtime2 = __toESM(require_jsx_runtime());
@@ -27766,11 +27778,11 @@ var ColorPicker = ({
           }
         )
       ] }) }),
-      currentGroup && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_jsx_runtime2.Fragment, { children: currentGroup.colors.length > 0 ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "grid grid-cols-5 gap-2", children: currentGroup.colors.map((color) => /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "relative group", children: [
+      currentGroup && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_jsx_runtime2.Fragment, { children: currentGroup.colors.length > 0 ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "grid grid-cols-8 gap-2", children: currentGroup.colors.map((color) => /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "relative group", children: [
         /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
           "button",
           {
-            className: `w-full aspect-square rounded border-2 transition-all hover:scale-105 ${selectedColor === color ? "border-blue-500 shadow-md" : "border-gray-300"}`,
+            className: `w-8 h-8 rounded border-2 transition-all hover:scale-105 ${selectedColor === color ? "border-blue-500 shadow-md" : "border-gray-300"}`,
             style: { backgroundColor: color },
             onClick: () => onColorSelect(color),
             title: `\u9078\u64C7 ${color}`
@@ -27785,9 +27797,9 @@ var ColorPicker = ({
                 handleRemoveColorFromGroup(color);
               }
             },
-            className: "absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center hover:bg-red-600 shadow-md z-10",
+            className: "absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center hover:bg-red-600 shadow-md z-10",
             title: "\u522A\u9664\u6B64\u984F\u8272",
-            children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(X, { size: 12 })
+            children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(X, { size: 10 })
           }
         )
       ] }, color)) }) : /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "text-xs text-gray-400 text-center py-4 border border-dashed border-gray-300 rounded", children: "\u6B64\u7FA4\u7D44\u5C1A\u7121\u984F\u8272" }) })
@@ -27888,8 +27900,7 @@ var import_jsx_runtime3 = __toESM(require_jsx_runtime());
 var ToolPanel = ({
   onClear,
   onReset,
-  onSaveJSON,
-  onSaveImage,
+  onSave,
   onLoadJSON,
   onLoadImage,
   onUndo,
@@ -27902,32 +27913,18 @@ var ToolPanel = ({
   return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "bg-white rounded-lg shadow-md p-4", children: [
     /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h3", { className: "text-lg font-semibold text-gray-700 mb-4", children: "\u6A94\u6848" }),
     /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "space-y-3", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "grid grid-cols-2 gap-2", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
-          "button",
-          {
-            className: "p-2 rounded-lg border border-gray-200 hover:border-gray-300 transition-all flex items-center justify-center gap-1",
-            onClick: onSaveJSON,
-            title: "\u4FDD\u5B58\u70BAJSON\u6587\u4EF6",
-            children: [
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Download, { size: 16 }),
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "text-sm", children: "\u4FDD\u5B58JSON" })
-            ]
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
-          "button",
-          {
-            className: "p-2 rounded-lg border border-gray-200 hover:border-gray-300 transition-all flex items-center justify-center gap-1",
-            onClick: onSaveImage,
-            title: "\u4FDD\u5B58\u70BAPNG\u5716\u7247",
-            children: [
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Download, { size: 16 }),
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: "text-sm", children: "\u4FDD\u5B58\u5716\u7247" })
-            ]
-          }
-        )
-      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(
+        "button",
+        {
+          className: "w-full p-3 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-all flex items-center justify-center gap-2 font-semibold",
+          onClick: onSave,
+          title: "\u4FDD\u5B58\u4F5C\u54C1\uFF08\u5716\u7247+JSON\uFF09",
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Download, { size: 20 }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: "\u4FDD\u5B58\u4F5C\u54C1" })
+          ]
+        }
+      ),
       /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("label", { className: "block", children: [
         /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
           "input",
@@ -28256,6 +28253,24 @@ var HomePage = () => {
     }
   }, []);
   (0, import_react5.useEffect)(() => {
+    const loadedWorkStr = sessionStorage.getItem("loadedWork");
+    if (loadedWorkStr) {
+      try {
+        const loadedWork = JSON.parse(loadedWorkStr);
+        if (loadedWork.grid && Array.isArray(loadedWork.grid)) {
+          setGrid(loadedWork.grid);
+          updateHistory(loadedWork.grid);
+          if (loadedWork.templateType) {
+            setTemplateType(loadedWork.templateType);
+          }
+        }
+        sessionStorage.removeItem("loadedWork");
+      } catch (error) {
+        console.error("Failed to load work:", error);
+      }
+    }
+  }, []);
+  (0, import_react5.useEffect)(() => {
     localStorage.setItem("beadArt-customColors", JSON.stringify(customColors));
   }, [customColors]);
   (0, import_react5.useEffect)(() => {
@@ -28381,6 +28396,14 @@ var HomePage = () => {
       return newGrid;
     });
   }, [selectedColor, currentTool, updateHistory, floodFill, handleSymmetricalPlacement]);
+  const handleColorSelect = (color) => {
+    setSelectedColor(color);
+    setOpenPanel(null);
+  };
+  const handleSymmetrySelect = (type) => {
+    setSymmetryType(type);
+    setOpenPanel(null);
+  };
   const handleAddCustomColor = (color) => {
     if (!customColors.includes(color)) {
       const newColors = [...customColors, color];
@@ -28461,25 +28484,10 @@ var HomePage = () => {
       container.scrollTop = newScrollTop;
     }, 0);
   };
-  const handleSaveJSON = () => {
-    const data2 = {
-      grid,
-      timestamp: (/* @__PURE__ */ new Date()).toISOString(),
-      beadCount: grid.flat().filter((color) => color !== "").length
-    };
-    const blob = new Blob([JSON.stringify(data2, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `\u62FC\u8C46\u4F5C\u54C1_${(/* @__PURE__ */ new Date()).toISOString().split("T")[0]}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    alert(`\u4F5C\u54C1\u5DF2\u4FDD\u5B58\u70BAJSON\uFF01\u5171\u4F7F\u7528\u4E86 ${data2.beadCount} \u9846\u8C46\u5B50\u3002`);
-  };
-  const handleSaveImage = () => {
+  const handleSave = () => {
     if (!gridRef.current) return;
+    const timestamp = (/* @__PURE__ */ new Date()).toISOString().split("T")[0];
+    const beadCount = grid.flat().filter((color) => color !== "").length;
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
@@ -28510,14 +28518,34 @@ var HomePage = () => {
         }
       });
     });
-    const url = canvas.toDataURL("image/png");
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `\u62FC\u8C46\u4F5C\u54C1_${(/* @__PURE__ */ new Date()).toISOString().split("T")[0]}.png`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    alert(`\u4F5C\u54C1\u5DF2\u4FDD\u5B58\u70BA\u5716\u7247\uFF01\u5171\u4F7F\u7528\u4E86 ${grid.flat().filter((color) => color !== "").length} \u9846\u8C46\u5B50\u3002`);
+    const imageUrl = canvas.toDataURL("image/png");
+    const imageLink = document.createElement("a");
+    imageLink.href = imageUrl;
+    imageLink.download = `\u62FC\u8C46\u4F5C\u54C1_${timestamp}.png`;
+    document.body.appendChild(imageLink);
+    imageLink.click();
+    document.body.removeChild(imageLink);
+    const data2 = {
+      grid,
+      templateType,
+      timestamp: (/* @__PURE__ */ new Date()).toISOString(),
+      beadCount,
+      thumbnail: imageUrl
+      // 將縮略圖也存入JSON
+    };
+    const blob = new Blob([JSON.stringify(data2, null, 2)], { type: "application/json" });
+    const jsonUrl = URL.createObjectURL(blob);
+    const jsonLink = document.createElement("a");
+    jsonLink.href = jsonUrl;
+    jsonLink.download = `\u62FC\u8C46\u4F5C\u54C1_${timestamp}.json`;
+    document.body.appendChild(jsonLink);
+    jsonLink.click();
+    document.body.removeChild(jsonLink);
+    URL.revokeObjectURL(jsonUrl);
+    alert(`\u4F5C\u54C1\u5DF2\u4FDD\u5B58\uFF01
+\u5716\u7247: \u62FC\u8C46\u4F5C\u54C1_${timestamp}.png
+JSON: \u62FC\u8C46\u4F5C\u54C1_${timestamp}.json
+\u5171\u4F7F\u7528\u4E86 ${beadCount} \u9846\u8C46\u5B50\u3002`);
   };
   const handleLoadJSON = (event) => {
     const file = event.target.files?.[0];
@@ -28749,69 +28777,15 @@ var HomePage = () => {
             }
           )
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "relative", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(
-            "button",
-            {
-              onClick: () => setIsToolMenuOpen(!isToolMenuOpen),
-              className: "px-4 py-2 rounded-lg shadow-lg transition-all flex items-center gap-2 bg-blue-500 text-white hover:bg-blue-600",
-              title: "\u9078\u64C7\u5DE5\u5177",
-              children: [
-                currentTool === "brush" && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_jsx_runtime7.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Brush, { className: "w-5 h-5" }) }),
-                currentTool === "eraser" && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_jsx_runtime7.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Eraser, { className: "w-5 h-5" }) }),
-                currentTool === "fill" && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_jsx_runtime7.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(PaintBucket, { className: "w-5 h-5" }) }),
-                currentTool === "pan" && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_jsx_runtime7.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Hand, { className: "w-5 h-5" }) }),
-                /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(ChevronDown, { className: "w-4 h-4" })
-              ]
-            }
-          ),
-          isToolMenuOpen && /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "absolute right-0 top-full mt-2 bg-white rounded-lg shadow-xl border-2 border-gray-200 overflow-hidden z-50", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
-              "button",
-              {
-                onClick: () => {
-                  setCurrentTool("brush");
-                  setIsToolMenuOpen(false);
-                },
-                className: `w-full px-4 py-3 flex items-center gap-3 transition-all ${currentTool === "brush" ? "bg-blue-50 text-blue-600" : "hover:bg-gray-50"}`,
-                children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Brush, { className: "w-5 h-5" })
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
-              "button",
-              {
-                onClick: () => {
-                  setCurrentTool("eraser");
-                  setIsToolMenuOpen(false);
-                },
-                className: `w-full px-4 py-3 flex items-center gap-3 transition-all ${currentTool === "eraser" ? "bg-blue-50 text-blue-600" : "hover:bg-gray-50"}`,
-                children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Eraser, { className: "w-5 h-5" })
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
-              "button",
-              {
-                onClick: () => {
-                  setCurrentTool("fill");
-                  setIsToolMenuOpen(false);
-                },
-                className: `w-full px-4 py-3 flex items-center gap-3 transition-all ${currentTool === "fill" ? "bg-blue-50 text-blue-600" : "hover:bg-gray-50"}`,
-                children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(PaintBucket, { className: "w-5 h-5" })
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
-              "button",
-              {
-                onClick: () => {
-                  setCurrentTool("pan");
-                  setIsToolMenuOpen(false);
-                },
-                className: `w-full px-4 py-3 flex items-center gap-3 transition-all ${currentTool === "pan" ? "bg-blue-50 text-blue-600" : "hover:bg-gray-50"}`,
-                children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Hand, { className: "w-5 h-5" })
-              }
-            )
-          ] })
-        ] })
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "flex gap-2", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+          "button",
+          {
+            onClick: () => setCurrentTool("pan"),
+            className: `p-3 rounded-lg shadow-lg transition-all ${currentTool === "pan" ? "bg-blue-500 text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`,
+            title: "\u79FB\u52D5",
+            children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Hand, { size: 24 })
+          }
+        ) })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
         "div",
@@ -28851,23 +28825,32 @@ var HomePage = () => {
         }
       ),
       /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "flex flex-col items-center gap-3 mt-4", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "flex justify-center gap-3", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
-          "button",
-          {
-            onClick: handleReset,
-            className: "p-3 rounded-lg shadow-lg transition-all bg-white text-gray-700 hover:bg-gray-50",
-            title: "\u91CD\u7F6E",
-            children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(RotateCcw, { size: 24 })
-          }
-        ) }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "flex flex-wrap justify-center gap-3", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "flex justify-center gap-3", children: [
           /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
             "button",
             {
-              onClick: handleBackToHome,
-              className: "p-3 rounded-lg shadow-lg transition-all bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-300",
-              title: "\u8FD4\u56DE\u9996\u9801",
-              children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(House, { size: 24 })
+              onClick: () => setCurrentTool("brush"),
+              className: `p-3 rounded-lg shadow-lg transition-all ${currentTool === "brush" ? "bg-blue-500 text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`,
+              title: "\u756B\u7B46",
+              children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Brush, { size: 24 })
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+            "button",
+            {
+              onClick: () => setCurrentTool("eraser"),
+              className: `p-3 rounded-lg shadow-lg transition-all ${currentTool === "eraser" ? "bg-blue-500 text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`,
+              title: "\u6A61\u76AE\u64E6",
+              children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Eraser, { size: 24 })
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+            "button",
+            {
+              onClick: () => setCurrentTool("fill"),
+              className: `p-3 rounded-lg shadow-lg transition-all ${currentTool === "fill" ? "bg-blue-500 text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`,
+              title: "\u586B\u5145",
+              children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(PaintBucket, { size: 24 })
             }
           ),
           /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
@@ -28877,6 +28860,17 @@ var HomePage = () => {
               className: `p-3 rounded-lg shadow-lg transition-all ${openPanel === "color" ? "bg-blue-500 text-white" : "bg-white text-gray-700 hover:bg-gray-50"}`,
               title: "\u984F\u8272\u9078\u64C7",
               children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Palette, { size: 24 })
+            }
+          )
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "flex flex-wrap justify-center gap-3", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+            "button",
+            {
+              onClick: handleBackToHome,
+              className: "p-3 rounded-lg shadow-lg transition-all bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-300",
+              title: "\u8FD4\u56DE\u9996\u9801",
+              children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(House, { size: 24 })
             }
           ),
           /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(
@@ -28948,7 +28942,7 @@ var HomePage = () => {
         SymmetryPanel_default,
         {
           symmetryType,
-          onSymmetryChange: setSymmetryType
+          onSymmetryChange: handleSymmetrySelect
         }
       ),
       openPanel === "transform" && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
@@ -28965,8 +28959,7 @@ var HomePage = () => {
         {
           onClear: handleClear,
           onReset: handleReset,
-          onSaveJSON: handleSaveJSON,
-          onSaveImage: handleSaveImage,
+          onSave: handleSave,
           onLoadJSON: handleLoadJSON,
           onLoadImage: handleLoadImage,
           onUndo: handleUndo,
@@ -28984,9 +28977,12 @@ var HomePage = () => {
 var Home_default = HomePage;
 
 // src/pages/TemplateSelection.tsx
+var import_react6 = __toESM(require_react());
 var import_jsx_runtime8 = __toESM(require_jsx_runtime());
 var TemplateSelection = () => {
   const navigate = useNavigate();
+  const [mode, setMode] = (0, import_react6.useState)("select");
+  const [savedWorks, setSavedWorks] = (0, import_react6.useState)([]);
   const templates = [
     {
       id: "square-large",
@@ -29015,42 +29011,103 @@ var TemplateSelection = () => {
   ];
   const handleSelectTemplate = (templateId) => {
     sessionStorage.setItem("selectedTemplate", templateId);
+    sessionStorage.removeItem("loadedWork");
     navigate("/editor");
+  };
+  const handleLoadWork = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const content = e.target?.result;
+        const data2 = JSON.parse(content);
+        sessionStorage.setItem("loadedWork", JSON.stringify(data2));
+        sessionStorage.setItem("selectedTemplate", data2.templateType || "square-large");
+        navigate("/editor");
+      } catch (error) {
+        alert("\u6A94\u6848\u8B80\u53D6\u5931\u6557\uFF0C\u8ACB\u78BA\u4FDD\u9078\u64C7\u4E86\u6709\u6548\u7684JSON\u6A94\u6848\u3002");
+      }
+    };
+    reader.readAsText(file);
+    event.target.value = "";
   };
   return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-8", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "max-w-6xl w-full", children: [
     /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "text-center mb-12", children: [
       /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h1", { className: "text-5xl font-bold text-gray-800 mb-4", children: "\u5275\u610F\u62FC\u8C46\u85DD\u8853" }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { className: "text-xl text-gray-600", children: "\u9078\u64C7\u60A8\u7684\u62FC\u8C46\u677F\u6A21\u677F\u958B\u59CB\u5275\u4F5C" })
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { className: "text-xl text-gray-600", children: "\u958B\u59CB\u60A8\u7684\u5275\u4F5C\u4E4B\u65C5" })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-8", children: templates.map((template) => {
-      const IconComponent = template.icon;
-      return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(
+    mode === "select" && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_jsx_runtime8.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-8 mb-8", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
         "button",
         {
-          onClick: () => handleSelectTemplate(template.id),
-          className: "group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 text-left hover:scale-105 transform",
-          children: [
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "flex justify-center mb-6", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "w-32 h-32 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl flex items-center justify-center group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(IconComponent, { size: 64, className: "text-blue-600", strokeWidth: 1.5 }) }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "text-center", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h3", { className: "text-2xl font-bold text-gray-800 mb-2", children: template.name }),
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "space-y-1 text-gray-600 mb-4", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("p", { className: "text-sm", children: [
-                  "\u5C3A\u5BF8: ",
-                  template.size
+          onClick: () => setMode("new"),
+          className: "group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-12 hover:scale-105 transform",
+          children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "flex flex-col items-center", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "w-32 h-32 bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl flex items-center justify-center group-hover:from-green-200 group-hover:to-emerald-200 transition-colors mb-6", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Plus, { size: 64, className: "text-green-600", strokeWidth: 2 }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h3", { className: "text-3xl font-bold text-gray-800 mb-3", children: "\u65B0\u4F5C\u54C1" }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { className: "text-gray-600", children: "\u9078\u64C7\u6A21\u677F\u958B\u59CB\u5275\u4F5C" }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "mt-6", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "inline-block px-8 py-3 bg-green-500 text-white rounded-full text-lg font-semibold group-hover:bg-green-600 transition-colors", children: "\u958B\u59CB\u5275\u4F5C" }) })
+          ] })
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("label", { className: "group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-12 hover:scale-105 transform cursor-pointer", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+          "input",
+          {
+            type: "file",
+            accept: ".json",
+            onChange: handleLoadWork,
+            className: "hidden"
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "flex flex-col items-center", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "w-32 h-32 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl flex items-center justify-center group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors mb-6", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(FolderOpen, { size: 64, className: "text-blue-600", strokeWidth: 2 }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h3", { className: "text-3xl font-bold text-gray-800 mb-3", children: "\u8F09\u5165\u4F5C\u54C1" }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { className: "text-gray-600", children: "\u7E7C\u7E8C\u7DE8\u8F2F\u5DF2\u4FDD\u5B58\u7684\u4F5C\u54C1" }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "mt-6", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "inline-block px-8 py-3 bg-blue-500 text-white rounded-full text-lg font-semibold group-hover:bg-blue-600 transition-colors", children: "\u9078\u64C7\u6A94\u6848" }) })
+        ] })
+      ] })
+    ] }) }),
+    mode === "new" && /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(import_jsx_runtime8.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+        "button",
+        {
+          onClick: () => setMode("select"),
+          className: "mb-6 px-6 py-2 bg-white rounded-lg shadow hover:shadow-md transition-all text-gray-700 hover:text-gray-900",
+          children: "\u2190 \u8FD4\u56DE"
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "grid grid-cols-1 md:grid-cols-3 gap-8", children: templates.map((template) => {
+        const IconComponent = template.icon;
+        return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(
+          "button",
+          {
+            onClick: () => handleSelectTemplate(template.id),
+            className: "group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 text-left hover:scale-105 transform",
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "flex justify-center mb-6", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "w-32 h-32 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl flex items-center justify-center group-hover:from-blue-200 group-hover:to-indigo-200 transition-colors", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(IconComponent, { size: 64, className: "text-blue-600", strokeWidth: 1.5 }) }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "text-center", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h3", { className: "text-2xl font-bold text-gray-800 mb-2", children: template.name }),
+                /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "space-y-1 text-gray-600 mb-4", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("p", { className: "text-sm", children: [
+                    "\u5C3A\u5BF8: ",
+                    template.size
+                  ] }),
+                  /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("p", { className: "text-sm", children: [
+                    "\u8C46\u5B50: ",
+                    template.beads
+                  ] })
                 ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("p", { className: "text-sm", children: [
-                  "\u8C46\u5B50: ",
-                  template.beads
-                ] })
+                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { className: "text-sm text-gray-500 italic", children: template.description })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { className: "text-sm text-gray-500 italic", children: template.description })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "mt-6 text-center", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "inline-block px-6 py-2 bg-blue-500 text-white rounded-full text-sm font-semibold group-hover:bg-blue-600 transition-colors", children: "\u9078\u64C7\u6B64\u6A21\u677F" }) })
-          ]
-        },
-        template.id
-      );
-    }) })
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "mt-6 text-center", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { className: "inline-block px-6 py-2 bg-blue-500 text-white rounded-full text-sm font-semibold group-hover:bg-blue-600 transition-colors", children: "\u9078\u64C7\u6B64\u6A21\u677F" }) })
+            ]
+          },
+          template.id
+        );
+      }) })
+    ] })
   ] }) });
 };
 var TemplateSelection_default = TemplateSelection;
@@ -29155,6 +29212,7 @@ lucide-react/dist/esm/icons/download.js:
 lucide-react/dist/esm/icons/eraser.js:
 lucide-react/dist/esm/icons/flip-horizontal.js:
 lucide-react/dist/esm/icons/flip-vertical.js:
+lucide-react/dist/esm/icons/folder-open.js:
 lucide-react/dist/esm/icons/folder-plus.js:
 lucide-react/dist/esm/icons/hand.js:
 lucide-react/dist/esm/icons/house.js:
